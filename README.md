@@ -1,5 +1,5 @@
 [README.md](https://github.com/user-attachments/files/32175538/README.md)
-# VoteFile — Overstrand
+# Ward Tracker — Overstrand
 
 A deep-dive research profile of Overstrand Municipality, part of the **VoteFile** project — a South African local & national elections research site. Each municipality page pulls together official reports, council records, resident survey data, and news coverage into one transparent, sourced profile so residents can see what their council and ward councillors have actually delivered.
 
