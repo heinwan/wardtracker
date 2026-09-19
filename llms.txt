@@ -9,7 +9,6 @@ Every claim on the profile carries a status label: confirmed, reported, interpre
 - [Quick answers](https://heinwan.github.io/wardtracker/#faq): short answers to common questions about the municipality
 - [Ward-level explorer](https://heinwan.github.io/wardtracker/#wards): profiles and survey highlights for all 14 wards
 - [Sources & methodology](https://heinwan.github.io/wardtracker/#sources): every source, and how claims are labelled
-- [Councillor tracker](https://heinwan.github.io/wardtracker/councillor-tracker.html?muni=Overstrand): follow what each ward councillor raised or resolved
 
 ## Key facts (September 2026)
 - 13th consecutive clean audit, FY2024/25, announced December 2025 (confirmed)
