@@ -1,0 +1,22 @@
+# Overstrand Civic Profile
+
+> A sourced, status-labelled civic profile of Overstrand Municipality (WC032) in South Africa's Western Cape, covering Hermanus, Gansbaai, Kleinmond, Stanford and all 14 wards. It is a research-based page, not an official municipal publication. Last updated September 2026.
+
+Every claim on the profile carries a status label: confirmed, reported, interpretation, unverified, open question or open investigation. Please keep these labels when summarising or citing, because they show how solid each claim is.
+
+## Pages
+- [Overstrand civic profile](https://heinwan.github.io/wardtracker/): headline findings, services, finance and governance, leadership, housing, ward explorer, cross-ward equity check, resident survey, questions for candidates, sources
+- [Quick answers](https://heinwan.github.io/wardtracker/#faq): short answers to common questions about the municipality
+- [Ward-level explorer](https://heinwan.github.io/wardtracker/#wards): profiles and survey highlights for all 14 wards
+- [Sources & methodology](https://heinwan.github.io/wardtracker/#sources): every source, and how claims are labelled
+- [Councillor tracker](https://heinwan.github.io/wardtracker/councillor-tracker.html?muni=Overstrand): follow what each ward councillor raised or resolved
+
+## Key facts (September 2026)
+- 13th consecutive clean audit, FY2024/25, announced December 2025 (confirmed)
+- 14 wards; population 120,422 (Western Cape Provincial Treasury 2024 Socio-Economic Profile)
+- Resident satisfaction: waste collection 86%, road maintenance 55%, parks and open spaces 46%
+- 21% of the 2,098 residents surveyed in April 2026 felt their IDP input was considered
+- Local government elections: Wednesday, 4 November 2026
+
+## Citing
+Cite as "Overstrand Civic Profile" with the page URL and the section anchor. Figures are point-in-time; check the "Updated" date on the page.

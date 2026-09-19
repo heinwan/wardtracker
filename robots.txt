@@ -1,0 +1,38 @@
+# robots.txt — must be served from the ROOT of the domain (see notes in chat).
+# Everything is open to search engines and AI search/answer crawlers.
+User-agent: *
+Allow: /
+
+# AI search & assistant crawlers — listed explicitly so the intent is unambiguous.
+# (Redundant with the rule above; change any of these to "Disallow: /" to opt out.)
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://heinwan.github.io/wardtracker/sitemap.xml
