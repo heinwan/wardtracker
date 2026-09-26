@@ -256,7 +256,7 @@
   nav.links a.track-link{color:var(--green); font-weight:600;}
   nav.links a.track-link:hover{background:var(--green-tint); color:var(--green);}
 
-  .nav-toggle{display:none; background:none; border:1px solid var(--hairline-strong); border-radius:2px; padding:7px 11px; font-family:var(--mono); font-size:12px; color:var(--ink-soft); cursor:pointer;}
+  .nav-toggle{display:none; background:none; border:1px solid var(--hairline-strong); border-radius:2px; padding:10px 14px; font-family:var(--mono); font-size:12.5px; color:var(--ink-soft); cursor:pointer; min-height:40px;}
   @media (max-width:900px){
     nav.links{
       display:none; width:100%; order:3;
@@ -284,7 +284,7 @@
     }
     .mobile-bottom-nav a, .mobile-bottom-nav button{
       flex:1; min-width:0; display:flex; flex-direction:column; align-items:center; gap:3px;
-      font-size:9px; font-weight:500; color:var(--ink-soft); text-decoration:none; padding:4px 2px;
+      font-size:10.5px; font-weight:500; color:var(--ink-soft); text-decoration:none; padding:6px 2px;
       background:none; border:none; font-family:var(--sans); cursor:pointer;
     }
     .mobile-bottom-nav a svg, .mobile-bottom-nav button svg{ width:16px; height:16px; }
@@ -794,8 +794,8 @@
      verification stamp: a rotated, double-ringed mark rather than a flat pill,
      because every claim here has literally been stamped confirmed/open/reported. */
   .tag{
-    font-family:var(--mono); font-size:10px; letter-spacing:0.05em; text-transform:uppercase;
-    padding:4px 10px; border-radius:999px; font-weight:700;
+    font-family:var(--mono); font-size:11.5px; letter-spacing:0.04em; text-transform:uppercase;
+    padding:4px 11px; border-radius:999px; font-weight:700;
     border:1.5px solid currentColor; background:transparent;
     display:inline-flex; align-items:center; gap:5px;
     transform:rotate(var(--stamp-tilt));
@@ -839,8 +839,8 @@
      a flat rectangular chip keeps it from ever being misread as one of
      the tier stamps above. See Rule 3 in the site's editorial rules. */
   .tag.sphere{
-    font-family:var(--mono); font-size:9.5px; letter-spacing:0.04em; text-transform:uppercase;
-    padding:3px 8px; border-radius:3px; font-weight:700;
+    font-family:var(--mono); font-size:11px; letter-spacing:0.03em; text-transform:uppercase;
+    padding:3px 9px; border-radius:3px; font-weight:700;
     border:1px solid var(--ink-soft); color:var(--ink-soft); background:var(--paper-raised);
     display:inline-flex; align-items:center; margin:2px 3px;
   }
@@ -1216,10 +1216,10 @@
   .term:hover, .term[aria-expanded="true"]{color:var(--green);}
   .term-tip{
     position:absolute; left:0; top:calc(100% + 6px); z-index:30;
-    width:max-content; max-width:250px; text-align:left;
-    font-family:var(--sans); font-size:12.5px; font-weight:400; font-style:normal;
+    width:max-content; max-width:min(250px, calc(100vw - 56px)); text-align:left;
+    font-family:var(--sans); font-size:13px; font-weight:400; font-style:normal;
     color:var(--ink-soft); background:var(--paper-raised); border:1px solid var(--hairline-strong);
-    border-radius:3px; padding:9px 11px; line-height:1.45; box-shadow:var(--shadow-card);
+    border-radius:3px; padding:10px 12px; line-height:1.5; box-shadow:var(--shadow-card);
   }
   .term-tip[hidden]{display:none;}
 
@@ -1424,9 +1424,10 @@
      placeholder; now it just opens/closes an inline ward picker without
      losing the currently-selected ward's content underneath it. */
   .grid-toggle-btn{
-    display:none; align-items:center; gap:6px; font-family:var(--mono); font-size:11.5px;
+    display:none; align-items:center; gap:6px; font-family:var(--mono); font-size:12px;
     letter-spacing:0.02em; color:var(--ink-soft); background:none; border:1px solid var(--hairline-strong);
-    border-radius:20px; padding:6px 12px; cursor:pointer; -webkit-tap-highlight-color:transparent; flex:0 0 auto;
+    border-radius:20px; padding:9px 14px; cursor:pointer; -webkit-tap-highlight-color:transparent; flex:0 0 auto;
+    min-height:40px;
   }
   .grid-toggle-btn:hover{color:var(--ink); border-color:var(--ink);}
   .grid-toggle-btn[aria-expanded="true"]{color:var(--ink); border-color:var(--ink); background:var(--paper);}
@@ -1714,7 +1715,7 @@
 #mobile-ward-app .mwa-wrap{ max-width:480px; margin:0 auto; }
 
 #mobile-ward-app .mwa-eyebrow{
-  font-family:var(--mono, ui-monospace, monospace); font-size:10.5px; letter-spacing:.06em;
+  font-family:var(--mono, ui-monospace, monospace); font-size:11.5px; letter-spacing:.05em;
   text-transform:uppercase; color:var(--ink-soft); margin:0 0 10px;
 }
 
@@ -1722,13 +1723,13 @@
 #mobile-ward-app .mwa-header{ display:flex; align-items:center; gap:10px; margin-bottom:14px; }
 #mobile-ward-app .mwa-badge{
   width:34px; height:34px; border-radius:999px; background:var(--green-tint);
-  border:1px solid var(--green); color:var(--green); font-weight:800; font-size:12px;
+  border:1px solid var(--green); color:var(--green); font-weight:800; font-size:13px;
   display:flex; align-items:center; justify-content:center; flex-shrink:0;
 }
 #mobile-ward-app .mwa-title{ font-size:15px; font-weight:700; color:var(--ink); margin:0; flex:1; min-width:0; }
 #mobile-ward-app .mwa-select{
   background:var(--paper-raised); color:var(--ink); border:1px solid var(--hairline); border-radius:8px;
-  font-size:12px; padding:7px 8px; font-family:inherit; max-width:150px;
+  font-size:13px; padding:9px 10px; font-family:inherit; max-width:150px;
 }
 
 /* term gauge */
@@ -1737,7 +1738,7 @@
   border:1px solid var(--hairline); border-radius:16px; padding:12px 14px; margin-bottom:14px;
 }
 #mobile-ward-app .mwa-term-ring{ flex-shrink:0; }
-#mobile-ward-app .mwa-term-text{ font-size:11px; color:var(--ink-soft); line-height:1.4; }
+#mobile-ward-app .mwa-term-text{ font-size:13px; color:var(--ink-soft); line-height:1.45; }
 #mobile-ward-app .mwa-term-days{ font-size:16px; font-weight:800; color:var(--ink); }
 
 /* generic card */
@@ -1749,10 +1750,10 @@
   display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; gap:8px;
 }
 #mobile-ward-app .mwa-card-label{
-  font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em;
+  font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.04em;
 }
 #mobile-ward-app .mwa-pill{
-  font-size:10px; padding:2px 8px; border-radius:999px; font-weight:600; white-space:nowrap;
+  font-size:11px; padding:3px 9px; border-radius:999px; font-weight:600; white-space:nowrap;
 }
 
 /* colour accents per widget, matching the mobile app's original palette */
@@ -1767,26 +1768,26 @@
 /* councillor card */
 #mobile-ward-app .mwa-councillor-row{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
 #mobile-ward-app .mwa-councillor-name{ font-size:15px; font-weight:700; color:var(--ink); margin:0 0 2px; }
-#mobile-ward-app .mwa-councillor-role{ font-size:11px; color:var(--ink-soft); margin:0; }
-#mobile-ward-app .mwa-councillor-meta{ font-size:10px; color:var(--ink-soft); margin-top:8px; font-family:var(--mono, ui-monospace, monospace); }
+#mobile-ward-app .mwa-councillor-role{ font-size:12.5px; color:var(--ink-soft); margin:0; }
+#mobile-ward-app .mwa-councillor-meta{ font-size:11px; color:var(--ink-soft); margin-top:8px; font-family:var(--mono, ui-monospace, monospace); }
 
 /* snapshot */
 #mobile-ward-app .mwa-metric-row{ display:flex; align-items:baseline; justify-content:space-between; margin:6px 0 8px; }
 #mobile-ward-app .mwa-metric-val{ font-size:26px; font-weight:800; color:var(--ink); }
-#mobile-ward-app .mwa-metric-label{ font-size:11px; color:var(--ink-soft); text-align:right; }
-#mobile-ward-app .mwa-notable{ font-size:11px; color:var(--amber); font-weight:600; margin-bottom:4px; }
-#mobile-ward-app .mwa-checked{ font-size:9px; color:var(--ink-soft); margin-bottom:8px; }
-#mobile-ward-app .mwa-highlight-text{ font-size:11px; color:var(--ink-soft); line-height:1.55; }
+#mobile-ward-app .mwa-metric-label{ font-size:12px; color:var(--ink-soft); text-align:right; }
+#mobile-ward-app .mwa-notable{ font-size:12.5px; color:var(--amber); font-weight:600; margin-bottom:4px; }
+#mobile-ward-app .mwa-checked{ font-size:11px; color:var(--ink-soft); margin-bottom:8px; }
+#mobile-ward-app .mwa-highlight-text{ font-size:13px; color:var(--ink-soft); line-height:1.55; }
 
 /* service items */
 #mobile-ward-app .mwa-services{ height:380px; overflow-y:auto; padding-right:4px; }
 #mobile-ward-app .mwa-svc-item{ padding:10px 0; border-top:1px solid var(--hairline); }
 #mobile-ward-app .mwa-svc-item:first-child{ border-top:none; padding-top:0; }
-#mobile-ward-app .mwa-svc-label{ font-size:11.5px; font-weight:700; color:var(--ink); margin-bottom:5px; }
+#mobile-ward-app .mwa-svc-label{ font-size:12.5px; font-weight:700; color:var(--ink); margin-bottom:5px; }
 #mobile-ward-app .mwa-svc-chips{ display:flex; flex-wrap:wrap; gap:4px; margin-bottom:6px; }
 #mobile-ward-app .mwa-tag{
-  font-family:var(--mono, ui-monospace, monospace); font-size:8.5px; text-transform:uppercase;
-  letter-spacing:.02em; padding:2px 6px; border-radius:5px; font-weight:700;
+  font-family:var(--mono, ui-monospace, monospace); font-size:10.5px; text-transform:uppercase;
+  letter-spacing:.02em; padding:3px 7px; border-radius:5px; font-weight:700;
 }
 #mobile-ward-app .mwa-tag.confirmed{ background:var(--green-tint); color:var(--green); }
 #mobile-ward-app .mwa-tag.reported{ background:var(--amber-tint); color:var(--amber); }
@@ -1797,11 +1798,11 @@
 #mobile-ward-app .mwa-tag.open{ background:var(--grey-tint); color:var(--ink-soft); border:1px dashed var(--ink-soft); }
 #mobile-ward-app .mwa-tag.sphere{ background:var(--grey-tint); color:var(--ink-soft); }
 #mobile-ward-app .mwa-svc-status{
-  font-size:10px; color:var(--rust); font-weight:600; margin-bottom:5px; font-family:var(--mono, ui-monospace, monospace);
+  font-size:11.5px; color:var(--rust); font-weight:600; margin-bottom:5px; font-family:var(--mono, ui-monospace, monospace);
 }
-#mobile-ward-app .mwa-svc-text{ font-size:11px; color:var(--ink-soft); line-height:1.55; margin-bottom:5px; }
+#mobile-ward-app .mwa-svc-text{ font-size:13px; color:var(--ink-soft); line-height:1.55; margin-bottom:5px; }
 #mobile-ward-app .mwa-svc-text a{ color:var(--blue); }
-#mobile-ward-app .mwa-svc-source{ font-size:9.5px; color:var(--ink-soft); word-break:break-word; }
+#mobile-ward-app .mwa-svc-source{ font-size:11px; color:var(--ink-soft); word-break:break-word; }
 
 /* issues & promises */
 #mobile-ward-app .mwa-issue-row, #mobile-ward-app .mwa-promise-row{
@@ -1809,12 +1810,12 @@
   padding:8px 0; border-top:1px solid var(--hairline);
 }
 #mobile-ward-app .mwa-issue-row:first-child, #mobile-ward-app .mwa-promise-row:first-child{ border-top:none; padding-top:0; }
-#mobile-ward-app .mwa-issue-name{ font-size:11px; color:var(--ink); font-weight:600; }
-#mobile-ward-app .mwa-promise-text{ font-size:10.5px; color:var(--ink-soft); line-height:1.5; }
-#mobile-ward-app .mwa-promise-meta{ display:block; font-size:9px; color:var(--ink-soft); margin-top:3px; font-family:var(--mono, ui-monospace, monospace); }
+#mobile-ward-app .mwa-issue-name{ font-size:12.5px; color:var(--ink); font-weight:600; }
+#mobile-ward-app .mwa-promise-text{ font-size:13px; color:var(--ink-soft); line-height:1.5; }
+#mobile-ward-app .mwa-promise-meta{ display:block; font-size:10.5px; color:var(--ink-soft); margin-top:3px; font-family:var(--mono, ui-monospace, monospace); }
 #mobile-ward-app .mwa-status-pill{
-  font-family:var(--mono, ui-monospace, monospace); font-size:8.5px; letter-spacing:.03em; text-transform:uppercase;
-  padding:2px 7px; border-radius:999px; font-weight:700; white-space:nowrap; flex-shrink:0;
+  font-family:var(--mono, ui-monospace, monospace); font-size:10.5px; letter-spacing:.03em; text-transform:uppercase;
+  padding:3px 8px; border-radius:999px; font-weight:700; white-space:nowrap; flex-shrink:0;
 }
 #mobile-ward-app .mwa-status-raised{ background:var(--hairline); color:var(--ink-soft); }
 #mobile-ward-app .mwa-status-acknowledged{ background:var(--amber-tint); color:var(--amber); }
@@ -1824,7 +1825,7 @@
 #mobile-ward-app .mwa-status-abandoned{ background:var(--hairline); color:var(--ink-soft); }
 #mobile-ward-app .mwa-status-disputed{ background:var(--rust); color:var(--paper-raised); }
 #mobile-ward-app .mwa-status-broken_promise{ background:var(--rust); color:var(--paper-raised); }
-#mobile-ward-app .mwa-empty-note{ font-size:10.5px; color:var(--ink-soft); font-style:italic; }
+#mobile-ward-app .mwa-empty-note{ font-size:12px; color:var(--ink-soft); font-style:italic; }
 </style>
 
 </head>
@@ -1846,7 +1847,6 @@
       <a href="#housing">Housing</a>
       <a href="#wards">Wards</a>
       <a href="#equity">Equity</a>
-      <a href="#delivery-survey">Survey</a>
       <a href="#questions">Questions</a>
       <a href="#sources">Sources</a>
       <a href="councillor-tracker.html?muni=Overstrand" class="track-link">Track your ward →</a>
@@ -1882,7 +1882,6 @@
     <a href="#services">Services</a>
     <a href="#leadership">Leadership</a>
     <a href="#equity">Equity check</a>
-    <a href="#delivery-survey">Survey</a>
     <a href="#questions">Questions</a>
     <a href="#sources">Sources</a>
     <a href="#contactFormWidget">Contact &amp; feedback</a>
@@ -1956,7 +1955,6 @@
       <a href="#housing"><span class="qj-label">Housing</span><span class="qj-sub">9 projects, pre-planning to handover</span></a>
       <a href="#services"><span class="qj-label">Services</span><span class="qj-sub">Water, power, waste, roads</span></a>
       <a href="#leadership"><span class="qj-label">Leadership</span><span class="qj-sub">Council &amp; open matters</span></a>
-      <a href="#delivery-survey"><span class="qj-label">Survey</span><span class="qj-sub">Report your own experience</span></a>
     </nav>
 
     <div class="q-router">
@@ -2011,7 +2009,7 @@
       <div class="widget" id="unemploymentWidget">
         <div class="widget-eyebrow">Unemployment rate <span class="tag sphere">Municipal</span></div>
         <div class="stat-big">21.5%<span class="stat-unit">narrow definition</span></div>
-        <p class="ec-body" style="font-size:12.5px; margin:8px 0 0;">Highest in the Overberg District. This is a 2022 figure — the most recent available, and the same number Overstrand's own 2023/24 Annual Report and 2025 IDP still cite as current, since no newer count has been published. See §03 Compare and the Sources list for the full verification trail (corrected Sep 2026 from an earlier, unverifiable 27.6% figure).</p>
+        <p class="ec-body" style="margin:8px 0 0;">Highest in the Overberg District. This is a 2022 figure — the most recent available, and the same number Overstrand's own 2023/24 Annual Report and 2025 IDP still cite as current, since no newer count has been published. See §03 Compare and the Sources list for the full verification trail (corrected Sep 2026 from an earlier, unverifiable 27.6% figure).</p>
         <div class="widget-foot">Western Cape Provincial Treasury, 2023 Socio-Economic Profile — Overstrand Municipality.</div>
       </div>
 
@@ -2211,9 +2209,9 @@
         </div>
       </div>
 
-      <p style="font-size:13px; color:var(--ink-soft); margin-top:16px; max-width:64ch; line-height:1.55;">Population, electricity, water and waste-removal access come from the Western Cape Provincial Treasury's 2024 Socio-Economic Profile (Quantec/MYPE 2024 data), replacing an earlier population-only estimate sourced from Overstrand's 2026/27 draft budget. "Waste-removal access" (an infrastructure-access measure, above) and "Satisfaction — waste collection" (a resident survey result) are different metrics from different sources and shouldn't be read as the same figure — both are kept since they measure different things.</p>
-      <p style="font-size:13px; color:var(--rust); margin-top:10px; max-width:64ch; line-height:1.55;"><b>Correction, Sep 2026:</b> Unemployment above was previously shown as 27.6%, sourced to this profile's own (unverified) reading of the 2024 Socio-Economic Profile. That figure could not be independently confirmed — the source document is a PowerPoint file this profile's tools couldn't fully extract — and it's contradicted by three independent primary documents that all agree on a different number: the Treasury's own 2023 Socio-Economic Profile, Overstrand's 2023/24 Annual Report, and the municipality's 2025 IDP all state <b>21.5%</b> (2022 data), with the municipal documents explicitly citing SEP 2023 as their source. Corrected to 21.5% above on that basis.</p>
-      <p style="font-size:12px; color:var(--ink-soft); margin-top:10px; max-width:64ch; line-height:1.55;"><i>This profile previously included a side-by-side comparison against Breede Valley Municipality. That comparison has been removed (Sep 2026) to keep this page focused on Overstrand; Breede Valley's figures are no longer shown here.</i></p>
+      <p style="font-size:14px; color:var(--ink-soft); margin-top:16px; max-width:64ch; line-height:1.55;">Population, electricity, water and waste-removal access come from the Western Cape Provincial Treasury's 2024 Socio-Economic Profile (Quantec/MYPE 2024 data), replacing an earlier population-only estimate sourced from Overstrand's 2026/27 draft budget. "Waste-removal access" (an infrastructure-access measure, above) and "Satisfaction — waste collection" (a resident survey result) are different metrics from different sources and shouldn't be read as the same figure — both are kept since they measure different things.</p>
+      <p style="font-size:14px; color:var(--rust); margin-top:10px; max-width:64ch; line-height:1.55;"><b>Correction, Sep 2026:</b> Unemployment above was previously shown as 27.6%, sourced to this profile's own (unverified) reading of the 2024 Socio-Economic Profile. That figure could not be independently confirmed — the source document is a PowerPoint file this profile's tools couldn't fully extract — and it's contradicted by three independent primary documents that all agree on a different number: the Treasury's own 2023 Socio-Economic Profile, Overstrand's 2023/24 Annual Report, and the municipality's 2025 IDP all state <b>21.5%</b> (2022 data), with the municipal documents explicitly citing SEP 2023 as their source. Corrected to 21.5% above on that basis.</p>
+      <p style="font-size:14px; color:var(--ink-soft); margin-top:10px; max-width:64ch; line-height:1.55;"><i>This profile previously included a side-by-side comparison against Breede Valley Municipality. That comparison has been removed (Sep 2026) to keep this page focused on Overstrand; Breede Valley's figures are no longer shown here.</i></p>
       </div><!-- /glance-desktop-view -->
 
       <!-- Mobile-only "at a glance" card view. Same tokens, type and tag-stamp
@@ -2382,7 +2380,7 @@
               <div class="sb-track"><div class="sb-fill rust" style="width:21%"></div></div>
             </div>
           </div>
-          <p class="ec-body" style="font-size:12.5px; color:var(--ink-soft);">This is also the source for the parks, roads, and IDP-participation figures used elsewhere in this profile.</p>
+          <p class="ec-body" style="color:var(--ink-soft);">This is also the source for the parks, roads, and IDP-participation figures used elsewhere in this profile.</p>
           <div class="ec-meta"><span>Sample: 2,098 residents, ward-by-ward</span><span class="ec-source">Overstrand Municipality, Apr 2026</span></div>
         </article>
 
@@ -2397,7 +2395,7 @@
             <li><b>81%</b> of surveyed residents found the municipality's SMS fault-notification system informative.</li>
             <li>Faults can be reported on the municipality's 24-hour emergency line: <b>028 313 8111</b>.</li>
           </ul>
-          <p class="ec-body" style="font-size:12.5px; color:var(--ink-soft);">Ward-level detail — including Voëlklip's May 2026 storm-damage outage and Ward 10's own escalation record — is tracked on each ward's own card in §08 rather than repeated here; this card is the municipality-wide summary those cards draw on. Sphere is mixed: water networks and most electricity supply sit with the municipality, but some flagged wards (e.g. Onrus/Vermont) draw electricity from Eskom's national grid, not Overstrand's own network.</p>
+          <p class="ec-body" style="color:var(--ink-soft);">Ward-level detail — including Voëlklip's May 2026 storm-damage outage and Ward 10's own escalation record — is tracked on each ward's own card in §08 rather than repeated here; this card is the municipality-wide summary those cards draw on. Sphere is mixed: water networks and most electricity supply sit with the municipality, but some flagged wards (e.g. Onrus/Vermont) draw electricity from Eskom's national grid, not Overstrand's own network.</p>
           <div class="ec-meta"><span>Outage ranking, reliability &amp; SMS figures from the same survey; emergency line separately confirmed</span><span class="ec-source">Overstrand Municipality customer satisfaction survey &amp; emergency-numbers page, Apr 2026</span></div>
         </article>
 
@@ -2597,13 +2595,13 @@
           </tbody>
         </table>
       </div>
-      <p style="font-size:12px; color:var(--ink-soft); margin-top:10px; max-width:74ch; line-height:1.55;">
+      <p style="font-size:14px; color:var(--ink-soft); margin-top:10px; max-width:74ch; line-height:1.55;">
         <b>Data-integrity notes — resolved:</b> what first looked like an SDBIP inconsistency turns out to be two documents operating at different levels of detail, cross-checked against OCAN's independent analysis of the Draft Budget Report (<a href="https://ocan.co.za/om-budgetanalysis/">ocan.co.za/om-budgetanalysis</a>, citing the Draft Budget's own Capital Projects table, p.26). The Draft Budget Report's summary "Top 10 Capital Projects" table lists <b>one</b> line each — "Rehabilitate Roads (Angelier Street), Ward 04, R12.7m" and "Rehabilitate Roads &amp; New Sidewalks Proteadorp, Ward 09, R8.2m" — and OCAN's analysis cites those figures directly. The more granular Top-Layer SDBIP capital-projects annexure breaks each of those same totals into two ward-tagged sub-lines (Angelier Street: Ward 4 R10.7m + Ward 6 R2.0m; Proteadorp: Ward 9 R5.9m + Ward 4 R2.3m) that sum to the same R12.7m and R8.2m respectively. Both documents are accurate; the summary table simply attributes the whole project to its lead ward, while the SDBIP shows the real multi-ward split. Neither figure should be read as double-counted if you're totting up spend across wards.
       </p>
-      <p style="font-size:12px; color:var(--ink-soft); margin-top:14px; max-width:74ch; line-height:1.55;">
+      <p style="font-size:14px; color:var(--ink-soft); margin-top:14px; max-width:74ch; line-height:1.55;">
         <b>Ward attribution note — Zwelihle spans three wards:</b> the two Ward 5 lines above (R100,000 + R150,000 = R250,000) are the SDBIP's entire Ward-5-specific capital allocation for 2026/27. "Zwelihle" as a place is not the same as "Ward 5" as a councillor's ward — the SDBIP also tags separate Zwelihle-area capital lines to Ward 6 (the Angelier Street sub-line above, plus further items not tracked in this roads/parks table) and Ward 9's neighbour Ward 12 (the Zwelihle-tagged playpark line above). A reader asking "how much capital funding does the Zwelihle community get" should not read R250,000 as the answer; a reader asking "how much does Ward 5's own councillor's ward get" should.
       </p>
-      <p style="font-size:12px; color:var(--ink-soft); margin-top:14px; max-width:74ch; line-height:1.55;">
+      <p style="font-size:14px; color:var(--ink-soft); margin-top:14px; max-width:74ch; line-height:1.55;">
         <b>Methodology going forward:</b> once actual monthly expenditure becomes available, each project should carry —
       </p>
       <ul class="ec-list" style="max-width:74ch; margin-top:8px;">
@@ -2612,7 +2610,7 @@
         <li><b>Red flag</b> if more than 10% over budget, forecast &gt;30 days late, showing spend without proportionate physical progress, or lacking a current contractor/procurement status.</li>
         <li><b>Amber flag</b> if a delivery risk is recorded but the original date remains achievable.</li>
       </ul>
-      <p style="font-size:12px; color:var(--ink-soft); margin-top:12px; max-width:74ch; line-height:1.55;">
+      <p style="font-size:14px; color:var(--ink-soft); margin-top:12px; max-width:74ch; line-height:1.55;">
         That dataset doesn't exist in the public record yet — the municipality's Feb 2026 Section 71 report gives only a whole-municipality capital figure (R100.5m spent, 38.87% of the R258.6m amended 2025/26 capital budget, R85.4m in outstanding commitments), which can't establish actual spend for any individual project above, so no red/amber/green flags are applied yet. <b>Last checked:</b> Aug 2026, against the Top-Layer SDBIP 2026/27 (approved 10 Jun 2026) and OCAN's Draft Budget Report analysis (published Apr 2026, updated 17 Apr 2026).
       </p>
     </div>
@@ -3111,8 +3109,8 @@
 
           <details class="gm-expand">
             <summary>Data-integrity &amp; ward-attribution notes</summary>
-            <p style="margin:10px 0 0; font-size:12px; line-height:1.6; color:var(--ink-soft);"><b>Resolved apparent inconsistency:</b> the Draft Budget Report's summary table lists "Rehabilitate Roads (Angelier Street), Ward 04, R12.7m" and "Rehabilitate Roads &amp; New Sidewalks Proteadorp, Ward 09, R8.2m" as single lines; the more granular SDBIP splits each into two ward-tagged sub-lines that sum to the same totals (Angelier St: Ward 4 R10.7m + Ward 6 R2.0m; Proteadorp: Ward 9 R5.9m + Ward 4 R2.3m). Both documents are accurate — the summary attributes the whole project to its lead ward, the SDBIP shows the real multi-ward split. Neither figure is double-counted.</p>
-            <p style="margin:10px 0 0; font-size:12px; line-height:1.6; color:var(--ink-soft);"><b>Zwelihle spans three wards:</b> the two Ward 5 lines (R100,000 + R150,000 = R250,000) are Ward 5's entire capital allocation for 2026/27. "Zwelihle" the place isn't the same as "Ward 5" the councillor's ward — Zwelihle-area capital also sits under Ward 6 (Angelier Street sub-line) and Ward 12 (the Zwelihle playpark line). "How much does Zwelihle get" and "how much does Ward 5 get" are different questions with different answers.</p>
+            <p style="margin:10px 0 0; font-size:14px; line-height:1.6; color:var(--ink-soft);"><b>Resolved apparent inconsistency:</b> the Draft Budget Report's summary table lists "Rehabilitate Roads (Angelier Street), Ward 04, R12.7m" and "Rehabilitate Roads &amp; New Sidewalks Proteadorp, Ward 09, R8.2m" as single lines; the more granular SDBIP splits each into two ward-tagged sub-lines that sum to the same totals (Angelier St: Ward 4 R10.7m + Ward 6 R2.0m; Proteadorp: Ward 9 R5.9m + Ward 4 R2.3m). Both documents are accurate — the summary attributes the whole project to its lead ward, the SDBIP shows the real multi-ward split. Neither figure is double-counted.</p>
+            <p style="margin:10px 0 0; font-size:14px; line-height:1.6; color:var(--ink-soft);"><b>Zwelihle spans three wards:</b> the two Ward 5 lines (R100,000 + R150,000 = R250,000) are Ward 5's entire capital allocation for 2026/27. "Zwelihle" the place isn't the same as "Ward 5" the councillor's ward — Zwelihle-area capital also sits under Ward 6 (Angelier Street sub-line) and Ward 12 (the Zwelihle playpark line). "How much does Zwelihle get" and "how much does Ward 5 get" are different questions with different answers.</p>
           </details>
 
           <p class="gm-footnote"><b>Methodology going forward, once actual spend data is available:</b> spend rate (actual ÷ budget), schedule variance (forecast vs. planned completion), red flag if &gt;10% over budget or &gt;30 days late, amber flag if a risk is recorded but the date's still achievable.</p>
@@ -3154,7 +3152,7 @@
               <div class="cp-label">Actual invoiced spend (one data point)</div>
             </div>
           </div>
-          <p class="ec-body" style="font-size:12.5px; color:var(--ink-soft);">Reporting has cited the R31m figure for baboon-management contracts with Human Wildlife Solutions — that's an approved contract/deviation value, not confirmed spend. The gap between approved and invoiced is real and documented.</p>
+          <p class="ec-body" style="color:var(--ink-soft);">Reporting has cited the R31m figure for baboon-management contracts with Human Wildlife Solutions — that's an approved contract/deviation value, not confirmed spend. The gap between approved and invoiced is real and documented.</p>
           <div class="ec-meta"><span>Contract value ≠ money spent</span><span class="ec-source">EMS Foundation open letter / AllAfrica — not independently verified, secondary sourcing</span></div>
         </article>
 
@@ -3188,7 +3186,7 @@
             <div class="tl-row"><div class="tl-year">2025/26 budgeted</div><div class="tl-text"><b>R167.7m</b> deficit.</div></div>
             <div class="tl-row"><div class="tl-year">2026/27 draft</div><div class="tl-text"><b>R201.7m</b> deficit — a trajectory OCAN says the 737-page draft budget document doesn't explain.</div></div>
           </div>
-          <p class="ec-body" style="font-size:12.5px; color:var(--ink-soft);">"Rates Services" here is a municipal accounting cost centre covering roads, parks, libraries, public safety and administration/planning costs funded from the rates account — not property rates billing itself, and not the same thing as the roads &amp; parks capital projects tracked in §04 above, which are separately budgeted capital line items.</p>
+          <p class="ec-body" style="color:var(--ink-soft);">"Rates Services" here is a municipal accounting cost centre covering roads, parks, libraries, public safety and administration/planning costs funded from the rates account — not property rates billing itself, and not the same thing as the roads &amp; parks capital projects tracked in §04 above, which are separately budgeted capital line items.</p>
           <div class="ec-meta"><span>Sourced to a <i>draft</i> budget — figures may change on final adoption</span><span class="ec-source"><a href="https://ocan.co.za/om-budgetanalysis/">OCAN Draft Budget Report analysis</a>, citing Draft Budget Report Table 5, p.14</span></div>
         </article>
 
@@ -3208,7 +3206,7 @@
             <span class="num amber">52.66%</span>
             <span class="desc">of the 2026/27 capital budget (roughly R100m of the R242.5m total confirmed in §04 above) is funded by new borrowings rather than grants or surplus.</span>
           </div>
-          <p class="ec-body" style="font-size:12.5px; color:var(--ink-soft);">OCAN says this share rises further across the MTREF. The municipality's gearing ratio remains below National Treasury's 45% prudential threshold, but the trend is upward — relevant context for reading the roads &amp; parks capital projects above: a growing share of that spending is loan-funded, not cash-funded.</p>
+          <p class="ec-body" style="color:var(--ink-soft);">OCAN says this share rises further across the MTREF. The municipality's gearing ratio remains below National Treasury's 45% prudential threshold, but the trend is upward — relevant context for reading the roads &amp; parks capital projects above: a growing share of that spending is loan-funded, not cash-funded.</p>
           <div class="ec-meta"><span>Ratio within National Treasury limit; trend, not a breach</span><span class="ec-source"><a href="https://ocan.co.za/om-budgetanalysis/">OCAN Draft Budget Report analysis</a></span></div>
         </article>
 
@@ -3231,12 +3229,12 @@
             <li>Blue Drop and Green Drop water-quality awards.</li>
             <li>Gearing ratio still within the National Treasury's 45% threshold (see the debt-financing card above).</li>
           </ul>
-          <p class="ec-body" style="font-size:12.5px; color:var(--ink-soft);">These aren't cherry-picked to offset the findings above — they're the same document's own conclusions, carried across with the same weight.</p>
+          <p class="ec-body" style="color:var(--ink-soft);">These aren't cherry-picked to offset the findings above — they're the same document's own conclusions, carried across with the same weight.</p>
           <div class="ec-meta"><span>Same source as the three cards above</span><span class="ec-source"><a href="https://ocan.co.za/om-budgetanalysis/">OCAN Draft Budget Report analysis</a></span></div>
         </article>
       </div>
 
-      <p style="font-size:12px; color:var(--ink-soft); margin-top:14px; max-width:74ch; line-height:1.55;">
+      <p style="font-size:14px; color:var(--ink-soft); margin-top:14px; max-width:74ch; line-height:1.55;">
         <b>Data-integrity note:</b> four of the five OCAN-sourced cards above trace to a <i>draft</i> budget document (public comment period closed 30 Apr 2026, last updated by OCAN 17 Apr 2026). The Top-Layer SDBIP that grounds §04's capital-projects tracker was approved later (10 Jun 2026) and reconciles cleanly with OCAN's Angelier Street / Proteadorp figures, which is some evidence the underlying numbers held through to final adoption — but this profile has not independently checked the Rates Services deficit, the debt-financing share, or the housing-grant cuts against the final adopted 2026/27 MTREF budget. Each of those three is tagged <b>Reported</b>, not Confirmed, on that basis; if you can source the final adopted budget or the underlying Draft Budget Report PDF directly, those tiers should be revisited line by line. Update, 15 Sep 2026: the SAMRAS/mSCOA card is no longer part of this unverified group — Annexure I of the <i>Final</i> Budget (not the draft) has now been directly sourced, and the card above has been upgraded to Confirmed on that basis. <b>Last checked:</b> Sep 2026.
       </p>
 
@@ -3270,7 +3268,7 @@
             <li>A further R35,000 additional rebate for improved residential properties.</li>
             <li>A further 20% rebate for qualifying residential-use improved properties.</li>
           </ul>
-          <p class="ec-body" style="font-size:12.5px; color:var(--ink-soft);">Confirmed via the final adopted 2026/27 MTREF budget document itself, not a draft or press summary — the strongest sourcing tier available for a budget line. Financial year began 1 July 2026.</p>
+          <p class="ec-body" style="color:var(--ink-soft);">Confirmed via the final adopted 2026/27 MTREF budget document itself, not a draft or press summary — the strongest sourcing tier available for a budget line. Financial year began 1 July 2026.</p>
           <div class="ec-meta"><span>Applies municipality-wide, not ward-specific</span><span class="ec-source"><a href="https://www.overstrand.gov.za/budget/final-budget-2026-2027-mtref-medium-term-revenue-and-expenditure-framework/?layout=file">Overstrand Municipality, final adopted 2026/27 MTREF budget</a></span></div>
         </article>
 
@@ -3299,7 +3297,7 @@
         </article>
       </div>
 
-      <p style="font-size:12.5px; color:var(--ink-soft); margin-top:10px; max-width:74ch; line-height:1.55;">
+      <p style="font-size:14px; color:var(--ink-soft); margin-top:10px; max-width:74ch; line-height:1.55;">
         <b>Back to the central question:</b> none of the six cards above are ward-specific — they're commitments and processes that affect residents across the whole municipality regardless of which ward they live in, the same way the clean-audit record itself is a municipality-wide figure. Read together with §02's audit-versus-lived-experience framing: a clean audit tells you the books balance, not whether a policy review lands on time, a rollout actually goes live on its announced date, or a reporting instruction is actually followed month after month. Three of the six here are confirmed as delivered (rate relief, the title-deed event, the 2026 festival proceeding); three remain open questions this profile hasn't been able to close (Ward Committee Policy adoption, AARTO's actual go-live, and Schulphoek's reporting cadence). That split — not a verdict either way — is the evidence.
       </p>
     </div>
@@ -3466,7 +3464,7 @@
 
         <details class="gm-expand">
           <summary>Why some figures here are "Reported," not "Confirmed"</summary>
-          <p style="margin:10px 0 0; font-size:12px; line-height:1.6; color:var(--ink-soft);">Four of the cards above trace to a <b>draft</b> budget document (public comment closed 30 Apr 2026). The Top-Layer SDBIP behind §04's capital tracker was approved later (10 Jun 2026) and reconciles cleanly with these draft figures — some evidence the numbers held through to final adoption — but the Rates Services deficit, the debt-financing share, and the housing-grant cuts haven't been independently checked against the final adopted MTREF. Separately, the municipality's own May 2026 mSCOA report confirms its SAMRAS Classic finance system has known data-integrity issues in main-ledger and cash-flow reporting specifically — not in the revenue/expenditure/capital data most figures on this site draw from, but worth knowing the system itself is flagged as end-of-life. <b>Last checked:</b> Sep 2026.</p>
+          <p style="margin:10px 0 0; font-size:14px; line-height:1.6; color:var(--ink-soft);">Four of the cards above trace to a <b>draft</b> budget document (public comment closed 30 Apr 2026). The Top-Layer SDBIP behind §04's capital tracker was approved later (10 Jun 2026) and reconciles cleanly with these draft figures — some evidence the numbers held through to final adoption — but the Rates Services deficit, the debt-financing share, and the housing-grant cuts haven't been independently checked against the final adopted MTREF. Separately, the municipality's own May 2026 mSCOA report confirms its SAMRAS Classic finance system has known data-integrity issues in main-ledger and cash-flow reporting specifically — not in the revenue/expenditure/capital data most figures on this site draw from, but worth knowing the system itself is flagged as end-of-life. <b>Last checked:</b> Sep 2026.</p>
         </details>
       </div>
 </section>
@@ -3606,7 +3604,7 @@
             <div class="tl-row"><div class="tl-year">Late 2023</div><div class="tl-text">Revival finally approved.</div></div>
             <div class="tl-row"><div class="tl-year">Apr 2026</div><div class="tl-text"><b>83</b> beneficiaries received their 80m² plots — nearly ten years for 83 plots.</div></div>
           </div>
-          <p class="ec-body" style="font-size:12.5px; color:var(--ink-soft);">Beneficiaries reportedly moved in before stolen/damaged infrastructure was replaced, using permanent occupation itself to deter further theft. "Zwelihle" as a place spans Wards 5, 6 and 12 (see the ward-attribution note in §04) — this entry is treated as a Zwelihle-area project rather than assigned to a single ward.</p>
+          <p class="ec-body" style="color:var(--ink-soft);">Beneficiaries reportedly moved in before stolen/damaged infrastructure was replaced, using permanent occupation itself to deter further theft. "Zwelihle" as a place spans Wards 5, 6 and 12 (see the ward-attribution note in §04) — this entry is treated as a Zwelihle-area project rather than assigned to a single ward.</p>
           <div class="ec-meta"><span>Delay → delivery, ~10 years</span><span class="ec-source">Overstrand Municipality, Apr 2026 handover announcement — cross-referenced with a secondary explainer, worth verifying against the municipality's own project records</span></div>
         </article>
 
@@ -3625,7 +3623,7 @@
             <div class="tl-row"><div class="tl-year">24 Jul 2025</div><div class="tl-text">Final phase (139 BNG units) underway — 16 handed over on the day by the Western Cape Minister of Infrastructure and the Executive Mayor; full completion targeted for Dec 2025.</div></div>
             <div class="tl-row"><div class="tl-year">10 Oct 2024</div><div class="tl-text">Found this session: a separate title-deed handover event (82 deeds — 69 Blompark, 7 Pearly Beach, 6 Stanford) at which Overstrand's Municipal Manager, quoted directly, put Blompark's total planned scope at 539 housing units, with 400 completed and handed over across the 2021/22 (100), 2022/23 (150) and 2023/24 (150) financial years — matching this profile's own 400-unit running total above almost exactly, with only the internal phase-year labelling differing. Eight of the 400 completed units were built and allocated to qualifying disabled beneficiaries — a detail not previously on this profile.</div></div>
           </div>
-          <p class="ec-body" style="font-size:12.5px; color:var(--ink-soft);">544 erven total (539 residential), mixed-income with commercial/recreational space. Provincial BNG approval: R114,705,113. Total project cost including civil works and top structures: R143,866,233. That's a ~13-year span from 2012 pre-planning to a Dec 2025 completion target. Ward 14's own capital-investment table elsewhere on this profile shows R57.6m of Ward 14's R67.5m total 2022/23–2025/26 capital spend (about 85%) is Housing (Opex) on this same Blompark top-structures programme — the two entries describe the same project from different angles (delivery timeline here, ward-budget share there) and should be read together.</p>
+          <p class="ec-body" style="color:var(--ink-soft);">544 erven total (539 residential), mixed-income with commercial/recreational space. Provincial BNG approval: R114,705,113. Total project cost including civil works and top structures: R143,866,233. That's a ~13-year span from 2012 pre-planning to a Dec 2025 completion target. Ward 14's own capital-investment table elsewhere on this profile shows R57.6m of Ward 14's R67.5m total 2022/23–2025/26 capital spend (about 85%) is Housing (Opex) on this same Blompark top-structures programme — the two entries describe the same project from different angles (delivery timeline here, ward-budget share there) and should be read together.</p>
           <div class="ec-meta"><span>Delay → delivery, ~13 years</span><span class="ec-source"><a href="https://www.overstrand.gov.za/blomparks-last-chapter-families-celebrate-home-ownership/" target="_blank" rel="noopener">Overstrand Municipality, "Blompark's Last Chapter," 25 Jul 2025</a>; 10 Oct 2024 title-deed handover and unit breakdown: <a href="https://novanews.co.za/hermanustimes/our-house-our-home-our-own-20241022-2/" target="_blank" rel="noopener">Hermanus Times, "Our house, our home, our own...," 22 Oct 2024</a> — both directly fetched and confirmed by this profile</span></div>
         </article>
 
@@ -3642,7 +3640,7 @@
             <div class="tl-row"><div class="tl-year">Mid-2022 – Mar 2024</div><div class="tl-text">Top-structure construction (150 homes finalised Mar 2023; final phase built Apr 2023 → Mar 2024).</div></div>
             <div class="tl-row"><div class="tl-year">24 Jul 2025</div><div class="tl-text">Final 135 title deeds handed over, bringing the total to <b>295</b> homes delivered.</div></div>
           </div>
-          <p class="ec-body" style="font-size:12.5px; color:var(--ink-soft);">Home construction cost ~R58 million; total investment including civil infrastructure exceeds R77.6 million. Built by Power/Lucon Construction JV under implementing agent MCape. A ~13-year span, 2012 pre-planning to the 2025 handover. This is a different, and now more fully sourced, project from the Ward 2 "Housing &amp; informal settlement upgrading" item elsewhere on this profile, which covers ongoing SASSA/Thusong outreach to Masakhane's remaining informal-settlement population — the IRDP delivered permanent housing to a specific beneficiary list, not the whole settlement, so the two shouldn't be read as contradicting each other.</p>
+          <p class="ec-body" style="color:var(--ink-soft);">Home construction cost ~R58 million; total investment including civil infrastructure exceeds R77.6 million. Built by Power/Lucon Construction JV under implementing agent MCape. A ~13-year span, 2012 pre-planning to the 2025 handover. This is a different, and now more fully sourced, project from the Ward 2 "Housing &amp; informal settlement upgrading" item elsewhere on this profile, which covers ongoing SASSA/Thusong outreach to Masakhane's remaining informal-settlement population — the IRDP delivered permanent housing to a specific beneficiary list, not the whole settlement, so the two shouldn't be read as contradicting each other.</p>
           <div class="ec-meta"><span>Delay → delivery, ~13 years, 295 homes</span><span class="ec-source"><a href="https://www.overstrand.gov.za/a-home-is-more-than-a-roof-a-call-for-pride-and-purpose-in-ownership-masakhane/" target="_blank" rel="noopener">Overstrand Municipality, "A Home Is More Than a Roof," 29 Jul 2025</a> — directly fetched and confirmed by this profile</span></div>
         </article>
 
@@ -3656,8 +3654,8 @@
             <div class="tl-row"><div class="tl-year">Feb 2021</div><div class="tl-text">Construction began — 150 BNG top structures, budget just over R20 million.</div></div>
             <div class="tl-row"><div class="tl-year">1 Mar 2022</div><div class="tl-text">31 beneficiaries received keys; remainder expected within weeks.</div></div>
           </div>
-          <p class="ec-body" style="font-size:12.5px; color:var(--ink-soft);"><b>New confirmation:</b> the municipality's 2021/22 IDP Review (directly fetched) identifies this project by name as "Site C1 IRDP Top Structures, Zwelihle" — 150 sites, formerly part of the "Hermanus Affordable Housing Project," first approved by the Department of Human Settlements in Aug 2015 under an older subsidy formula before being re-submitted under the current one in Jul 2019 (approved Feb 2020, matching the dates already on this card). Naming it a Zwelihle UISP sub-project reinforces the Zwelihle-area attribution below, though it still doesn't give a single ward number.</p>
-          <p class="ec-body" style="font-size:12.5px; color:var(--ink-soft);"><b>Ward attribution, updated:</b> the municipality's own coverage places Ward 5 councillor Simphiwe Silo at the handover. This profile previously flagged that as unresolved against a separate Ward 12 reference to a "Masiphumelele/Swartdam Road (EHP)" item — but the municipality's own 2021 ward-redelimitation notice (confirmed directly: <a href="https://www.overstrand.gov.za/2021-local-government-elections/" target="_blank" rel="noopener">overstrand.gov.za/2021-local-government-elections</a>) shows Wards 5, 6 <i>and</i> 12 are all simply named "Zwelihle" in the current map, without street-level detail available to this profile — so a councillor from any of the three attending a Zwelihle-area handover isn't itself contradictory. Given the direct evidence of Ward 5's councillor at this specific handover, this profile now treats Ward 5 as the best-supported single attribution, while noting the Ward 12 EHP reference may simply concern a different segment of the same road or a separate item. Separately: beneficiaries had waited 16–23 years on the housing list — a different clock from the ~3-year funding-to-handover project timeline above, and this profile keeps the two distinct rather than implying the project itself took 16+ years.</p>
+          <p class="ec-body" style="color:var(--ink-soft);"><b>New confirmation:</b> the municipality's 2021/22 IDP Review (directly fetched) identifies this project by name as "Site C1 IRDP Top Structures, Zwelihle" — 150 sites, formerly part of the "Hermanus Affordable Housing Project," first approved by the Department of Human Settlements in Aug 2015 under an older subsidy formula before being re-submitted under the current one in Jul 2019 (approved Feb 2020, matching the dates already on this card). Naming it a Zwelihle UISP sub-project reinforces the Zwelihle-area attribution below, though it still doesn't give a single ward number.</p>
+          <p class="ec-body" style="color:var(--ink-soft);"><b>Ward attribution, updated:</b> the municipality's own coverage places Ward 5 councillor Simphiwe Silo at the handover. This profile previously flagged that as unresolved against a separate Ward 12 reference to a "Masiphumelele/Swartdam Road (EHP)" item — but the municipality's own 2021 ward-redelimitation notice (confirmed directly: <a href="https://www.overstrand.gov.za/2021-local-government-elections/" target="_blank" rel="noopener">overstrand.gov.za/2021-local-government-elections</a>) shows Wards 5, 6 <i>and</i> 12 are all simply named "Zwelihle" in the current map, without street-level detail available to this profile — so a councillor from any of the three attending a Zwelihle-area handover isn't itself contradictory. Given the direct evidence of Ward 5's councillor at this specific handover, this profile now treats Ward 5 as the best-supported single attribution, while noting the Ward 12 EHP reference may simply concern a different segment of the same road or a separate item. Separately: beneficiaries had waited 16–23 years on the housing list — a different clock from the ~3-year funding-to-handover project timeline above, and this profile keeps the two distinct rather than implying the project itself took 16+ years.</p>
           <div class="ec-meta"><span>Project: ~3 years; waiting list: 16–23 years</span><span class="ec-source"><a href="https://www.overstrand.gov.za/home-sweet-home-for-the-elderly-from-zwelihle/" target="_blank" rel="noopener">Overstrand Municipality, "Home Sweet Home for the Elderly from Zwelihle," 3 Mar 2022</a> — directly fetched and confirmed by this profile</span></div>
         </article>
 
@@ -3678,7 +3676,7 @@
             <div class="tl-row"><div class="tl-year">May 2024 – planned end Apr 2025</div><div class="tl-text">The same document logs Phase 2: contractor established on site May 2024 for 250 units, with a further 23 units added to the contract in Nov 2024, bringing the cumulative Phase 1+2 total under construction to 573 (of the 621-unit funded scope). Completion of all 573 is stated as still planned for end April 2025 — a target, not a confirmed outcome, since the document itself is dated before that date. <b>Still open:</b> this profile has not found a later source confirming whether the April 2025 target was actually met.</div></div>
             <div class="tl-row"><div class="tl-year">2025/26 MTEF</div><div class="tl-text">The IDP's own Infrastructure Transfers grant table lists "Stanford West (783)(621 top structures)" under the Human Settlements Development Grant: total project cost R109,000,000, of which R79,265,000 had already been spent in prior years; R13,300,000 budgeted for 2025/26 and R1,146,000 for 2026/27 (R14,446,000 combined), with a stated end date of 4 March 2028. The Housing Strategy Five-Year Program table separately costs the same 573-unit figure at R17,103,278 for top structures plus R1,551,000 in transfer fees (R18,654,278 total, 2025/26–2029/30) — two independent tables in the same document agreeing on the 573 figure, though neither confirms it was actually delivered by the stated target date.</div></div>
           </div>
-          <p class="ec-body" style="font-size:12.5px; color:var(--ink-soft);">Ward 11 (Stanford's pre-2021 ward number) has its own directly-confirmed capital-and-ward-specific-investment table for 2017/18–2020/21: R43,718,552 total, of which Housing was R5,517,519 (2018/19) — a specific, dated IRDP line item distinct from the roads/water/sewerage/electricity spend also itemised for Stanford in the same years. Separately, the Overstrand-wide housing waiting list stood at 991–1,001 applicants for Stanford specifically as of Oct–Dec 2020, and the "Stanford Die Kop" informal settlement grew from 112 to 180 recorded units between June 2019 and June 2020 — context this profile hadn't had before for the scale of need Stanford's IRDP is working against. This ties to the still-open Ward 1 gap logged elsewhere on this profile: a longstanding R1.2m sewerage-tanker capital item that hasn't appeared as a discrete 2026/27 budget line. <b>Resolved, 4 Sep 2026:</b> this profile previously had no source confirming whether Stanford's top structures were actually built and handed over — a municipal news article confirmed construction began Aug 2023 and the first 23 of a planned 300-unit Phase 1 were handed over 2 Apr 2024. The IDP Review 2025/26 Draft (31 March 2025), now closes the rest of the Phase 1 question: the full 300 units were completed by end September 2024 (191 by end June 2024, the balance of 109 by end September 2024) — the Aug 2024 target was missed by about a month, but the phase is confirmed complete. <b>Still outstanding:</b> the same document shows Phase 2 (250 units from May 2024, +23 added Nov 2024, cumulative 573 of the 621-unit funded scope) with completion planned for end April 2025 — a target the document itself predates, so this profile still has no source confirming it was actually met. The remaining gap between the 573 figure and the full 621/783 scope (48 units) also isn't accounted for in any source this profile has read. <b>Partial evidence:</b> a 10 Oct 2024 multi-ward title-deed handover event (see the Blompark card above) included 6 Stanford beneficiaries among 82 total title deeds issued that day — consistent with, though not proof of, Phase 2 construction continuing on schedule through October 2024.</p>
+          <p class="ec-body" style="color:var(--ink-soft);">Ward 11 (Stanford's pre-2021 ward number) has its own directly-confirmed capital-and-ward-specific-investment table for 2017/18–2020/21: R43,718,552 total, of which Housing was R5,517,519 (2018/19) — a specific, dated IRDP line item distinct from the roads/water/sewerage/electricity spend also itemised for Stanford in the same years. Separately, the Overstrand-wide housing waiting list stood at 991–1,001 applicants for Stanford specifically as of Oct–Dec 2020, and the "Stanford Die Kop" informal settlement grew from 112 to 180 recorded units between June 2019 and June 2020 — context this profile hadn't had before for the scale of need Stanford's IRDP is working against. This ties to the still-open Ward 1 gap logged elsewhere on this profile: a longstanding R1.2m sewerage-tanker capital item that hasn't appeared as a discrete 2026/27 budget line. <b>Resolved, 4 Sep 2026:</b> this profile previously had no source confirming whether Stanford's top structures were actually built and handed over — a municipal news article confirmed construction began Aug 2023 and the first 23 of a planned 300-unit Phase 1 were handed over 2 Apr 2024. The IDP Review 2025/26 Draft (31 March 2025), now closes the rest of the Phase 1 question: the full 300 units were completed by end September 2024 (191 by end June 2024, the balance of 109 by end September 2024) — the Aug 2024 target was missed by about a month, but the phase is confirmed complete. <b>Still outstanding:</b> the same document shows Phase 2 (250 units from May 2024, +23 added Nov 2024, cumulative 573 of the 621-unit funded scope) with completion planned for end April 2025 — a target the document itself predates, so this profile still has no source confirming it was actually met. The remaining gap between the 573 figure and the full 621/783 scope (48 units) also isn't accounted for in any source this profile has read. <b>Partial evidence:</b> a 10 Oct 2024 multi-ward title-deed handover event (see the Blompark card above) included 6 Stanford beneficiaries among 82 total title deeds issued that day — consistent with, though not proof of, Phase 2 construction continuing on schedule through October 2024.</p>
           <div class="ec-meta"><span>2016/17 → 2028 funding programme; Phase 1 (300 units) confirmed complete Sept 2024; Phase 2 (573 of 621 units) construction confirmed, completion target end Apr 2025 unconfirmed</span><span class="ec-source">2016/17 line item: <a href="https://www.overstrand.gov.za/service-delivery-and-budget-implementation-plan-sdbip/revised-tl-sdbip-1st-adjustments-budget-23-1-2017/?layout=file" target="_blank" rel="noopener">Overstrand Top-Layer SDBIP, 1st Adjustments Budget 2016/17</a>; civil-works completion, 5-year funding programme and Ward 11 capital table: Overstrand 2021/22 IDP Review (Chapters 2, 4, 13 and 14); Phase 1 handover: <a href="https://www.overstrand.gov.za/first-homes-in-stanford-housing-project-handed-over-to-beneficiaries/" target="_blank" rel="noopener">Overstrand Municipality, "First Homes in Stanford Housing Project Handed over to Beneficiaries," 4 Apr 2024</a> — directly fetched and confirmed by this profile. Phase 1/2 unit counts and MTEF/Housing Strategy budget figures: Overstrand IDP Review 2025/26 Draft (31 March 2025), Chapters 4 and 7 — read and confirmed directly by this profile.</span></div>
         </article>
 
@@ -3698,7 +3696,7 @@
             <div class="tl-row"><div class="tl-year">Apr 2024</div><div class="tl-text">Title-deed handover recorded in the 2023/24 Annual Report, including 107 <button type="button" class="term" aria-expanded="false">FLISP<span class="term-tip" hidden>FLISP = Finance Linked Individual Subsidy Programme, a national government subsidy for buyers who earn too much to qualify for a free RDP house but too little to get a full bank bond on their own. Funded and directed by national government, not the municipal council — same reasoning as IRDP/UISP above.</span></button> beneficiaries. <i>Not yet independently verified by this profile — note this "107" matches the serviced-site figure above, which may or may not be coincidence.</i></div></div>
             <div class="tl-row"><div class="tl-year">2026 IDP</div><div class="tl-text">Still identifies "Hawston IRDP — 378 units," with top-structure phases extending through the 2020s. <i>Not yet independently verified by this profile.</i></div></div>
           </div>
-          <p class="ec-body" style="font-size:12.5px; color:var(--ink-soft);"><b>Unit-count discrepancy, partially reconciled (updated 4 Sep 2026):</b> this profile has four numbers for Hawston's IRDP scope across documents spanning 2019–2024 — 489 serviced sites, 378 top-structure units, 107 serviced sites, and 256 units under a "Phase 1" label. Directly reading the 2023/24 IDP Review's own project-progress table (Ch.4) shows 489 and 378 are dated completions of the <i>same</i> phase — services in 2019/2020, top structures in 2020/21 — not competing totals, which resolves that part of the discrepancy. The 107-serviced-sites figure (Mar 2021 5-year programme) and the 256-unit "Phase 1" figure (2021/22–23/24 MTEF grant table) most plausibly describe a <i>separate, subsequent</i> phase referenced in later planning documents, though no source yet gives that second phase's own start/completion dates the way the first phase now has. This is logged as a working interpretation, not a certainty — the municipality's own documents don't explicitly label these as "Phase 1" and "Phase 2" of one project, and it remains possible 107/256 are a re-scoping rather than a genuinely new tranche. Ward 8's own IDP priority table (already sourced elsewhere on this profile) lists a Housing entry under Provincial sphere, and this session's SDBIP fetch adds a National-sphere (MIG) funding line for the bulk-water component specifically.</p>
+          <p class="ec-body" style="color:var(--ink-soft);"><b>Unit-count discrepancy, partially reconciled (updated 4 Sep 2026):</b> this profile has four numbers for Hawston's IRDP scope across documents spanning 2019–2024 — 489 serviced sites, 378 top-structure units, 107 serviced sites, and 256 units under a "Phase 1" label. Directly reading the 2023/24 IDP Review's own project-progress table (Ch.4) shows 489 and 378 are dated completions of the <i>same</i> phase — services in 2019/2020, top structures in 2020/21 — not competing totals, which resolves that part of the discrepancy. The 107-serviced-sites figure (Mar 2021 5-year programme) and the 256-unit "Phase 1" figure (2021/22–23/24 MTEF grant table) most plausibly describe a <i>separate, subsequent</i> phase referenced in later planning documents, though no source yet gives that second phase's own start/completion dates the way the first phase now has. This is logged as a working interpretation, not a certainty — the municipality's own documents don't explicitly label these as "Phase 1" and "Phase 2" of one project, and it remains possible 107/256 are a re-scoping rather than a genuinely new tranche. Ward 8's own IDP priority table (already sourced elsewhere on this profile) lists a Housing entry under Provincial sphere, and this session's SDBIP fetch adds a National-sphere (MIG) funding line for the bulk-water component specifically.</p>
           <div class="ec-meta"><span>2013 → 2024+, first phase (489/378) dated and confirmed; later phase (107/256) still open</span><span class="ec-source">2016/17 line items and 5-year programme/MTEF tables: <a href="https://www.overstrand.gov.za/service-delivery-and-budget-implementation-plan-sdbip/revised-tl-sdbip-1st-adjustments-budget-23-1-2017/?layout=file" target="_blank" rel="noopener">Overstrand Top-Layer SDBIP 2016/17</a> and the Overstrand 2021/22 IDP Review — directly fetched and confirmed. Phase-completion dates for 489/378: Overstrand 2023/24 IDP Review, Ch.4 project-progress table — directly read and confirmed this session. Title-deed handover dates: Overstrand Municipality, "Review Report 2024 Mid-Term: Community Services" — directly fetched and confirmed this session. The 2012/13 and 2023/24 title-deed/FLISP figures are still relayed via a secondary compiled review; not yet independently fetched.</span></div>
         </article>
 
@@ -3735,7 +3733,7 @@
             <li><b>Site C2</b> — 132 sites/units</li>
             <li>Earlier phases via the housing-administration/TRA (temporary relocation area) programme</li>
           </ul>
-          <p class="ec-body" style="font-size:12.5px; color:var(--ink-soft);">The municipality's records show these projects going back to the 2015/16–2017 period, with construction and title-deed activity continuing into 2024 — best treated as an ongoing housing-development programme for the area rather than one project in isolation. Ward 4's own IDP priorities card elsewhere on this profile already logs "social housing and rental-stock development" as one of three items sitting outside municipal-council authority, marked Provincial and National in the source table — consistent with the sphere tag here.</p>
+          <p class="ec-body" style="color:var(--ink-soft);">The municipality's records show these projects going back to the 2015/16–2017 period, with construction and title-deed activity continuing into 2024 — best treated as an ongoing housing-development programme for the area rather than one project in isolation. Ward 4's own IDP priorities card elsewhere on this profile already logs "social housing and rental-stock development" as one of three items sitting outside municipal-council authority, marked Provincial and National in the source table — consistent with the sphere tag here.</p>
           <div class="ec-meta"><span>2015/16 → 2024, ongoing programme</span><span class="ec-source">Overstrand IDP Review and Amendment 2024/25 (31 May 2024) — cited via a secondary compiled review; this profile hasn't yet independently fetched the underlying PDF text to confirm the site/unit counts directly</span></div>
         </article>
 
@@ -3748,7 +3746,7 @@
             <div class="tl-row"><div class="tl-year">Jun 2020</div><div class="tl-text">Civil infrastructure completed for the Beverly Hills UISP, 100 serviced sites, per the audited report.</div></div>
             <div class="tl-row"><div class="tl-year">Later IDP</div><div class="tl-text">Records the Beverly Hills UISP as a completed 100-site project.</div></div>
           </div>
-          <p class="ec-body" style="font-size:12.5px; color:var(--ink-soft);"><b>Correction from this profile's last update:</b> the "Ward 2" citation previously attached to this project was wrong, and this profile is correcting it now that it has directly fetched the source. The 2016/17 SDBIP's own "Ward" column doesn't actually record electoral ward numbers at all — for this project it reads Ward-field "Gansbaai," Area-field "Beverly Hills," i.e. a town name, not a ward number. Separately, the municipality's 2021 ward-redelimitation notice (directly confirmed) shows the <i>current</i> Ward 9 is described as "Kleinmond, Mountain View, Palmiet, Beverly Hills, Extension 6" — but that's a different Beverly Hills, roughly 30km away near Kleinmond, not this Gansbaai project. This profile's own Ward 14 entry elsewhere on the site (Sunshine Nation Pre-School, sourced to Ward 14's own site-visit minutes) separately references "the Beverly Hills informal settlement" in a Gansbaai-area context consistent with Ward 14's boundary (Blompark, De Kelders, Gansbaai South-West, Van Dyksbaai). Read together, this looks like two places that share a name rather than one place with conflicting ward tags — this profile now treats the Gansbaai Beverly Hills UISP as most likely Ward 14, while flagging that no source it has read states that ward number explicitly for this specific project.</p>
+          <p class="ec-body" style="color:var(--ink-soft);"><b>Correction from this profile's last update:</b> the "Ward 2" citation previously attached to this project was wrong, and this profile is correcting it now that it has directly fetched the source. The 2016/17 SDBIP's own "Ward" column doesn't actually record electoral ward numbers at all — for this project it reads Ward-field "Gansbaai," Area-field "Beverly Hills," i.e. a town name, not a ward number. Separately, the municipality's 2021 ward-redelimitation notice (directly confirmed) shows the <i>current</i> Ward 9 is described as "Kleinmond, Mountain View, Palmiet, Beverly Hills, Extension 6" — but that's a different Beverly Hills, roughly 30km away near Kleinmond, not this Gansbaai project. This profile's own Ward 14 entry elsewhere on the site (Sunshine Nation Pre-School, sourced to Ward 14's own site-visit minutes) separately references "the Beverly Hills informal settlement" in a Gansbaai-area context consistent with Ward 14's boundary (Blompark, De Kelders, Gansbaai South-West, Van Dyksbaai). Read together, this looks like two places that share a name rather than one place with conflicting ward tags — this profile now treats the Gansbaai Beverly Hills UISP as most likely Ward 14, while flagging that no source it has read states that ward number explicitly for this specific project.</p>
           <div class="ec-meta"><span>2016/17 → 2020/21, ~4 years</span><span class="ec-source"><a href="https://www.overstrand.gov.za/service-delivery-and-budget-implementation-plan-sdbip/revised-tl-sdbip-1st-adjustments-budget-23-1-2017/?layout=file" target="_blank" rel="noopener">Overstrand Top-Layer SDBIP, 1st Adjustments Budget 2016/17</a> — directly fetched and confirmed by this profile; ward-boundary evidence via the municipality's 2021 election notice. The Jun 2020/later-IDP completion figures are still relayed via a secondary compiled review citing the audited Annual Report 2019/20 and Final IDP Review 2026/27, not yet independently fetched by this profile.</span></div>
         </article>
 
@@ -3764,18 +3762,20 @@
             <div class="tl-row"><div class="tl-year">2025/26–2029/30</div><div class="tl-text"><b>New, unreconciled figure found this session:</b> the same IDP document's separate Housing Strategy Five-Year Program table lists "Overhills Informal Settlements" at <b>476</b> units, costed at R25,000,000 in direct services (R5m/yr 2025/26–27/28, R10m in 2028/29) plus R5,550,000 in electrical connections (R1.85m/yr 2026/27–28/29), a R30,550,000 five-year total. Nothing in either table states how 476 relates to the 882 figure above — whether it's a sub-phase, a different count basis, or an independent scoping exercise. Both figures now sit on confirmed, dated, budgeted primary-source footing; this profile is logging them side by side rather than picking one, consistent with how the 378 figure below is already handled.</div></div>
             <div class="tl-row"><div class="tl-year">10 Sept 2025</div><div class="tl-text">Found this session: a public participation meeting was held at Proteadorp Community Hall for a distinct "Overhills Low-Cost Housing Development" (Erf 5453 & RE/5462, Kleinmond), as part of the environmental/planning approval process. A third-party construction-leads database (not a primary municipal source, so treated as Reported) separately lists this same project as "Overhills Housing Development – Infrastructure," estimated R31–60 million, status "Procedural" as of publication (27 May 2025) — i.e. still in planning/approval, not yet under construction. This profile can't yet confirm whether this is a new phase of the disputed 378/882-unit project above or a separate development entirely; logged as a distinct, dated item rather than merged into the disputed unit count.</div></div>
           </div>
-          <p class="ec-body" style="font-size:12.5px; color:var(--ink-soft);">A pre-2014 → 2028 span — the longest-running name in this list, appearing across three very different planning periods, and still an active programme rather than a closed project. <b>Ward correction, 4 Sep 2026:</b> this card previously read "(Ward 9)." Directly reading the 2021/22 IDP Review's own population table (Ch.2, Table 6) shows Overhills grouped under Ward 10 ("*Protea town-West, Overhills, *Palmiet, Betty's Bay, Pringle Bay, Rooi Els"), not Ward 9 — and that isn't just an old-map artifact: the current Ward 10 IDP priority table (Cllr Theresa Els, 2025/26 Draft) independently lists multiple Overhills-specific items, and this profile's own existing Ward 10 entry in the councillor tracker already lists "Overhills Community," Overhills soccer-field floodlights and the Overhills taxi-rank upgrade among Ward 10's own record — all without this capital-tracker card having been cross-checked against them until now. Three independent sources, spanning the old and current ward maps, agree on Ward 10; none this profile has read say Ward 9. The card is corrected accordingly.</p>
-          <p class="ec-body" style="font-size:12.5px; color:var(--ink-soft);"><b>Unit-count discrepancy — three figures, updated 4 Sep 2026, with a resolved false lead:</b> One theory was that the 378 figure below might actually belong to Hawston rather than Overhills, given a separate Hawston card on this profile also carries a 378. Checking the underlying 2021/22 IDP Review directly (both PDFs) rules that out: the document contains <i>two separate tables</i>, each independently producing a 378 for a <i>different</i> project — the Housing Strategy Five-Year Program table (19 Mar 2021, Ch.4) reads "Hawston IRDP — 378 units / 107 serviced sites" (the citation already on the Hawston card), while the MTEF Infrastructure Transfers grant table (Ch.7, p.226) reads "Overstrand: Kleinmond: Overhills - 378 Sites UISP" — sitting on the same page as a separate line for "Overstrand: Hawston - 256 IRDP - Phase 1." The document distinguishes the two projects with different figures in the same table; the Overhills-378 citation is not a mistaken carry-over of Hawston's number. Logged as a genuine coincidence, not an error, and the citation stays on this card:</p>
-          <table style="width:100%; border-collapse:collapse; font-size:12.5px; margin:6px 0 10px;">
-            <thead><tr style="border-bottom:1px solid var(--rule, #ccc); text-align:left;"><th style="padding:4px 8px 4px 0;">Source / table</th><th style="padding:4px 8px;">Figure</th><th style="padding:4px 8px;">Interpretation</th><th style="padding:4px 0 4px 8px;">Status</th></tr></thead>
+          <p class="ec-body" style="color:var(--ink-soft);">A pre-2014 → 2028 span — the longest-running name in this list, appearing across three very different planning periods, and still an active programme rather than a closed project. <b>Ward correction, 4 Sep 2026:</b> this card previously read "(Ward 9)." Directly reading the 2021/22 IDP Review's own population table (Ch.2, Table 6) shows Overhills grouped under Ward 10 ("*Protea town-West, Overhills, *Palmiet, Betty's Bay, Pringle Bay, Rooi Els"), not Ward 9 — and that isn't just an old-map artifact: the current Ward 10 IDP priority table (Cllr Theresa Els, 2025/26 Draft) independently lists multiple Overhills-specific items, and this profile's own existing Ward 10 entry in the councillor tracker already lists "Overhills Community," Overhills soccer-field floodlights and the Overhills taxi-rank upgrade among Ward 10's own record — all without this capital-tracker card having been cross-checked against them until now. Three independent sources, spanning the old and current ward maps, agree on Ward 10; none this profile has read say Ward 9. The card is corrected accordingly.</p>
+          <p class="ec-body" style="color:var(--ink-soft);"><b>Unit-count discrepancy — three figures, updated 4 Sep 2026, with a resolved false lead:</b> One theory was that the 378 figure below might actually belong to Hawston rather than Overhills, given a separate Hawston card on this profile also carries a 378. Checking the underlying 2021/22 IDP Review directly (both PDFs) rules that out: the document contains <i>two separate tables</i>, each independently producing a 378 for a <i>different</i> project — the Housing Strategy Five-Year Program table (19 Mar 2021, Ch.4) reads "Hawston IRDP — 378 units / 107 serviced sites" (the citation already on the Hawston card), while the MTEF Infrastructure Transfers grant table (Ch.7, p.226) reads "Overstrand: Kleinmond: Overhills - 378 Sites UISP" — sitting on the same page as a separate line for "Overstrand: Hawston - 256 IRDP - Phase 1." The document distinguishes the two projects with different figures in the same table; the Overhills-378 citation is not a mistaken carry-over of Hawston's number. Logged as a genuine coincidence, not an error, and the citation stays on this card:</p>
+          <div class="capital-table-scroll" style="margin:6px 0 10px;">
+          <table style="width:100%; min-width:600px; border-collapse:collapse; font-size:13.5px;">
+            <thead><tr style="border-bottom:1px solid var(--hairline-strong); text-align:left;"><th style="padding:6px 10px 6px 0;">Source / table</th><th style="padding:6px 10px;">Figure</th><th style="padding:6px 10px;">Interpretation</th><th style="padding:6px 0 6px 10px;">Status</th></tr></thead>
             <tbody>
-              <tr style="border-bottom:1px solid var(--rule, #eee);"><td style="padding:4px 8px 4px 0;">MTEF grant table, 2021/22 IDP Review (Ch.7)</td><td style="padding:4px 8px;">378</td><td style="padding:4px 8px;">"Overstrand: Kleinmond: Overhills - 378 Sites UISP" — R6m budgeted 2022/23</td><td style="padding:4px 0 4px 8px;">Confirmed — Overhills, not Hawston</td></tr>
-              <tr style="border-bottom:1px solid var(--rule, #eee);"><td style="padding:4px 8px 4px 0;">Housing Strategy Five-Year table, same document (Ch.4)</td><td style="padding:4px 8px;">378</td><td style="padding:4px 8px;">"Hawston IRDP" — 378 units / 107 serviced sites, R756,000 transfer fees</td><td style="padding:4px 0 4px 8px;">Confirmed — Hawston, separate project, coincidental same number (see Hawston card)</td></tr>
-              <tr style="border-bottom:1px solid var(--rule, #eee);"><td style="padding:4px 8px 4px 0;">MTEF grant table, IDP Review 2025/26 Draft (Ch.7)</td><td style="padding:4px 8px;">882</td><td style="padding:4px 8px;">"Kleinmond Overhills (882)" — ISUPG, Stage 1 pre-feasibility, R15m total project cost</td><td style="padding:4px 0 4px 8px;">Confirmed, unreconciled against 378 / 476</td></tr>
-              <tr><td style="padding:4px 8px 4px 0;">Housing Strategy Five-Year table, IDP Review 2025/26 Draft (Ch.4)</td><td style="padding:4px 8px;">476</td><td style="padding:4px 8px;">"Overhills Informal Settlements 476" — R30.55m five-year cost (services + electrical)</td><td style="padding:4px 0 4px 8px;">Confirmed, unreconciled against 378 / 882</td></tr>
+              <tr style="border-bottom:1px solid var(--hairline);"><td style="padding:6px 10px 6px 0;">MTEF grant table, 2021/22 IDP Review (Ch.7)</td><td style="padding:6px 10px;">378</td><td style="padding:6px 10px;">"Overstrand: Kleinmond: Overhills - 378 Sites UISP" — R6m budgeted 2022/23</td><td style="padding:6px 0 6px 10px;">Confirmed — Overhills, not Hawston</td></tr>
+              <tr style="border-bottom:1px solid var(--hairline);"><td style="padding:6px 10px 6px 0;">Housing Strategy Five-Year table, same document (Ch.4)</td><td style="padding:6px 10px;">378</td><td style="padding:6px 10px;">"Hawston IRDP" — 378 units / 107 serviced sites, R756,000 transfer fees</td><td style="padding:6px 0 6px 10px;">Confirmed — Hawston, separate project, coincidental same number (see Hawston card)</td></tr>
+              <tr style="border-bottom:1px solid var(--hairline);"><td style="padding:6px 10px 6px 0;">MTEF grant table, IDP Review 2025/26 Draft (Ch.7)</td><td style="padding:6px 10px;">882</td><td style="padding:6px 10px;">"Kleinmond Overhills (882)" — ISUPG, Stage 1 pre-feasibility, R15m total project cost</td><td style="padding:6px 0 6px 10px;">Confirmed, unreconciled against 378 / 476</td></tr>
+              <tr><td style="padding:6px 10px 6px 0;">Housing Strategy Five-Year table, IDP Review 2025/26 Draft (Ch.4)</td><td style="padding:6px 10px;">476</td><td style="padding:6px 10px;">"Overhills Informal Settlements 476" — R30.55m five-year cost (services + electrical)</td><td style="padding:6px 0 6px 10px;">Confirmed, unreconciled against 378 / 882</td></tr>
             </tbody>
           </table>
-          <p class="ec-body" style="font-size:12.5px; color:var(--ink-soft);">Reading two more source tables directly didn't narrow the discrepancy — it added a genuinely new figure (476) and confirmed the third (882) as a real, currently-funded project, while ruling out the one theory (378-as-Hawston-mixup) that would have simplified the record. All four rows above rest on directly-read primary municipal documents; none is a secondary-review relay. This profile is not picking a preferred figure among 378 / 476 / 882 — nothing in any table read so far states how they relate. <b>Still open:</b> the Sept 2025 public meeting for a new/separate "Overhills Low-Cost Housing Development" adds a further wrinkle rather than resolving any of this — it's plausible that meeting relates to the Stage 1 pre-feasibility work now confirmed for the 882-unit project (the timing and planning-stage status are consistent), but no source states that connection directly, so it stays logged as a distinct, dated item rather than merged in.</p>
+          </div>
+          <p class="ec-body" style="color:var(--ink-soft);">Reading two more source tables directly didn't narrow the discrepancy — it added a genuinely new figure (476) and confirmed the third (882) as a real, currently-funded project, while ruling out the one theory (378-as-Hawston-mixup) that would have simplified the record. All four rows above rest on directly-read primary municipal documents; none is a secondary-review relay. This profile is not picking a preferred figure among 378 / 476 / 882 — nothing in any table read so far states how they relate. <b>Still open:</b> the Sept 2025 public meeting for a new/separate "Overhills Low-Cost Housing Development" adds a further wrinkle rather than resolving any of this — it's plausible that meeting relates to the Stage 1 pre-feasibility work now confirmed for the 882-unit project (the timing and planning-stage status are consistent), but no source states that connection directly, so it stays logged as a distinct, dated item rather than merged in.</p>
           <div class="ec-meta"><span>Ward 10 (corrected from Ward 9, 4 Sep 2026); Pre-2014 → 2028+, ongoing; three unreconciled unit counts (378 / 476 / 882) now all confirmed via primary documents, 378 confirmed as Overhills-specific and not a Hawston mixup; a separate 2025 Overhills project also in planning</span><span class="ec-source">2016/17 line item: <a href="https://www.overstrand.gov.za/service-delivery-and-budget-implementation-plan-sdbip/revised-tl-sdbip-1st-adjustments-budget-23-1-2017/?layout=file" target="_blank" rel="noopener">Overstrand Top-Layer SDBIP, 1st Adjustments Budget 2016/17</a> — directly fetched and confirmed, actual start date matches; Ward field reads "Kleinmond", Area field "Overhills" — a town-name pair, not an electoral-ward number, per this profile's established caveat on this document. 2022 fire disaster: Overstrand Municipality, "Review Report 2024 Mid-Term: Community Services" — directly fetched this session. 2025 public meeting: <a href="https://www.overstrand.gov.za/public-meeting-invitation-to-overhills-housing-development/" target="_blank" rel="noopener">Overstrand Municipality, "Public Meeting Invitation to Overhills Housing Development," 2025</a> — directly fetched this session. R31–60m estimate: L2B (Leads 2 Business) construction-leads database — third-party, tagged Reported, not independently corroborated. 378-unit MTEF line and 2021/22 IDP population table (Ward 10 grouping): Overstrand 2021/22 IDP Review, Chapters 2 and 7 — read and confirmed directly by this profile. Ward 10's current-day Overhills items (organised-community listing, floodlights, taxi rank): this profile's own Ward 10 entry in the councillor tracker, sourced separately above. 882-unit and 476-unit figures, with full MTEF and Housing Strategy budget detail: Overstrand IDP Review 2025/26 Draft (31 March 2025), Chapters 4 and 7 — read and confirmed directly by this profile. The 2014/15 origin figure is still relayed via a secondary compiled review; not yet independently fetched by this profile.</span></div>
         </article>
       </div>
@@ -3793,7 +3793,7 @@
         </article>
       </div>
 
-      <p class="ec-body" style="margin:14px 0 4px; font-size:12.5px; color:var(--ink-soft);"><b>Methodology note: pre-2021 vs current ward maps.</b> Overstrand's ward boundaries were redelimited for the 2021 local government election, growing from 13 wards to the current 14. The 2016/17 SDBIP, 2012/13 Annual Report and 2019/20 Annual Report cited across this section all predate that change and use the old map — under which, for example, Masakhane sat in old-Ward-1 (paired with Franskraal) and Stanford sat in old-Ward-11 (paired with Buffeljagsbaai), not their current Ward 2 and Ward 1. Separately, the 2016/17 SDBIP's own "Ward" column turns out to record town/area names (Gansbaai, Hermanus, Stanford, Kleinmond) rather than ward numbers at all, for any project — a detail that caused this profile to misattribute the Beverly Hills project to "Ward 2" in an earlier version of this section, now corrected above. Where this section cites a current ward number without a pre-2021 source, it's drawn from the municipality's own 2021 ward-redelimitation notice, directly confirmed: Ward 1 Stanford/Thembelihle; Ward 2 Gansbaai North-East/Masakhane; Ward 8 Fisherhaven/Hawston; Ward 9 Kleinmond/Mountain View/Palmiet/Beverly Hills/Extension 6; Ward 14 Blompark/De Kelders/Gansbaai South-West/Van Dyksbaai; Wards 5, 6 and 12 all simply "Zwelihle."</p>
+      <p class="ec-body" style="margin:14px 0 4px; color:var(--ink-soft);"><b>Methodology note: pre-2021 vs current ward maps.</b> Overstrand's ward boundaries were redelimited for the 2021 local government election, growing from 13 wards to the current 14. The 2016/17 SDBIP, 2012/13 Annual Report and 2019/20 Annual Report cited across this section all predate that change and use the old map — under which, for example, Masakhane sat in old-Ward-1 (paired with Franskraal) and Stanford sat in old-Ward-11 (paired with Buffeljagsbaai), not their current Ward 2 and Ward 1. Separately, the 2016/17 SDBIP's own "Ward" column turns out to record town/area names (Gansbaai, Hermanus, Stanford, Kleinmond) rather than ward numbers at all, for any project — a detail that caused this profile to misattribute the Beverly Hills project to "Ward 2" in an earlier version of this section, now corrected above. Where this section cites a current ward number without a pre-2021 source, it's drawn from the municipality's own 2021 ward-redelimitation notice, directly confirmed: Ward 1 Stanford/Thembelihle; Ward 2 Gansbaai North-East/Masakhane; Ward 8 Fisherhaven/Hawston; Ward 9 Kleinmond/Mountain View/Palmiet/Beverly Hills/Extension 6; Ward 14 Blompark/De Kelders/Gansbaai South-West/Van Dyksbaai; Wards 5, 6 and 12 all simply "Zwelihle."</p>
 
       <p class="sources-note" style="margin-top:6px;">Sourcing note: the Zwelihle, Blompark, Masakhane and Swartdam Road C1 timelines were directly fetched from the municipality's own handover pages in an earlier session. A prior session directly fetched the 2016/17 Top-Layer SDBIP's capital-projects table in full, confirming the existence, funding source and actual-start date of the Stanford, Hawston, Beverly Hills and Kleinmond Overhills line items. A later pass read the same 2016/17 SDBIP pages plus the Overstrand 2021/22 IDP Review (Chapters 2, 4, 13 and 14) directly, letting this profile confirm: Stanford's 783-site civil-works completion (Dec 2020) and its 5-year top-structure funding programme; Hawston's conflicting unit counts across three of the municipality's own documents (256 / 378 / 489, now logged rather than resolved); Kleinmond Overhills' conflicting unit counts (378 vs. the previously-cited 882); and that Swartdam Road C1 is named "Site C1, Zwelihle" in the IDP's own housing chapter. Mount Pleasant's specific project breakdown (200/172/132 sites) remains <b>Reported</b>, not yet independently verified, though this session's document does newly reveal it as "Mount Pleasant & Westdene Infill IRDP" — a renamed/reframed project this profile hadn't captured before. A later session (4 Sep 2026) found and directly fetched the municipality's own Stanford handover article, confirming Aug 2023 groundbreaking and a 2 Apr 2024 Phase 1 handover of the first 23 (of a planned 300) top-structure units — the completion record for Stanford this profile had previously flagged as missing — and cross-referenced the Overstrand IDP Review 2023/2024's Hawston project-progress table, which independently dated Hawston's 489-services/378-top-structures split as one completed phase rather than two competing totals. That same session pass also located: dated Hawston title-deed handovers (30 Aug 2022, 15 Sept 2023) further corroborating the 378-unit reconciliation; a 10 Oct 2024 multi-ward title-deed event (82 deeds — Blompark, Pearly Beach, Stanford) with a Municipal Manager quote independently confirming Blompark's 400-of-539-unit running total; the 27 Feb 2022 Overhills fire disaster (39 families displaced); and a distinct, newly-planned "Overhills Low-Cost Housing Development" that held a public participation meeting in Sept 2025 — evidence of continued Overhills housing activity, though not yet reconciled against the disputed 378/882 figures. Later the same day, the Overstrand IDP Review 2025/26 Draft (31 March 2025, Chapters 2, 4, 7 and 14) was obtained directly as two PDF extracts; reading them closed most of the Stanford question (Phase 1's 300 units confirmed complete by end Sept 2024; Phase 2's 573-of-621 units confirmed under construction, completion planned but not confirmed for end Apr 2025) and independently confirmed the "882" Kleinmond Overhills figure as a real, currently-funded MTEF project — while also surfacing a third, previously-uncaptured Overhills figure (476 units, a separate Housing Strategy table) that the document doesn't reconcile against 882. Net effect: Stanford moved from open to substantially resolved; Overhills moved from a two-way to a three-way unreconciled discrepancy, now with primary-document footing under all three numbers. A further theory was that the Overhills 378 figure might actually be a mistaken carry-over of the Hawston card's own 378 — checking the 2021/22 IDP Review directly disproved that: the two 378s trace to two different tables in the same document, each independently naming a different project (Hawston IRDP in the Housing Strategy table; "Overstrand: Kleinmond: Overhills - 378 Sites UISP" in the MTEF grant table, on the same page as a separately-figured Hawston line), so both citations stand. That same check surfaced a separate, more consequential correction: the 2021/22 IDP's own population table (Ch.2) groups Overhills under Ward 10, not Ward 9, matching this profile's existing Ward 10 entry in the councillor tracker (which already independently lists Overhills-area items) and the current Ward 10 IDP priority table under Cllr Els — the capital tracker's Kleinmond Overhills card is corrected from "(Ward 9)" to "(Ward 10)" accordingly. <b>Last checked:</b> 4 Sep 2026.</p>
     </div>
@@ -3888,7 +3888,7 @@
       </div>
       <div class="proj-body">
         <div class="proj-body-inner">
-          <p class="body-text" style="margin-top:0; font-size:12.5px; color:var(--ink);"><b>Two phases, different confidence.</b> This profile has four unit-count figures across five documents — reading them directly shows two are the same phase counted two ways, and two more likely describe a second phase nobody has separately dated.</p>
+          <p class="body-text" style="margin-top:0; font-size:14px; color:var(--ink);"><b>Two phases, different confidence.</b> This profile has four unit-count figures across five documents — reading them directly shows two are the same phase counted two ways, and two more likely describe a second phase nobody has separately dated.</p>
 
           <div class="phase-row">
             <div class="phase-top"><span class="phase-figure">489 sites → 378 top structures</span><span class="phase-status confirmed">Confirmed</span></div>
@@ -4102,8 +4102,8 @@
 
   <details class="gm-expand" style="margin-top:0;">
     <summary>Methodology &amp; sourcing</summary>
-    <p style="margin:10px 0 0; font-size:12px; line-height:1.6; color:var(--ink-soft);"><b>Ward maps:</b> Overstrand's boundaries were redelimited for the 2021 election, growing from 13 to 14 wards. Documents predating that change (2016/17 SDBIP, 2012/13 and 2019/20 Annual Reports) use the old map — Masakhane sat in old-Ward-1, Stanford in old-Ward-11. Separately, the 2016/17 SDBIP's own "Ward" column records town names, not ward numbers, for any project — the source of an earlier Beverly Hills misattribution, now corrected. Current ward numbers cited without a pre-2021 source are drawn from the municipality's 2021 redelimitation notice, directly confirmed.</p>
-    <p style="margin:10px 0 0; font-size:12px; line-height:1.6; color:var(--ink-soft);"><b>Sourcing:</b> Zwelihle, Blompark, Masakhane and Swartdam Road C1 timelines were directly fetched from the municipality's own handover pages. The 2016/17 Top-Layer SDBIP's capital-projects table was directly fetched in full, confirming the existence, funding source and start date of the Stanford, Hawston, Beverly Hills and Kleinmond Overhills line items. The 2021/22 and 2025/26 Draft IDP Reviews were supplied directly and read this session, closing most of the Stanford question and confirming Kleinmond Overhills' 882-unit figure as real and currently funded while surfacing the previously-uncaptured 476-unit figure. Mount Pleasant's project breakdown remains Reported, not yet independently verified. <b>Last checked:</b> 4 Sep 2026.</p>
+    <p style="margin:10px 0 0; font-size:14px; line-height:1.6; color:var(--ink-soft);"><b>Ward maps:</b> Overstrand's boundaries were redelimited for the 2021 election, growing from 13 to 14 wards. Documents predating that change (2016/17 SDBIP, 2012/13 and 2019/20 Annual Reports) use the old map — Masakhane sat in old-Ward-1, Stanford in old-Ward-11. Separately, the 2016/17 SDBIP's own "Ward" column records town names, not ward numbers, for any project — the source of an earlier Beverly Hills misattribution, now corrected. Current ward numbers cited without a pre-2021 source are drawn from the municipality's 2021 redelimitation notice, directly confirmed.</p>
+    <p style="margin:10px 0 0; font-size:14px; line-height:1.6; color:var(--ink-soft);"><b>Sourcing:</b> Zwelihle, Blompark, Masakhane and Swartdam Road C1 timelines were directly fetched from the municipality's own handover pages. The 2016/17 Top-Layer SDBIP's capital-projects table was directly fetched in full, confirming the existence, funding source and start date of the Stanford, Hawston, Beverly Hills and Kleinmond Overhills line items. The 2021/22 and 2025/26 Draft IDP Reviews were supplied directly and read this session, closing most of the Stanford question and confirming Kleinmond Overhills' 882-unit figure as real and currently funded while surfacing the previously-uncaptured 476-unit figure. Mount Pleasant's project breakdown remains Reported, not yet independently verified. <b>Last checked:</b> 4 Sep 2026.</p>
   </details>
       </div>
 </section>
@@ -4113,7 +4113,7 @@
     <div class="wrap">
       <div class="sec-head"><span class="sec-no">08</span><h2 class="sec-title">Ward-level explorer</h2></div>
       <p class="sec-sub">Filter wards by the issue you care about. Survey data and the responsible ward councillor — with photo on desktop, name-only on mobile — are loaded for all 14 Overstrand wards — the grid below is a schematic layout, not a geocoded map.</p>
-      <p style="font-size:12.5px; color:var(--ink-soft); margin-top:-8px; margin-bottom:16px;"><span class="tag confirmed" style="margin-right:6px;">Confirmed</span>Municipality-wide checklist, applies equally to every ward below, not just the ones with visible negative content: Overstrand Municipality received its <b>13th consecutive clean audit</b> from the Auditor-General for FY2024/25 (<a href="https://www.overstrand.gov.za/overstrand-shines-again-with-13-year-clean-audit/" target="_blank" rel="noopener" style="color:var(--blue);">announced Dec 2025</a>) — no material findings on financial management, performance reporting, or legislative compliance at the municipal level. This is logged here specifically so the absence of AG-findings content on any individual ward's card reads as "checked, nothing found" rather than "not checked." Ratepayers'-association communiqués, opposition-party statements, SIU/Hawks matters and provincial-ombud complaints per ward are still open items — see the outstanding-to-source list in this profile's changelog rather than assume a clean result there too.</p>
+      <p style="font-size:14px; color:var(--ink-soft); margin-top:-8px; margin-bottom:16px;"><span class="tag confirmed" style="margin-right:6px;">Confirmed</span>Municipality-wide checklist, applies equally to every ward below, not just the ones with visible negative content: Overstrand Municipality received its <b>13th consecutive clean audit</b> from the Auditor-General for FY2024/25 (<a href="https://www.overstrand.gov.za/overstrand-shines-again-with-13-year-clean-audit/" target="_blank" rel="noopener" style="color:var(--blue);">announced Dec 2025</a>) — no material findings on financial management, performance reporting, or legislative compliance at the municipal level. This is logged here specifically so the absence of AG-findings content on any individual ward's card reads as "checked, nothing found" rather than "not checked." Ratepayers'-association communiqués, opposition-party statements, SIU/Hawks matters and provincial-ombud complaints per ward are still open items — see the outstanding-to-source list in this profile's changelog rather than assume a clean result there too.</p>
 
       <div class="ward-filters">
         <button class="wf-btn active" data-filter="all" aria-pressed="true">All wards</button>
@@ -4163,12 +4163,12 @@
           <div class="ward-profile empty" id="ward-profile" aria-live="polite" tabindex="-1">
             <div class="wp-name">Select a ward</div>
             <h3>—</h3>
-            <p style="font-size:13.5px; color:var(--ink-soft);">Click a highlighted ward on the grid to load its profile card. Once selected, use the ‹ › arrows in the panel to move between wards without scrolling back up here.</p>
+            <p style="font-size:14px; color:var(--ink-soft);">Click a highlighted ward on the grid to load its profile card. Once selected, use the ‹ › arrows in the panel to move between wards without scrolling back up here.</p>
           </div>
         </div>
       </div>
 
-      <p id="councillor-sync-note" style="font-size:11.5px; font-family:var(--mono); color:var(--grey); margin-top:10px;">Councillor data: loading…</p>
+      <p id="councillor-sync-note" style="font-size:14px; font-family:var(--mono); color:var(--grey); margin-top:10px;">Councillor data: loading…</p>
 
       <div style="margin-top:14px; font-size:12.5px; color:var(--ink-soft); line-height:1.6;">
         <span class="tag interpretation">Interpretation</span> Editorial observation, not a sourced claim: the municipality's <a href="https://www.overstrand.gov.za/keep-up-to-date-with-your-ward-committee/" target="_blank" rel="noopener" style="color:var(--blue);">ward-committee update page</a> links out to a "documents open for public comment" page that turns out to be a headline plus a contact email, rather than a public-comment form. A web form with an emailed copy to the sender and a delivery confirmation would arguably lower the barrier to commenting and give residents proof their input landed — worth flagging as a civic-tech gap rather than treating the email address itself as the intended public-facing channel.
@@ -4205,7 +4205,7 @@
             </tbody>
           </table>
         </div>
-        <p style="font-size:12px; color:var(--ink-soft); margin-top:10px;">Municipality-wide: parks/open spaces satisfaction lowest at 46%, road maintenance at 55%, only 21% felt their IDP input was considered. Source: Overstrand customer satisfaction survey, Apr 2026.</p>
+        <p style="font-size:14px; color:var(--ink-soft); margin-top:10px;">Municipality-wide: parks/open spaces satisfaction lowest at 46%, road maintenance at 55%, only 21% felt their IDP input was considered. Source: Overstrand customer satisfaction survey, Apr 2026.</p>
       </details>
     </div>
   </section>
@@ -4317,7 +4317,7 @@
         <article class="ev-card status-confirmed" style="grid-column:1/-1;">
           <span class="tag confirmed">Confirmed</span>
           <h3 class="ec-title">Investment vs. Need, side by side — the comparison this page exists to make</h3>
-          <p class="ec-body" style="font-size:12.5px; color:var(--ink-soft); margin-bottom:6px;">Municipal-controlled capital <button type="button" class="term" aria-expanded="false">per capita<span class="term-tip" hidden>Per capita = divided by the number of people who live there. It lets a small ward and a big ward be compared fairly — a R1 million project means much more to 1,000 residents than to 20,000.</span></button> (housing-subsidy spend from national/provincial programmes like <button type="button" class="term" aria-expanded="false">IRDP<span class="term-tip" hidden>IRDP = Integrated Residential Development Programme, a national government housing-subsidy scheme. Funded and directed by national/provincial government, not the municipal council — removed here so it isn't mistaken for local council spending.</span></button> or <button type="button" class="term" aria-expanded="false">UISP<span class="term-tip" hidden>UISP = Upgrading of Informal Settlements Programme, a national government housing-subsidy scheme for formalising informal settlements. Funded and directed by national/provincial government, not the municipal council — removed here so it isn't mistaken for local council spending.</span></button> removed — see each ward's card for the working) against the only backlog proxy currently available, from the municipality's own <button type="button" class="term" aria-expanded="false">EMIS<span class="term-tip" hidden>EMIS = Engineering Management Information System, the municipality's internal system for logging maintenance call-outs (a burst pipe, a broken streetlight, a blocked drain). Each logged call-out is a "work order" — more work orders per resident is this profile's rough stand-in for "more things are breaking here," though see the caveat below on why it can understate need in informal areas.</span></button> maintenance-order log. Sorted lowest-to-highest by investment so the pattern reads top to bottom.</p>
+          <p class="ec-body" style="color:var(--ink-soft); margin-bottom:6px;">Municipal-controlled capital <button type="button" class="term" aria-expanded="false">per capita<span class="term-tip" hidden>Per capita = divided by the number of people who live there. It lets a small ward and a big ward be compared fairly — a R1 million project means much more to 1,000 residents than to 20,000.</span></button> (housing-subsidy spend from national/provincial programmes like <button type="button" class="term" aria-expanded="false">IRDP<span class="term-tip" hidden>IRDP = Integrated Residential Development Programme, a national government housing-subsidy scheme. Funded and directed by national/provincial government, not the municipal council — removed here so it isn't mistaken for local council spending.</span></button> or <button type="button" class="term" aria-expanded="false">UISP<span class="term-tip" hidden>UISP = Upgrading of Informal Settlements Programme, a national government housing-subsidy scheme for formalising informal settlements. Funded and directed by national/provincial government, not the municipal council — removed here so it isn't mistaken for local council spending.</span></button> removed — see each ward's card for the working) against the only backlog proxy currently available, from the municipality's own <button type="button" class="term" aria-expanded="false">EMIS<span class="term-tip" hidden>EMIS = Engineering Management Information System, the municipality's internal system for logging maintenance call-outs (a burst pipe, a broken streetlight, a blocked drain). Each logged call-out is a "work order" — more work orders per resident is this profile's rough stand-in for "more things are breaking here," though see the caveat below on why it can understate need in informal areas.</span></button> maintenance-order log. Sorted lowest-to-highest by investment so the pattern reads top to bottom.</p>
           <div class="eq-legend">
             <span><span class="eq-swatch inv"></span>Investment, R/capita</span>
             <span><span class="eq-swatch need"></span>Need proxy, EMIS orders/1,000</span>
@@ -4381,14 +4381,14 @@
               <div class="eq-bar-track"><div class="eq-bar-fill need" style="width:28.9%"></div></div><span class="eq-val">2,082/1,000</span>
             </div></div>
           </div>
-          <p class="ec-body" style="font-size:12.5px; color:var(--ink-soft); margin-top:14px;">Read the hatched bars as "we don't actually know" rather than "confirmed low" — the EMIS proxy assumes a household has a formal water/sewer/electricity connection to fault-report against, so it can't register need where informal settlements have no formal connection at all. The same IDP document that produced this backlog figure also states, in its Chapter 2 socio-economic analysis (citing the Western Cape Treasury's MERO 2022 and the municipality's own 2024 Socio-Economic Profile), that income inequality in Overstrand "remained unchanged at 0.61 in 2022 and 2023," attributing this explicitly to "the growth of poor informal settlements in the municipal area, such as Zwelihle." Worth flagging precisely: the same document's Chapter 4 (citing the newer MERO 2025) states the Gini coefficient instead declined from 0.640 in 2020 to 0.541 by 2024 — a different figure and a different trend line for an overlapping period, drawn from a later edition of the same external report series and never reconciled against Chapter 2's number within the document itself. This profile isn't resolving which figure is more current; both are reported here rather than one being silently preferred. The 46.8%-below-poverty-line figure (2024, MERO 2025) doesn't have a competing figure elsewhere in the document and is used as given. Either way, the document's own qualitative account explicitly names Zwelihle's informal-settlement growth as a driver of municipal inequality — the opposite of what the hatched bars alone would suggest. Until a poverty/informal-settlement numeric proxy (Census 2022 ward-level dwelling data) is pulled in, this profile cannot responsibly rank Zwelihle's need against the other 11 wards, and doesn't try to here — the IDP itself was checked for a ward-level breakdown (Tables 6–10 in Chapter 2 cover households, age cohorts, education and mortality, all municipality-wide) and doesn't contain one, so this gap needs an external source, not a re-read of a document already in hand. One further caveat, added 13 Sep 2026: Ward 8's investment figure above may itself overstate net-new infrastructure — its own card documents roughly 30% of Overstrand's entire infrastructure repair budget going to Hawston alone to replace cable stolen after storm damage. Money spent replacing what was just stolen isn't the same as money spent getting ahead, even though both count as Rand spent in the ward — this page doesn't yet have a way to separate the two for any ward, so Ward 8's bar should be read with that in mind.</p>
+          <p class="ec-body" style="color:var(--ink-soft); margin-top:14px;">Read the hatched bars as "we don't actually know" rather than "confirmed low" — the EMIS proxy assumes a household has a formal water/sewer/electricity connection to fault-report against, so it can't register need where informal settlements have no formal connection at all. The same IDP document that produced this backlog figure also states, in its Chapter 2 socio-economic analysis (citing the Western Cape Treasury's MERO 2022 and the municipality's own 2024 Socio-Economic Profile), that income inequality in Overstrand "remained unchanged at 0.61 in 2022 and 2023," attributing this explicitly to "the growth of poor informal settlements in the municipal area, such as Zwelihle." Worth flagging precisely: the same document's Chapter 4 (citing the newer MERO 2025) states the Gini coefficient instead declined from 0.640 in 2020 to 0.541 by 2024 — a different figure and a different trend line for an overlapping period, drawn from a later edition of the same external report series and never reconciled against Chapter 2's number within the document itself. This profile isn't resolving which figure is more current; both are reported here rather than one being silently preferred. The 46.8%-below-poverty-line figure (2024, MERO 2025) doesn't have a competing figure elsewhere in the document and is used as given. Either way, the document's own qualitative account explicitly names Zwelihle's informal-settlement growth as a driver of municipal inequality — the opposite of what the hatched bars alone would suggest. Until a poverty/informal-settlement numeric proxy (Census 2022 ward-level dwelling data) is pulled in, this profile cannot responsibly rank Zwelihle's need against the other 11 wards, and doesn't try to here — the IDP itself was checked for a ward-level breakdown (Tables 6–10 in Chapter 2 cover households, age cohorts, education and mortality, all municipality-wide) and doesn't contain one, so this gap needs an external source, not a re-read of a document already in hand. One further caveat, added 13 Sep 2026: Ward 8's investment figure above may itself overstate net-new infrastructure — its own card documents roughly 30% of Overstrand's entire infrastructure repair budget going to Hawston alone to replace cable stolen after storm damage. Money spent replacing what was just stolen isn't the same as money spent getting ahead, even though both count as Rand spent in the ward — this page doesn't yet have a way to separate the two for any ward, so Ward 8's bar should be read with that in mind.</p>
           <div class="ec-meta"><span>Party deliberately not shown in this visual — see the dedicated card below</span><span class="ec-source">IDP Ch.13.4 + Table 5, 29 May 2026</span></div>
         </article>
 
         <article class="ev-card status-interpretation">
           <span class="tag interpretation">Interpretation</span>
           <h3 class="ec-title">Councillor Performance — built for all 14 wards</h3>
-          <p class="ec-body" style="font-size:13px; margin-bottom:8px;">Extracted from raised→acknowledged→resolved chains across dated committee minutes and site-visit reports. This list highlights a selection of findings, not every item on every ward's card — see each ward's own card for its full timeline. Correction, 15 Sep 2026: this card and its meta line previously stated Axis C was built for 10 of 14 wards, with Wards 1–4 and 7 flagged as not yet built. A direct check against the ward data itself found that wrong — Wards 1, 2, 3, 4 and 7 all already carry dated Axis C timelines (added in sessions between 13–15 Sep 2026), and this summary simply hadn't been refreshed to reflect it. Counted directly rather than assumed: every one of the 14 wards now shows at least one Axis C item.</p>
+          <p class="ec-body" style="margin-bottom:8px;">Extracted from raised→acknowledged→resolved chains across dated committee minutes and site-visit reports. This list highlights a selection of findings, not every item on every ward's card — see each ward's own card for its full timeline. Correction, 15 Sep 2026: this card and its meta line previously stated Axis C was built for 10 of 14 wards, with Wards 1–4 and 7 flagged as not yet built. A direct check against the ward data itself found that wrong — Wards 1, 2, 3, 4 and 7 all already carry dated Axis C timelines (added in sessions between 13–15 Sep 2026), and this summary simply hadn't been refreshed to reflect it. Counted directly rather than assumed: every one of the 14 wards now shows at least one Axis C item.</p>
           <ul class="ec-list">
             <li><b>Ward 8:</b> stormwater funding requested and quantified across three consecutive meetings, then actual flooding hit and the ward's own minutes attributed part of it to "incomplete maintenance work" — three months later, the maintenance plan was still being requested, not delivered.</li>
             <li><b>Ward 6:</b> four items standing unresolved since Sept 2025 were escalated directly to Council by the chairperson in Feb 2026, after he named the escalation failure explicitly.</li>
@@ -4403,14 +4403,14 @@
             <li><b>Ward 7:</b> a ward-committee legitimacy dispute — referred to the Provincial MEC for Local Government — saw a Council committee clear the councillor of the underlying conduct complaint in June 2026, but the outcome the process actually turns on (the province's own response) remains unpublished as of the last minutes reviewed.</li>
             <li>Ward 5 and Ward 6 also produced independent, resident-level "why does investment happen elsewhere" complaints — raised by residents themselves, months before this profile's own capital-investment numbers surfaced the same pattern.</li>
           </ul>
-          <p class="ec-body" style="font-size:12.5px; color:var(--ink-soft);">Not every finding is a stall — Ward 8's record also shows a resolved MOU blockage (security cameras), steady progress on a wheelchair-access project, and a national Green Drop award for its water treatment plant; Ward 3 shows two clean single-cycle deliveries alongside the road-tarring win. The overall pattern across all 14 wards is advocacy happening, with delivery not reliably following on the harder items — a different finding from the Investment Index above, and one this page keeps separate rather than blending into one score, per §10.2's standing rule.</p>
+          <p class="ec-body" style="color:var(--ink-soft);">Not every finding is a stall — Ward 8's record also shows a resolved MOU blockage (security cameras), steady progress on a wheelchair-access project, and a national Green Drop award for its water treatment plant; Ward 3 shows two clean single-cycle deliveries alongside the road-tarring win. The overall pattern across all 14 wards is advocacy happening, with delivery not reliably following on the harder items — a different finding from the Investment Index above, and one this page keeps separate rather than blending into one score, per §10.2's standing rule.</p>
           <div class="ec-meta"><span>All 14 wards built — see each ward's own card for the full timeline</span><span class="ec-source">Ward 1–14 minutes &amp; site-visit reports, supplied directly, Sep 2026</span></div>
         </article>
 
         <article class="ev-card status-confirmed">
           <span class="tag interpretation">Interpretation</span>
           <h3 class="ec-title">Party — checked last, against the other three axes, not first</h3>
-          <p class="ec-body" style="font-size:13px;">Overstrand's three non-DA wards (5 and 12, ANC; 6, Land Party) are exactly the three wards making up the Zwelihle cluster — there is no ANC or Land Party ward anywhere else in the municipality. Party and geography are perfectly confounded in this dataset: with only three non-DA wards and all three in one contiguous, documented-high-need area, the numbers above cannot distinguish "these wards are underserved because of who holds them" from "this one area is underserved (or under-measured) regardless of who holds it." Presenting the Investment Index ranking as a party finding would overstate what three data points from a single cluster can support — this is this page's own §10.3 confound warning, applied to itself rather than left as a caveat nobody acts on.</p>
+          <p class="ec-body">Overstrand's three non-DA wards (5 and 12, ANC; 6, Land Party) are exactly the three wards making up the Zwelihle cluster — there is no ANC or Land Party ward anywhere else in the municipality. Party and geography are perfectly confounded in this dataset: with only three non-DA wards and all three in one contiguous, documented-high-need area, the numbers above cannot distinguish "these wards are underserved because of who holds them" from "this one area is underserved (or under-measured) regardless of who holds it." Presenting the Investment Index ranking as a party finding would overstate what three data points from a single cluster can support — this is this page's own §10.3 confound warning, applied to itself rather than left as a caveat nobody acts on.</p>
           <div class="ec-meta"><span>Read alongside the Need Index gap above, not on its own</span><span class="ec-source">Overstrand council composition, Sep 2026</span></div>
         </article>
       </div>
@@ -4482,7 +4482,7 @@
           <p class="gm-footnote"><b>Read alongside:</b> the Need Index gap in Overview, not on its own. <b>Source:</b> Overstrand council composition, Sep 2026.</p>
         </div>
 
-        <p style="font-size:10px; color:var(--ink-soft); text-align:center; padding:10px 0 2px;">First drafted 13 Sep 2026, per §10 addendum. Re-verified 15 Sep 2026 against the completed 14-ward Axis C set — no discrepancies found. First pass, not a finished verdict.</p>
+        <p style="font-size:14px; color:var(--ink-soft); text-align:center; padding:10px 0 2px;">First drafted 13 Sep 2026, per §10 addendum. Re-verified 15 Sep 2026 against the completed 14-ward Axis C set — no discrepancies found. First pass, not a finished verdict.</p>
       </div><!-- /eq-mobile-view -->
 
       <details class="ward-table-toggle">
@@ -4508,7 +4508,7 @@
             </tbody>
           </table>
         </div>
-        <p style="font-size:12px; color:var(--ink-soft); margin-top:10px;">"Total" capital/capita includes provincial/national housing-subsidy spend physically located in the ward; "municipal-only" removes it — see each ward's card for its own housing-split working. Ward 7 and Ward 14's "total" figures use the itemised project-table sum rather than the IDP's own unreconciled narrative total — see each ward's card for the discrepancy.</p>
+        <p style="font-size:14px; color:var(--ink-soft); margin-top:10px;">"Total" capital/capita includes provincial/national housing-subsidy spend physically located in the ward; "municipal-only" removes it — see each ward's card for its own housing-split working. Ward 7 and Ward 14's "total" figures use the itemised project-table sum rather than the IDP's own unreconciled narrative total — see each ward's card for the discrepancy.</p>
       </details>
 
       <div class="known-gaps">
@@ -4521,12 +4521,15 @@
           <li>Self-audit run 15 Sep 2026: the same stale-count failure mode recurred at larger scale — this section's Councillor Performance count and the "remaining 4 wards" note both still said Wards 2, 3, 4 and 7 were unbuilt, when a direct check found all four already had dated Axis C content added 14–15 Sep 2026. Both the summary card above and this list's own bullet have been corrected. Lesson for future sessions: after any Axis C build, the §09 summary card and known-gaps list need an explicit refresh pass — they don't update themselves, and this is the second time a stale count has sat here uncaught. This page's own tag rigor should be re-checked after every wave of ward-level edits, not assumed still clean from the last check.</li>
           <li>Self-audit run 15 Sep 2026 (third catch, same session): the stale-tracking failure mode above recurred a third time in the same list — this bullet's own text claimed the Need Index comparison still needed re-running against the completed Axis C set, when a direct line-by-line check found the eq-compare visual and full 14-ward table already carried correct, cross-checked figures for all 14 wards. Corrected above. Standing lesson repeated: this page's claims about its own status need a direct check against the actual rendered data every session, not a carry-forward from the last note written — three stale claims caught in two days is a pattern, not a one-off.</li>
         </ul>
-        <p style="font-size:12px; color:var(--ink-soft); margin-top:8px;">Last checked: 15 Sep 2026.</p>
+        <p style="font-size:14px; color:var(--ink-soft); margin-top:8px;">Last checked: 15 Sep 2026.</p>
       </div>
     </div>
   </section>
 
-  <!-- SERVICE DELIVERY SURVEY -->
+  <!-- SERVICE DELIVERY SURVEY — commented out for now (Google Form/
+       Sheets wiring not finished yet); restore by deleting the
+       "<!--" / "-->" lines around this section. -->
+  <!--
   <section id="delivery-survey">
     <div class="wrap">
       <div class="sec-head"><span class="sec-no">10</span><h2 class="sec-title">Service Delivery Survey</h2></div>
@@ -4534,11 +4537,12 @@
       <div id="deliverySurveyRoot"></div>
     </div>
   </section>
+  -->
 
   <!-- QUESTIONS -->
   <section id="questions">
     <div class="wrap">
-      <div class="sec-head"><span class="sec-no">11</span><h2 class="sec-title">Questions for candidates</h2></div>
+      <div class="sec-head"><span class="sec-no">10</span><h2 class="sec-title">Questions for candidates</h2></div>
       <p class="sec-sub">Drawn directly from the gaps this research surfaced — for residents to put to candidates, and candidates to answer.</p>
 
       <div class="q-list">
@@ -4565,7 +4569,7 @@
   <!-- QUICK ANSWERS -->
   <section id="faq">
     <div class="wrap">
-      <div class="sec-head"><span class="sec-no">12</span><h2 class="sec-title">Quick answers</h2></div>
+      <div class="sec-head"><span class="sec-no">11</span><h2 class="sec-title">Quick answers</h2></div>
       <p class="sec-sub">Short answers to common questions about Overstrand Municipality. Every figure is sourced and status-labelled in the sections above and in Sources &amp; methodology.</p>
       <div class="faq-list">
         <div class="faq-item">
@@ -4603,7 +4607,7 @@
   <!-- SOURCES -->
   <section id="sources" style="border-bottom:none;">
     <div class="wrap">
-      <div class="sec-head"><span class="sec-no">13</span><h2 class="sec-title">Sources &amp; methodology</h2></div>
+      <div class="sec-head"><span class="sec-no">12</span><h2 class="sec-title">Sources &amp; methodology</h2></div>
       <p class="sources-note">This page is a working profile, not a finished audit. Every figure above traces to a status label — confirmed, reported, unverified, interpretation, open question, or open investigation (with a separate Disputed badge where a matter is in a formal process) — and cards marked as placeholders are intentionally incomplete rather than filled with invented detail.</p>
       <p class="sources-note" style="margin-top:12px;">A second, separate label — <span class="tag sphere" style="margin-left:0;">Municipal</span> — marks which sphere of government is actually responsible for an item: ward councillor, municipal council, provincial, or national. It answers a different question from the confidence tiers above ("who's accountable" rather than "how solid is this claim") and is deliberately shaped as a flat rectangular chip so it's never mistaken for one. <b>Coverage is partial and stated as such:</b> every project in the roads &amp; parks capital tracker (§04) carries a sphere tag, because that section was built with this field from the start. The rest of the page — services, finance, leadership, housing, and the ward explorer — does not yet carry sphere tags; retrofitting them properly (item by item, not assumed) is tracked as an open gap rather than applied selectively, since a half-tagged page would look more compliant than it actually is.</p>
       <p class="sources-note" style="margin-top:12px;">The ward explorer (§08) also tracks <b>promises</b> — self-set commitments distinct from issues raised by residents — as a wholly separate list, structure, and status count, so a promise kept and an issue resolved never get folded into one number. The scaffold is built and live, with sourced promises now logged for <b>7 of 14 wards</b> (Wards 1, 2, 4, 6, 10, 11 and 12) — corrected 21 Sep 2026 from a previous "5 of 14 (1, 2, 6, 10, 12)" figure that had gone stale and missed Wards 4 and 11, caught by checking PROMISES_FALLBACK directly rather than trusting this note's last-written count. The remaining 7 wards still show "no sourced, ward-level promises logged yet." That's a genuine sourcing gap, not a finding that no promises exist: individual, dateable, ward-attributable promises are hard to locate in public material, since most manifesto and campaign statements aren't granular enough to pin to a single ward with confidence. Promises will be added here only once a specific commitment can be traced to a primary source and a ward.</p>
@@ -5154,11 +5158,11 @@
     }
     const voteKey = `vf_wr_voted_${wardNum}`;
     if(localStorage.getItem(voteKey)){
-      return `<div class="rating-results" data-ward="${wardNum}"><p class="ec-body" style="font-size:12.5px;">Loading this ward's reader ratings…</p></div>`;
+      return `<div class="rating-results" data-ward="${wardNum}"><p class="ec-body">Loading this ward's reader ratings…</p></div>`;
     }
     return `
       <div class="survey-block rating-form" data-survey="wardrating" data-ward="${wardNum}">
-        <p class="ec-body" style="font-size:12.5px; margin-bottom:12px;">Rate your own experience in this ward — same three categories the official 2026 survey used, so it's directly comparable. Self-reported by readers, always shown separately from the official figures above.</p>
+        <p class="ec-body" style="margin-bottom:12px;">Rate your own experience in this ward — same three categories the official 2026 survey used, so it's directly comparable. Self-reported by readers, always shown separately from the official figures above.</p>
         ${RATING_CATS.map(c => `
           <div class="rating-q">
             <div class="rating-q-label">${c.header}</div>
@@ -5183,7 +5187,7 @@
       const results = RATING_CATS.map(c => tallyColumn(filtered, c.header, ['Satisfied', 'Neutral', 'Dissatisfied']));
       const maxTotal = Math.max(0, ...results.map(r => r.total));
       if(!maxTotal){
-        panel.innerHTML = `<p class="ec-body" style="font-size:12.5px;">No reader ratings for this ward yet — be the first.</p>`;
+        panel.innerHTML = `<p class="ec-body">No reader ratings for this ward yet — be the first.</p>`;
         return;
       }
       panel.innerHTML = `
@@ -5197,7 +5201,7 @@
         </div>
         <p class="widget-foot">Based on ${maxTotal} reader response${maxTotal === 1 ? '' : 's'} for this ward so far. Self-reported, not a scientific sample — shown separately from the official 2026 municipal survey figures elsewhere on this page.</p>`;
     } catch(e){
-      panel.innerHTML = `<p class="ec-body" style="font-size:12.5px;">Results aren't available right now — try again shortly.</p>`;
+      panel.innerHTML = `<p class="ec-body">Results aren't available right now — try again shortly.</p>`;
     }
   }
 
@@ -5397,7 +5401,7 @@
 
     let bodyHTML;
     if(!row || !parseNumCell(row['Responses (N)'])){
-      bodyHTML = `<p class="ec-body" style="font-size:12.5px;">No reader responses recorded for this ward yet.</p>`;
+      bodyHTML = `<p class="ec-body">No reader responses recorded for this ward yet.</p>`;
     } else {
       const avgRating = row['Avg Overall Rating (1-5)'];
       const avgNum = typeof avgRating === 'number' ? avgRating : parseNumCell(avgRating);
@@ -5462,7 +5466,7 @@
   async function showDeliveryResults(){
     const root = document.getElementById('deliverySurveyRoot');
     if(!root) return;
-    root.innerHTML = `<p class="ec-body" style="font-size:12.5px;">Loading results…</p>`;
+    root.innerHTML = `<p class="ec-body">Loading results…</p>`;
     const cfg = SURVEY_CONFIG.deliverySurvey;
     try {
       const [waText, pbText, otText] = await Promise.all(
@@ -5474,7 +5478,7 @@
       dsOpenText = csvRowsToObjects(parseCSV(otText));
       renderDeliveryResultsUI(root, 'all');
     } catch(e){
-      root.innerHTML = `<p class="ec-body" style="font-size:12.5px;">Results aren't available right now — try again shortly.</p>`;
+      root.innerHTML = `<p class="ec-body">Results aren't available right now — try again shortly.</p>`;
     }
   }
 
@@ -6484,7 +6488,7 @@
     profile.innerHTML = `
       <div class="wp-name">Select a ward</div>
       <h3>—</h3>
-      <p style="font-size:13.5px; color:var(--ink-soft);">Click a highlighted ward on the grid to load its profile card. Once selected, use the ‹ › arrows in the panel to move between wards without scrolling back up here.</p>
+      <p style="font-size:14px; color:var(--ink-soft);">Click a highlighted ward on the grid to load its profile card. Once selected, use the ‹ › arrows in the panel to move between wards without scrolling back up here.</p>
       <div class="wp-grid-panel" style="padding:14px 0 0; border-bottom:none;">
         <div class="ward-grid" id="ward-grid-mobile" role="group" aria-label="Ward selection grid, 14 wards, highlighted wards have survey data" tabindex="-1"></div>
       </div>
@@ -6701,7 +6705,7 @@
           <div class="wp-stat"><div class="wp-num">${d.respondents}</div><div class="wp-label">Survey respondents</div></div>
           ${d.parks ? `<div class="wp-stat"><div class="wp-num">${d.parks}</div><div class="wp-label">Best parks score</div></div>` : ''}
         </div>
-        ${d.note ? `<p style="font-size:12.5px; color:var(--ink-soft); margin-top:10px;">${d.note}</p>` : ''}
+        ${d.note ? `<p style="font-size:14px; color:var(--ink-soft); margin-top:10px;">${d.note}</p>` : ''}
         ${tabsPanels}
       </div>
     `;
@@ -6877,8 +6881,17 @@
     if(!btn) return;
     const tip = btn.querySelector('.term-tip');
     const willOpen = tip.hasAttribute('hidden');
+    tip.style.left = '';
     tip.toggleAttribute('hidden', !willOpen);
     btn.setAttribute('aria-expanded', String(willOpen));
+    // Keep the definition on-screen: a term near the right edge of a
+    // narrow viewport would otherwise push its tooltip off the visible
+    // area (the tip is anchored left:0 to the button by default).
+    if(willOpen){
+      const rect = tip.getBoundingClientRect();
+      const overflowRight = rect.right - (window.innerWidth - 12);
+      if(overflowRight > 0) tip.style.left = `-${overflowRight}px`;
+    }
   });
 
   // Scroll reveal — sections and evidence cards fade up into place once,
@@ -7207,7 +7220,7 @@
         fd.append(`entry.${cfg.entries.ward}`, wardNum);
         fetch(`https://docs.google.com/forms/d/e/${cfg.formId}/formResponse`, { method: 'POST', mode: 'no-cors', body: fd }).catch(() => {});
         localStorage.setItem(`vf_wr_voted_${wardNum}`, '1');
-        block.outerHTML = `<div class="rating-results" data-ward="${wardNum}"><p class="ec-body" style="font-size:12.5px;">Loading this ward's reader ratings…</p></div>`;
+        block.outerHTML = `<div class="rating-results" data-ward="${wardNum}"><p class="ec-body">Loading this ward's reader ratings…</p></div>`;
         loadWardRatingResults(wardNum);
       } else if(surveyType === 'deliverysurvey'){
         submitDeliverySurvey(block);
@@ -7263,7 +7276,7 @@
     if(hp && hp.value.trim()){
       // Honeypot tripped — almost certainly a bot. Show the same thank-you
       // without actually sending anything.
-      block.outerHTML = `<div class="widget-eyebrow">Contact &amp; feedback — thanks</div><p class="ec-body" style="font-size:12.5px;">Got it — thanks for the message.</p>`;
+      block.outerHTML = `<div class="widget-eyebrow">Contact &amp; feedback — thanks</div><p class="ec-body">Got it — thanks for the message.</p>`;
       return;
     }
     const message = block.querySelector('[data-field="message"]').value.trim();
@@ -7274,7 +7287,7 @@
     fd.append(`entry.${cfg.entries.topic}`, block.querySelector('[data-field="topic"]').value);
     fd.append(`entry.${cfg.entries.message}`, message);
     fetch(`https://docs.google.com/forms/d/e/${cfg.formId}/formResponse`, { method: 'POST', mode: 'no-cors', body: fd }).catch(() => {});
-    block.outerHTML = `<div class="widget-eyebrow">Contact &amp; feedback — thanks</div><p class="ec-body" style="font-size:12.5px;">Got it — thanks for taking the time.</p>`;
+    block.outerHTML = `<div class="widget-eyebrow">Contact &amp; feedback — thanks</div><p class="ec-body">Got it — thanks for taking the time.</p>`;
   }
   (function initContactForm(){
     const el = document.getElementById('contactFormWidget');
@@ -7314,14 +7327,14 @@
   async function showSiteFeedbackResults(){
     const el = document.getElementById('siteFeedbackWidget');
     if(!el) return;
-    el.innerHTML = `<div class="widget-eyebrow">Site feedback — thanks</div><p class="ec-body" style="font-size:12.5px;">Loading results…</p>`;
+    el.innerHTML = `<div class="widget-eyebrow">Site feedback — thanks</div><p class="ec-body">Loading results…</p>`;
     const cfg = SURVEY_CONFIG.siteFeedback;
     try {
       const res = await fetch(cfg.sheetCsvUrl, { cache: 'no-store' });
       const text = await res.text();
       const rows = parseCSV(text);
       const { pct, total } = tallyColumn(rows, 'Did you find what you were looking for?', ['Yes', 'Partly', 'No']);
-      if(!pct){ el.innerHTML = `<div class="widget-eyebrow">Site feedback — thanks</div><p class="ec-body" style="font-size:12.5px;">No responses yet — you're the first.</p>`; return; }
+      if(!pct){ el.innerHTML = `<div class="widget-eyebrow">Site feedback — thanks</div><p class="ec-body">No responses yet — you're the first.</p>`; return; }
       const colorFor = { Yes: 'green', Partly: 'amber', No: 'rust' };
       el.innerHTML = `
         <div class="widget-eyebrow">Site feedback <span class="tag unverified">Self-reported</span></div>
@@ -7332,7 +7345,7 @@
         </div>
         <p class="widget-foot">Based on ${total} response${total === 1 ? '' : 's'} so far. Self-reported by visitors, not a scientific sample.</p>`;
     } catch(e){
-      el.innerHTML = `<div class="widget-eyebrow">Site feedback — thanks</div><p class="ec-body" style="font-size:12.5px;">Results aren't available right now — try refreshing shortly.</p>`;
+      el.innerHTML = `<div class="widget-eyebrow">Site feedback — thanks</div><p class="ec-body">Results aren't available right now — try refreshing shortly.</p>`;
     }
   }
   function submitSiteFeedback(){
