@@ -188,10 +188,7 @@
 
   body{
     margin:0;
-    /* Clips any element that bleeds past the viewport edge (e.g. the
-       .src-chips full-bleed scroll strip's negative margins below) so
-       a local design trick can never make the whole page — including
-       the fixed mobile-bottom-nav — horizontally pannable. */
+    max-width:100%;
     overflow-x:hidden;
     background-color:var(--paper);
     background-image:
@@ -476,14 +473,8 @@
   .gm-bar-label{ display:flex; justify-content:space-between; font-size:11.5px; color:var(--ink-soft); margin-bottom:4px; }
   .gm-bar-track{ width:100%; background:var(--paper); border:1px solid var(--hairline); border-radius:2px; height:7px; overflow:hidden; }
   .gm-bar-fill{ height:100%; }
-  .gm-sub-row{ display:flex; justify-content:space-between; align-items:center; font-size:12.5px; color:var(--ink); background:var(--paper); border:1px solid var(--hairline); border-radius:3px; padding:9px 11px; margin-bottom:8px; }
+  .gm-sub-row{ display:flex; flex-direction:column; align-items:stretch; font-size:12.5px; color:var(--ink); background:var(--paper); border:1px solid var(--hairline); border-radius:3px; padding:9px 11px; margin-bottom:8px; }
   .gm-sub-row:last-of-type{ margin-bottom:0; }
-  /* Rows built as a .gm-sub-top (label+value) followed by a .gm-sub-desc
-     paragraph need to stack vertically, not sit side-by-side as two
-     flex items — this targets exactly that shape without touching the
-     simple single-line label:value rows used since §01/§03, which have
-     no .gm-sub-top child at all. */
-  .gm-sub-row:has(> .gm-sub-top){ flex-direction:column; align-items:stretch; }
   .gm-sub-top{ display:flex; justify-content:space-between; align-items:baseline; gap:10px; width:100%; font-weight:600; }
   .gm-sub-desc{ font-size:12px; line-height:1.5; color:var(--ink-soft); margin:2px 0 0; }
   .gm-sub-value{ font-family:var(--mono); font-weight:700; }
@@ -672,11 +663,11 @@
      one ward more than another. */
   .civic-widgets{margin-bottom:30px;}
   .widget-grid{
-    display:grid; grid-template-columns:1fr 1fr; gap:1px;
+    display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:1px;
     background:var(--hairline); border:1px solid var(--hairline);
     box-shadow:var(--shadow-card); border-radius:4px; overflow:hidden;
   }
-  @media (max-width:760px){ .widget-grid{grid-template-columns:1fr;} }
+  @media (max-width:760px){ .widget-grid{grid-template-columns:minmax(0,1fr);} }
   .widget{background:var(--paper-raised); padding:18px 20px 16px;}
   .widget-eyebrow{
     font-family:var(--mono); font-size:11px; letter-spacing:0.04em; text-transform:uppercase;
@@ -684,6 +675,8 @@
   }
   .widget-eyebrow .tag.sphere{margin:0;}
   .widget-title{font-family:var(--serif); font-weight:600; font-size:16px; margin-bottom:12px;}
+  .widget-sub{font-size:12px; color:var(--ink-soft); margin:-6px 0 12px; line-height:1.5;}
+  .cf-hp{position:absolute; left:-9999px; width:1px; height:1px; opacity:0; pointer-events:none;}
   .widget-foot{font-size:11px; color:var(--ink-soft); margin-top:12px; padding-top:10px; border-top:1px solid var(--hairline);}
   .widget-foot a{color:var(--ink-soft);}
 
@@ -712,6 +705,23 @@
   .sassa-row .sr-date{font-family:var(--mono); font-size:13px; text-align:right;}
   .sassa-row .sr-date .sr-days{display:block; font-size:10px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.02em;}
   .sassa-row.next{border-color:var(--green); background:var(--green-tint);}
+  .so-rows{display:flex; flex-direction:column; gap:6px;}
+  .so-row{display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:2px 8px; padding:6px 0; border-bottom:1px solid var(--hairline);}
+  .so-row:last-child{border-bottom:none;}
+  .so-venue{font-size:12.5px; font-weight:600; flex:1 1 auto; min-width:150px;}
+  .so-ward{font-family:var(--mono); font-size:10px; font-weight:600; color:var(--blue); background:var(--blue-tint); border-radius:2px; padding:1px 5px; margin-left:6px; white-space:nowrap;}
+  .so-detail{font-family:var(--mono); font-size:11px; color:var(--ink-soft); text-align:right; white-space:nowrap; margin-left:auto;}
+
+  /* 2026 election candidates widget */
+  .cand-rows{display:flex; flex-direction:column;}
+  .cand-row{display:flex; align-items:baseline; justify-content:space-between; gap:10px; padding:6px 0; border-bottom:1px solid var(--hairline);}
+  .cand-row:last-child{border-bottom:none;}
+  .cand-party{font-family:var(--mono); font-size:10.5px; font-weight:700; color:var(--ink-soft); flex:0 0 auto; width:42px;}
+  .cand-name{font-size:12.5px; text-align:right; flex:1;}
+  .cand-name.none{color:var(--ink-soft); font-style:italic;}
+  @media (max-width:480px){
+    .so-detail{flex:1 0 100%; text-align:left; white-space:normal; margin-left:0;}
+  }
 
   /* Reader surveys — site-feedback + ward-rating share this vocabulary */
   .survey-options{display:flex; gap:8px; flex-wrap:wrap; margin:8px 0 14px;}
@@ -738,16 +748,6 @@
   }
   .survey-opt-multi:hover{border-color:var(--ink-soft);}
   .survey-opt-multi.selected{background:var(--ink); border-color:var(--ink); color:var(--paper);}
-  /* Below 640px: stacked full-width rows instead of wrapped pills.
-     Fixes questions with 11-13 options (problemCategories,
-     serviceImprovedMost, serviceWorsened) turning into a ragged
-     multi-row button cluster — a plain scannable list with bigger
-     tap targets reads far better on a phone. Applies to every survey
-     that shares this markup (delivery, site-feedback, ward-rating). */
-  @media (max-width:640px){
-    .survey-options{ flex-direction:column; flex-wrap:nowrap; gap:6px; }
-    .survey-opt, .survey-opt-multi{ width:100%; text-align:left; border-radius:6px; padding:11px 14px; }
-  }
   .ds-q{margin-bottom:20px; padding-bottom:18px; border-bottom:1px solid var(--hairline);}
   .ds-q:last-of-type{border-bottom:none;}
   .ds-q-label{font-size:13.5px; font-weight:600; margin-bottom:8px;}
@@ -850,16 +850,7 @@
   }
   .known-gaps{
     font-size:13px; color:var(--ink-soft); background:var(--paper-raised);
-    border:1px solid var(--hairline); border-left:4px solid var(--rust); border-radius:6px; padding:16px 16px 14px;
-    margin:44px 0 0; position:relative;
-  }
-  .known-gaps::before{
-    content:""; display:block; position:absolute; top:-22px; left:0; right:0;
-    border-top:1px solid var(--hairline-strong);
-  }
-  .known-gaps .kg-eyebrow{
-    display:block; font-family:var(--mono); font-size:10.5px; font-weight:700; letter-spacing:0.07em;
-    text-transform:uppercase; color:var(--rust); margin:0 0 6px;
+    border:1px solid var(--hairline); border-left:3px solid var(--rust); border-radius:6px; padding:14px 16px; margin:24px 0 0;
   }
   .known-gaps h4{font-family:var(--serif); font-size:14.5px; font-weight:600; color:var(--ink); margin:0 0 8px;}
   .known-gaps ul{margin:0; padding-left:18px;}
@@ -1160,14 +1151,6 @@
   .ev-card .ec-body b{font-family:var(--mono); font-weight:600;}
   .ev-card .ec-meta{font-size:12px; color:var(--grey); border-top:1px solid var(--hairline); padding-top:10px; display:flex; justify-content:space-between; gap:8px;}
   .ev-card .ec-meta .ec-source{font-family:var(--mono);}
-  /* Below ~520px the two-column ec-meta split (label vs. source) squeezes
-     into two ragged, near-unreadable columns instead of two comfortable
-     rows — this is the finance section's own citation lines, which run
-     long. Stack instead of side-by-side once there isn't room for both. */
-  @media (max-width:520px){
-    .ev-card .ec-meta{flex-direction:column; align-items:flex-start; gap:4px;}
-    .ev-card .ec-meta .ec-source{text-align:left;}
-  }
 
   /* Headline number for a card whose whole point is one statistic — pulls
      the "so what" out of the prose and up top, sized/coloured like the
@@ -1278,6 +1261,33 @@
   }
   .wf-btn:hover{border-color:var(--ink); color:var(--ink);}
   .wf-btn.active{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+
+  /* Status filter — second, independent axis alongside category above
+     (Ward Councillor Tracker Rules §04). A <select>, not chips, so it
+     visually reads as a distinct control rather than more of the same row. */
+  .status-filters{align-items:center; gap:10px; margin-bottom:28px; margin-top:-18px;}
+  .wf-status-label{font-family:var(--mono); font-size:12px; color:var(--ink-soft); font-weight:600;}
+  .wf-select{
+    font-family:var(--mono); font-size:12px; padding:7px 10px; border-radius:20px;
+    border:1px solid var(--hairline-strong); background:var(--paper-raised); cursor:pointer;
+    color:var(--ink); font-weight:500;
+  }
+  .wf-select:hover{border-color:var(--ink);}
+  .wf-status-note{font-size:11.5px; color:var(--ink-soft); flex:1 1 240px;}
+
+  /* Cross-ward tag & source-type audit table (§06 rollup) */
+  .tag-audit{margin:18px 0 22px; overflow-x:auto; -webkit-overflow-scrolling:touch;}
+  .tag-audit-intro{font-size:12.5px; color:var(--ink-soft); margin-bottom:10px; line-height:1.5;}
+  table.tag-audit-table{width:100%; min-width:760px; border-collapse:collapse; font-size:12px;}
+  table.tag-audit-table th, table.tag-audit-table td{padding:7px 9px; border-bottom:1px solid var(--hairline); text-align:right; white-space:nowrap;}
+  table.tag-audit-table th:first-child, table.tag-audit-table td:first-child,
+  table.tag-audit-table th:nth-child(2), table.tag-audit-table td:nth-child(2){text-align:left;}
+  table.tag-audit-table thead th{font-family:var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.04em; color:var(--ink-soft); font-weight:600; border-bottom:1px solid var(--hairline-strong);}
+  table.tag-audit-table tbody tr:hover td{background:var(--paper-raised);}
+  table.tag-audit-table tr.tag-audit-party-row td{background:var(--paper-raised); font-weight:600; border-top:2px solid var(--hairline-strong); border-bottom:2px solid var(--hairline-strong);}
+  table.tag-audit-table td.ta-docpct{font-weight:600;}
+  table.tag-audit-table td.ta-docpct.ta-flag{color:var(--rust);}
+  .tag-audit-foot{font-size:11px; color:var(--ink-soft); margin-top:8px; line-height:1.5;}
 
   .ward-layout{display:grid; grid-template-columns:1.1fr 1fr; gap:28px; align-items:start;}
   @media (max-width:820px){
@@ -1501,6 +1511,7 @@
   }
   .issue-row:last-child{border-bottom:none; padding-bottom:0;}
   .issue-name{font-size:13.5px; color:var(--ink);}
+  .issue-name .issue-meta{display:block; font-size:11px; color:var(--ink-soft); margin-top:2px;}
   .issue-status{
     flex:0 0 auto; font-family:var(--mono); font-size:10.5px; letter-spacing:0.03em; font-weight:600;
     padding:3px 10px; border-radius:20px; white-space:nowrap;
@@ -1527,7 +1538,14 @@
      separate rows, separate cards, separate counts. Duplicates the
      issue-status pill rules rather than sharing the class, so a future
      change to issue styling can't silently reshape promise styling too.
-     Empty until sourced promise data exists — see §11 for why. */
+     Populated for Wards 1, 2, 4, 6, 10, 11 and 12 via PROMISES_FALLBACK
+     (19 sourced entries); still empty for the other 7 wards — sourcing
+     individual, dateable, ward-level promises from public material is
+     genuinely hard, since most manifesto material isn't ward-granular.
+     See §11. Corrected 21 Sep 2026: this comment previously claimed the
+     whole construct was empty, which was already stale by the time it
+     was written — see the fixed live-fetch bug above for why that
+     fallback data wasn't visibly rendering. */
   .ward-promises-title{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:0.05em; color:var(--grey); margin-bottom:10px;}
   .promise-row{
     display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
@@ -1570,21 +1588,7 @@
   .service-status-line{margin-top:6px; font-size:12px; color:var(--ink);}
 
   details.ward-table-toggle{margin-top:22px;}
-  details.ward-table-toggle summary{
-    cursor:pointer; font-size:13.5px; font-weight:600; color:var(--ink);
-    list-style:none;
-    display:flex; align-items:center; justify-content:space-between; gap:10px;
-    background:var(--paper-raised); border:1px solid var(--hairline-strong); border-radius:8px;
-    padding:12px 14px;
-  }
-  details.ward-table-toggle summary::-webkit-details-marker{ display:none; }
-  details.ward-table-toggle summary::after{
-    content:""; width:8px; height:8px; flex-shrink:0;
-    border-right:1.6px solid var(--ink-soft); border-bottom:1.6px solid var(--ink-soft);
-    transform:rotate(-45deg); transition:transform .2s ease;
-  }
-  details.ward-table-toggle[open] summary::after{ transform:rotate(45deg); }
-  details.ward-table-toggle summary:hover{ border-color:var(--ink-soft); }
+  details.ward-table-toggle summary{cursor:pointer; font-size:13.5px; font-weight:600; color:var(--ink-soft);}
   .wards-table-scroll{overflow-x:auto; -webkit-overflow-scrolling:touch; margin-top:16px;}
   /* Same tap-to-expand card pattern as the §04 capital-projects table:
      the wide table stays for desktop, a stacked-card list replaces it
@@ -1634,11 +1638,6 @@
   .src-search:focus{border-color:var(--ink);}
   .src-count-live{font-family:var(--mono); font-size:11.5px; color:var(--grey); white-space:nowrap;}
   .src-chips{display:flex; gap:8px; flex-wrap:wrap;}
-  @media (max-width:640px){
-    .src-chips{ flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; scroll-snap-type:x proximity; padding-bottom:4px; margin:0 -28px; padding-left:28px; padding-right:28px; }
-    .src-chips::-webkit-scrollbar{ display:none; }
-    .src-chip{ flex:0 0 auto; scroll-snap-align:start; white-space:nowrap; }
-  }
   .src-chip{
     font-family:var(--mono); font-size:11.5px; padding:7px 12px; border-radius:20px;
     border:1px solid var(--hairline-strong); background:var(--paper-raised); cursor:pointer;
@@ -1686,17 +1685,23 @@
   .faq-item p{margin:0; font-size:15px; line-height:1.6; color:var(--ink-soft); max-width:68ch;}
   .faq-item a{color:var(--green);}
 </style>
-
 <style id="mwa-styles">
 /* ================= Mobile Ward Explorer (auto-switches at <=820px) =================
    Fully scoped under #mobile-ward-app so it can't bleed into the desktop
-   "paper" theme above. Shows only at small breakpoints; the existing
-   #wards section (desktop grid + its own mobile-grid panel) is hidden
-   at that same breakpoint so the two don't double up. */
+   "paper" theme above. Shows only at small breakpoints. Adjusted during
+   the 22 Sep 2026 mobile merge: only .ward-layout (the grid+panel) is
+   hidden at that breakpoint now, not the whole #wards section — the
+   category/status filter chips that sit above .ward-layout stay visible
+   and functional on mobile, since #mobile-ward-app doesn't have its own
+   equivalent filtering yet and hiding all of #wards would have silently
+   dropped a rule-mandated feature (Ward Councillor Tracker Rules §04) on
+   the exact surface most readers use. Known limit: those filters have no
+   visible effect on #mobile-ward-app's own ward picker below them — not
+   fixed in this merge, just not made worse. */
 #mobile-ward-app{ display:none; }
 @media (max-width:820px){
   #mobile-ward-app{ display:block; }
-  #wards{ display:none !important; }
+  .ward-layout{ display:none !important; }
 }
 
 #mobile-ward-app, #mobile-ward-app *{ box-sizing:border-box; }
@@ -1880,9 +1885,12 @@
     <a href="#delivery-survey">Survey</a>
     <a href="#questions">Questions</a>
     <a href="#sources">Sources</a>
+    <a href="#contactFormWidget">Contact &amp; feedback</a>
     <a href="#sassaWidget">SASSA dates</a>
     <a href="#electionWidget">Elections</a>
+    <a href="#candidatesWidget">Candidates</a>
     <a href="councillor-tracker.html?muni=Overstrand">Councillor tracker →</a>
+    <a href="overstrand-tools.html">Document tools →</a>
   </div>
 </div>
 
@@ -1917,8 +1925,7 @@
     </div>
 
     <div class="hero-ctas">
-      <a href="#wards" class="btn primary">Check your ward →</a>
-      <a href="#paradox" class="btn ghost">Explore the evidence</a>
+      <a href="#paradox" class="btn primary">Explore the evidence</a>
       <a href="#glance" class="btn ghost">Overstrand at a glance</a>
     </div>
 
@@ -1984,16 +1991,21 @@
       </div>
 
       <div class="widget" id="sassaWidget">
-        <div class="widget-eyebrow">SASSA outreach — where &amp; when it visits <span class="tag sphere">National</span></div>
-        <div class="widget-title" style="margin-bottom:10px;">Mobile-office rotation across Overstrand</div>
-        <div class="sassa-rows">
-          <div class="sassa-row"><div><span class="sr-label">Hermanus / Mount Pleasant</span><span class="sr-sub">Ward 4 · Moffat Community Hall</span></div><div class="sr-date">Weekly, every Thu<span class="sr-days">+ extra dates monthly</span></div></div>
-          <div class="sassa-row"><div><span class="sr-label">Hawston</span><span class="sr-sub">Ward 8 · Thusong Service Centre</span></div><div class="sr-date">5 May 2026<span class="sr-days">last confirmed date</span></div></div>
-          <div class="sassa-row"><div><span class="sr-label">Kleinmond</span><span class="sr-sub">Ward 9 · Proteadorp Community Hall</span></div><div class="sr-date">6 May 2026<span class="sr-days">last confirmed date</span></div></div>
-          <div class="sassa-row"><div><span class="sr-label">Gansbaai</span><span class="sr-sub">Ward 2 · Blompark Community Hall</span></div><div class="sr-date">7 May 2026<span class="sr-days">last confirmed date</span></div></div>
-          <div class="sassa-row"><div><span class="sr-label">Stanford</span><span class="sr-sub">Ward 1 · Stanford Community Hall</span></div><div class="sr-date">Monthly<span class="sr-days">exact date varies</span></div></div>
+        <div class="widget-eyebrow">SASSA grant payments — next dates <span class="tag sphere">National</span></div>
+        <div class="widget-title" style="margin-bottom:10px;">Next payment per grant type</div>
+        <div class="sassa-rows" id="sassaRows"><!-- filled by script --></div>
+        <div class="widget-foot">SASSA is a national agency — these dates apply the same way in every Overstrand ward, not just one. Funds stay in your account if you don't collect on the exact date. Schedule confirmed by National Treasury, 20 Mar 2026; source: <a href="https://www.sassa.gov.za" target="_blank" rel="noopener">sassa.gov.za</a> / SAnews · Helpline 0800 60 10 11.</div>
+
+        <div class="widget-title" style="margin:16px 0 8px; padding-top:14px; border-top:1px solid var(--hairline);">In-person outreach — by venue <span class="tag sphere">Municipal, per venue</span></div>
+        <div class="so-rows">
+          <div class="so-row"><div class="so-venue">Stanford Community Hall<span class="so-ward">Ward 1</span></div><div class="so-detail">27 Aug · all grants</div></div>
+          <div class="so-row"><div class="so-venue">Moffat Hall, Mt Pleasant<span class="so-ward">Ward 4</span></div><div class="so-detail">4 Aug · OA/DG only, 2nd visit cancelled</div></div>
+          <div class="so-row"><div class="so-venue">Hawston Thusong Centre<span class="so-ward">Ward 8</span></div><div class="so-detail">19 Aug · all grants</div></div>
+          <div class="so-row"><div class="so-venue">Proteadorp Hall, Kleinmond<span class="so-ward">Ward 9</span></div><div class="so-detail">28 Aug · all grants</div></div>
+          <div class="so-row"><div class="so-venue">Zwelihle Community Hall<span class="so-ward">Wards 5, 6, 12</span></div><div class="so-detail">11 Aug · OA/DG, then CSG/FCG</div></div>
+          <div class="so-row"><div class="so-venue">Blompark Hall, Gansbaai<span class="so-ward">Ward 14</span></div><div class="so-detail">6 & 20 Aug · OA/DG, then CSG/FCG</div></div>
         </div>
-        <div class="widget-foot">This rotation has run consistently since at least 2022 (confirmed via dated municipality postings across 2022, 2024 and 2026), but the exact monthly dates above are only the most recently confirmed ones found, not a live forward calendar — the municipality posts each month's specific dates roughly one month ahead. <b>Not covered</b> by this rotation: Zwelihle, Sandbaai, Onrus/Vermont, Pearly Beach/Franskraal, Betty's Bay/Pringle Bay, De Kelders — residents there travel to the nearest venue above. Check <a href="https://www.overstrand.gov.za" target="_blank" rel="noopener">overstrand.gov.za</a>'s news page for the current month's exact dates, or call SASSA's Overstrand local office directly. Helpline 0800 60 10 11.</div>
+        <div class="widget-foot">OA/DG = Older Persons &amp; Disability grants (1st visit); CSG/FCG = Child Support &amp; Foster Care grants (2nd visit, where held). This is the last published schedule found — August 2026 — not a live "next visit" calculation; no September 2026 outreach bulletin has been located yet, so check <a href="https://www.overstrand.gov.za/news/overstrand-news/" target="_blank" rel="noopener">Overstrand's own news page</a> for the current month before relying on a date here. <b>Wards 2, 3, 7, 10, 11 and 13 have no SASSA outreach venue in any bulletin this profile reviewed, Feb 2023 – Aug 2026</b> — residents there appear to need to travel to one of the six venues above, or use SASSA's WhatsApp/call-centre channel (0800 60 10 11) instead. Venue→ward mapping is this profile's own, using the confirmed 2021 ward-redelimitation boundaries cited elsewhere on this page — SASSA and the municipality publish these bulletins by venue/town, not by ward number. Dates are explicitly stated by the municipality as subject to change. Source: Overstrand Municipality, "SASSA Dates for August 2026" (<a href="https://xplorio.com/hermanus/overstrand-municipality/en/blog/131548/sassa-dates-for-august-2026/" target="_blank" rel="noopener">mirrored on Xplorio</a>), 4 Aug 2026, and the same monthly bulletin series reviewed back to Feb 2023 for the venue pattern.</div>
       </div>
 
       <div class="widget" id="unemploymentWidget">
@@ -2012,6 +2024,15 @@
         </div>
         <div class="widget-foot" id="weatherFoot">°C, high/low. Loading a live forecast — if this doesn't update, the fallback shown is a snapshot taken 8 Sep 2026, so check a live source like <a href="https://www.weathersa.co.za" target="_blank" rel="noopener">weathersa.co.za</a> instead.</div>
       </div>
+
+      <div class="widget" id="candidatesWidget">
+        <div class="widget-eyebrow">2026 Local Government Election — certified candidates <span class="tag reported">Reported</span></div>
+        <div class="widget-title" style="margin-bottom:4px;">Who's on your ballot</div>
+        <p class="widget-sub">One candidate per party, per ward, certified for 4 Nov 2026. Sourced from a newspaper compilation of the IEC's certified list, not fetched from the IEC directly by this profile — tagged Reported rather than Confirmed for that reason.</p>
+        <select class="wf-select" id="candWardSelect" style="width:100%; margin-bottom:10px;" aria-label="Select your ward to see its candidates"></select>
+        <div class="cand-rows" id="candRows"><p class="widget-sub" style="margin:0;">Select a ward above to see its candidates.</p></div>
+        <div class="widget-foot">Source: The Village News (Hermanus Times Facebook page), citing IEC LGE2026 Certified Candidates List, 16 Sep 2026 (WC032 Overstrand). A blank/"not contesting" means that party isn't standing in that ward on the certified list. <b>Ward 15 is a new ward that only takes effect after this election</b>, not yet part of current Overstrand governance — it's shown here since it's on the certified candidates list, but deliberately isn't counted anywhere else on this profile, which still treats Overstrand as 14 wards until Ward 15 actually exists as one.</div>
+      </div>
     </div>
   </div>
 
@@ -2025,9 +2046,9 @@
       <div class="findings-grid">
         <div class="finding">
           <div class="ftag">Financial record</div>
-          <div class="fnum" style="color:var(--green)">13</div>
+          <div class="fnum" style="color:var(--green)">12</div>
           <h3 class="flabel">Straight clean audits</h3>
-          <div class="fdetail">A long, unbroken run of clean audit outcomes through FY2024/25 (announced Dec 2025) — a strong signal on financial controls specifically.</div>
+          <div class="fdetail">A long, unbroken run of clean audit outcomes — a strong signal on financial controls specifically.</div>
         </div>
         <div class="finding">
           <div class="ftag">Service experience</div>
@@ -2309,9 +2330,8 @@
   </section>
 
   <!-- SERVICES -->
-  <section id="services">
+  <section id="services"><div class="services-desktop-view">
     <div class="wrap">
-      <div class="services-desktop-view">
       <div class="sec-head"><span class="sec-no">04</span><h2 class="sec-title">Services &amp; resident experience</h2></div>
       <p class="sec-sub">What residents actually reported, ward by ward, set against what the municipality has stated publicly.</p>
 
@@ -2595,16 +2615,10 @@
       <p style="font-size:12px; color:var(--ink-soft); margin-top:12px; max-width:74ch; line-height:1.55;">
         That dataset doesn't exist in the public record yet — the municipality's Feb 2026 Section 71 report gives only a whole-municipality capital figure (R100.5m spent, 38.87% of the R258.6m amended 2025/26 capital budget, R85.4m in outstanding commitments), which can't establish actual spend for any individual project above, so no red/amber/green flags are applied yet. <b>Last checked:</b> Aug 2026, against the Top-Layer SDBIP 2026/27 (approved 10 Jun 2026) and OCAN's Draft Budget Report analysis (published Apr 2026, updated 17 Apr 2026).
       </p>
-      </div><!-- /services-desktop-view -->
+    </div>
+  </div>
 
-      <!-- Mobile-only services card. Resident-ordered: outages first
-           (what someone opening this mid-outage needs), satisfaction
-           stats second, the open roads/parks-backlog question last.
-           The full desktop capital-projects table and its data-integrity/
-           ward-attribution notes are summarised into the "What the record
-           actually shows" expand rather than reproduced — that table is
-           addressed as its own mobile treatment later, not duplicated here. -->
-      <div class="services-mobile-view">
+<div class="services-mobile-view">
         <div class="gm-eyebrow-row">
           <div>
             <div class="gm-eyebrow">Services &amp; resident experience</div>
@@ -3104,14 +3118,12 @@
           <p class="gm-footnote"><b>Methodology going forward, once actual spend data is available:</b> spend rate (actual ÷ budget), schedule variance (forecast vs. planned completion), red flag if &gt;10% over budget or &gt;30 days late, amber flag if a risk is recorded but the date's still achievable.</p>
         </div>
 
-      </div><!-- /services-mobile-view -->
-    </div>
-  </section>
+      </div>
+</section>
 
   <!-- FINANCE -->
-  <section id="finance">
+  <section id="finance"><div class="finance-desktop-view">
     <div class="wrap">
-      <div class="finance-desktop-view">
       <div class="sec-head"><span class="sec-no">05</span><h2 class="sec-title">Finance &amp; governance</h2></div>
       <p class="sec-sub">The audit record is real. What it does and doesn't tell you is where this section earns its keep.</p>
 
@@ -3184,7 +3196,7 @@
           <span class="tag confirmed">Confirmed</span>
           <span class="tag sphere">Municipal</span>
           <h3 class="ec-title">SAMRAS / mSCOA data-integrity issue</h3>
-          <p class="ec-body">Upgraded from Reported to Confirmed, 15 Sep 2026: Annexure I of the Final Budget (the municipality's own mSCOA Roadmap &amp; Implementation report, dated May 2026) has now been directly sourced and reviewed, rather than relying on OCAN's citation of it. The primary document confirms OCAN's claim and adds a detail OCAN's summary didn't carry: the municipality states plainly that on the SAMRAS Classic system, datastring extracts for <b>revenue, expenditure and capital budgets and transactions are usually accurate</b>, but that <b>information for the main ledger and cash flows are incorrect in many instances</b> — and that "this situation will persist while on the SAMRAS Classic version." The report attributes the root cause to mSCOA segmentation that Classic "cannot accommodate on a multi-dimensional level," causing errors when validating monthly closes across both the budgeting cycle and all reporting cycles. This bears directly on how much confidence to place in any SAMRAS-sourced figure elsewhere on this site (several service-delivery KPIs in the SDBIP are also measured via SAMRAS reports) — those figures aren't downgraded here without a specific reason to doubt each one, since the confirmed defect is specifically in main-ledger/cash-flow data, not the revenue/expenditure/capital data most service-delivery figures on this site draw on — but the systemic caveat is worth stating plainly. Separately, the same document confirms the underlying system (Samras Classic) has been determined to have reached end of life by the municipality's own assessment, with a possible move to a "Platinum" successor system still at an early, multi-year planning stage as of this report.</p>
+          <p class="ec-body">Upgraded from Reported to Confirmed, 15 Sep 2026: Annexure I of the Final Budget (the municipality's own <button type="button" class="term" aria-expanded="false">mSCOA<span class="term-tip" hidden>mSCOA = Municipal Standard Chart of Accounts, the national accounting framework every South African municipality is legally required to use for its financial systems. A mSCOA-related data-integrity issue is a caveat about how much to trust certain figures sourced from the SAMRAS system, not by itself evidence of misspending.</span></button> Roadmap &amp; Implementation report, dated May 2026) has now been directly sourced and reviewed, rather than relying on OCAN's citation of it. The primary document confirms OCAN's claim and adds a detail OCAN's summary didn't carry: the municipality states plainly that on the SAMRAS Classic system, datastring extracts for <b>revenue, expenditure and capital budgets and transactions are usually accurate</b>, but that <b>information for the main ledger and cash flows are incorrect in many instances</b> — and that "this situation will persist while on the SAMRAS Classic version." The report attributes the root cause to mSCOA segmentation that Classic "cannot accommodate on a multi-dimensional level," causing errors when validating monthly closes across both the budgeting cycle and all reporting cycles. This bears directly on how much confidence to place in any SAMRAS-sourced figure elsewhere on this site (several service-delivery KPIs in the SDBIP are also measured via SAMRAS reports) — those figures aren't downgraded here without a specific reason to doubt each one, since the confirmed defect is specifically in main-ledger/cash-flow data, not the revenue/expenditure/capital data most service-delivery figures on this site draw on — but the systemic caveat is worth stating plainly. Separately, the same document confirms the underlying system (Samras Classic) has been determined to have reached end of life by the municipality's own assessment, with a possible move to a "Platinum" successor system still at an early, multi-year planning stage as of this report.</p>
           <div class="ec-meta"><span>Directly sourced and confirmed against the primary document, 15 Sep 2026</span><span class="ec-source">Overstrand Municipality, Annexure I ("mSCOA Roadmap and mSCOA Implementation"), Final Budget 2026/27, May 2026 — document supplied directly for this profile's research; cross-referenced against <a href="https://ocan.co.za/om-budgetanalysis/">OCAN Draft Budget Report analysis</a></span></div>
         </article>
 
@@ -3290,17 +3302,10 @@
       <p style="font-size:12.5px; color:var(--ink-soft); margin-top:10px; max-width:74ch; line-height:1.55;">
         <b>Back to the central question:</b> none of the six cards above are ward-specific — they're commitments and processes that affect residents across the whole municipality regardless of which ward they live in, the same way the clean-audit record itself is a municipality-wide figure. Read together with §02's audit-versus-lived-experience framing: a clean audit tells you the books balance, not whether a policy review lands on time, a rollout actually goes live on its announced date, or a reporting instruction is actually followed month after month. Three of the six here are confirmed as delivered (rate relief, the title-deed event, the 2026 festival proceeding); three remain open questions this profile hasn't been able to close (Ward Committee Policy adoption, AARTO's actual go-live, and Schulphoek's reporting cadence). That split — not a verdict either way — is the evidence.
       </p>
-      </div><!-- /finance-desktop-view -->
+    </div>
+  </div>
 
-      <!-- Mobile-only finance card. Resident-ordered: financial health
-           (good news) first, then what residents pay (rate relief),
-           then where pressure is building, then the national-sphere
-           grant cut, then the four open commitments as a tap-to-expand
-           list, then smaller confirmed items, with the SAMRAS/draft-
-           budget sourcing caveat folded into a closing expand rather
-           than given its own headline card. All 14 desktop evidence
-           cards are represented; none dropped. -->
-      <div class="finance-mobile-view">
+<div class="finance-mobile-view">
         <div class="gm-eyebrow-row">
           <div>
             <div class="gm-eyebrow">Finance &amp; governance</div>
@@ -3463,14 +3468,13 @@
           <summary>Why some figures here are "Reported," not "Confirmed"</summary>
           <p style="margin:10px 0 0; font-size:12px; line-height:1.6; color:var(--ink-soft);">Four of the cards above trace to a <b>draft</b> budget document (public comment closed 30 Apr 2026). The Top-Layer SDBIP behind §04's capital tracker was approved later (10 Jun 2026) and reconciles cleanly with these draft figures — some evidence the numbers held through to final adoption — but the Rates Services deficit, the debt-financing share, and the housing-grant cuts haven't been independently checked against the final adopted MTREF. Separately, the municipality's own May 2026 mSCOA report confirms its SAMRAS Classic finance system has known data-integrity issues in main-ledger and cash-flow reporting specifically — not in the revenue/expenditure/capital data most figures on this site draw from, but worth knowing the system itself is flagged as end-of-life. <b>Last checked:</b> Sep 2026.</p>
         </details>
-      </div><!-- /finance-mobile-view -->
-    </div>
-  </section>
+      </div>
+</section>
+
 
   <!-- LEADERSHIP -->
-  <section id="leadership">
+  <section id="leadership"><div class="leadership-desktop-view">
     <div class="wrap">
-      <div class="leadership-desktop-view">
       <div class="sec-head"><span class="sec-no">06</span><h2 class="sec-title">Leadership &amp; political context</h2></div>
       <p class="sec-sub">Three live matters referenced in the source research — all open, with no public finding yet.</p>
 
@@ -3502,15 +3506,10 @@
           <div class="ec-meta"><span>Referred to province, awaiting outcome</span><span class="ec-source"><a href="https://www.overstrand.gov.za/sandbaai-ward-7-meeting-clarification-of-processes/" target="_blank" rel="noopener">Overstrand Municipality statement</a></span></div>
         </article>
       </div>
-      </div><!-- /leadership-desktop-view -->
+    </div>
+  </div>
 
-      <!-- Mobile-only leadership card. Desktop order kept — the three
-           items are unrelated and parallel, none more urgent than the
-           others. Milkwood and the fuel-card stay un-expanded (short
-           enough); Ward 7's long paragraph goes behind an expand. The
-           "no individual named" caveat is carried over verbatim on
-           every card, never paraphrased. -->
-      <div class="leadership-mobile-view">
+<div class="leadership-mobile-view">
         <div class="gm-eyebrow-row">
           <div>
             <div class="gm-eyebrow">Leadership &amp; political context</div>
@@ -3582,14 +3581,12 @@
 
           <p class="gm-footnote"><b>Source:</b> <a href="https://www.overstrand.gov.za/sandbaai-ward-7-meeting-clarification-of-processes/" target="_blank" rel="noopener" style="color:var(--blue);">Overstrand Municipality statement</a>.</p>
         </div>
-      </div><!-- /leadership-mobile-view -->
-    </div>
-  </section>
+      </div>
+</section>
 
   <!-- HOUSING -->
-  <section id="housing">
+  <section id="housing"><div class="housing-desktop-view">
     <div class="wrap">
-      <div class="housing-desktop-view">
       <div class="sec-head"><span class="sec-no">07</span><h2 class="sec-title">Housing &amp; development</h2></div>
       <p class="sec-sub">Zwelihle's Mandela Square delay in context: nine IRDP/UISP housing projects across Overstrand, each with its own sourced timeline from pre-planning to handover.</p>
 
@@ -3698,7 +3695,7 @@
             <div class="tl-row"><div class="tl-year">2021/22–2023/24</div><div class="tl-text">A separate MTREF grant table in the same IDP Review lists "Overstrand: Hawston - 256 IRDP - Phase 1" receiving R1m/year (R3m total) in Human Settlements Development Grant funding.</div></div>
             <div class="tl-row"><div class="tl-year">30 Aug 2022</div><div class="tl-text">A title-deed handover event for the "Hawston IRDP: 378 Housing Project" — found this session, in the municipality's own mid-term Community Services review — directly names the 378-unit project as the one reaching title-deed stage, reinforcing the reconciliation above.</div></div>
             <div class="tl-row"><div class="tl-year">15 Sept 2023</div><div class="tl-text">A further title-deed handover spanning Zwelihle, Mount Pleasant and Hawston together — found in the same document — though the source extract available to this profile doesn't break out how many of the deeds issued that day were specifically Hawston units.</div></div>
-            <div class="tl-row"><div class="tl-year">Apr 2024</div><div class="tl-text">Title-deed handover recorded in the 2023/24 Annual Report, including 107 FLISP beneficiaries. <i>Not yet independently verified by this profile — note this "107" matches the serviced-site figure above, which may or may not be coincidence.</i></div></div>
+            <div class="tl-row"><div class="tl-year">Apr 2024</div><div class="tl-text">Title-deed handover recorded in the 2023/24 Annual Report, including 107 <button type="button" class="term" aria-expanded="false">FLISP<span class="term-tip" hidden>FLISP = Finance Linked Individual Subsidy Programme, a national government subsidy for buyers who earn too much to qualify for a free RDP house but too little to get a full bank bond on their own. Funded and directed by national government, not the municipal council — same reasoning as IRDP/UISP above.</span></button> beneficiaries. <i>Not yet independently verified by this profile — note this "107" matches the serviced-site figure above, which may or may not be coincidence.</i></div></div>
             <div class="tl-row"><div class="tl-year">2026 IDP</div><div class="tl-text">Still identifies "Hawston IRDP — 378 units," with top-structure phases extending through the 2020s. <i>Not yet independently verified by this profile.</i></div></div>
           </div>
           <p class="ec-body" style="font-size:12.5px; color:var(--ink-soft);"><b>Unit-count discrepancy, partially reconciled (updated 4 Sep 2026):</b> this profile has four numbers for Hawston's IRDP scope across documents spanning 2019–2024 — 489 serviced sites, 378 top-structure units, 107 serviced sites, and 256 units under a "Phase 1" label. Directly reading the 2023/24 IDP Review's own project-progress table (Ch.4) shows 489 and 378 are dated completions of the <i>same</i> phase — services in 2019/2020, top structures in 2020/21 — not competing totals, which resolves that part of the discrepancy. The 107-serviced-sites figure (Mar 2021 5-year programme) and the 256-unit "Phase 1" figure (2021/22–23/24 MTEF grant table) most plausibly describe a <i>separate, subsequent</i> phase referenced in later planning documents, though no source yet gives that second phase's own start/completion dates the way the first phase now has. This is logged as a working interpretation, not a certainty — the municipality's own documents don't explicitly label these as "Phase 1" and "Phase 2" of one project, and it remains possible 107/256 are a re-scoping rather than a genuinely new tranche. Ward 8's own IDP priority table (already sourced elsewhere on this profile) lists a Housing entry under Provincial sphere, and this session's SDBIP fetch adds a National-sphere (MIG) funding line for the bulk-water component specifically.</p>
@@ -3799,16 +3796,10 @@
       <p class="ec-body" style="margin:14px 0 4px; font-size:12.5px; color:var(--ink-soft);"><b>Methodology note: pre-2021 vs current ward maps.</b> Overstrand's ward boundaries were redelimited for the 2021 local government election, growing from 13 wards to the current 14. The 2016/17 SDBIP, 2012/13 Annual Report and 2019/20 Annual Report cited across this section all predate that change and use the old map — under which, for example, Masakhane sat in old-Ward-1 (paired with Franskraal) and Stanford sat in old-Ward-11 (paired with Buffeljagsbaai), not their current Ward 2 and Ward 1. Separately, the 2016/17 SDBIP's own "Ward" column turns out to record town/area names (Gansbaai, Hermanus, Stanford, Kleinmond) rather than ward numbers at all, for any project — a detail that caused this profile to misattribute the Beverly Hills project to "Ward 2" in an earlier version of this section, now corrected above. Where this section cites a current ward number without a pre-2021 source, it's drawn from the municipality's own 2021 ward-redelimitation notice, directly confirmed: Ward 1 Stanford/Thembelihle; Ward 2 Gansbaai North-East/Masakhane; Ward 8 Fisherhaven/Hawston; Ward 9 Kleinmond/Mountain View/Palmiet/Beverly Hills/Extension 6; Ward 14 Blompark/De Kelders/Gansbaai South-West/Van Dyksbaai; Wards 5, 6 and 12 all simply "Zwelihle."</p>
 
       <p class="sources-note" style="margin-top:6px;">Sourcing note: the Zwelihle, Blompark, Masakhane and Swartdam Road C1 timelines were directly fetched from the municipality's own handover pages in an earlier session. A prior session directly fetched the 2016/17 Top-Layer SDBIP's capital-projects table in full, confirming the existence, funding source and actual-start date of the Stanford, Hawston, Beverly Hills and Kleinmond Overhills line items. A later pass read the same 2016/17 SDBIP pages plus the Overstrand 2021/22 IDP Review (Chapters 2, 4, 13 and 14) directly, letting this profile confirm: Stanford's 783-site civil-works completion (Dec 2020) and its 5-year top-structure funding programme; Hawston's conflicting unit counts across three of the municipality's own documents (256 / 378 / 489, now logged rather than resolved); Kleinmond Overhills' conflicting unit counts (378 vs. the previously-cited 882); and that Swartdam Road C1 is named "Site C1, Zwelihle" in the IDP's own housing chapter. Mount Pleasant's specific project breakdown (200/172/132 sites) remains <b>Reported</b>, not yet independently verified, though this session's document does newly reveal it as "Mount Pleasant & Westdene Infill IRDP" — a renamed/reframed project this profile hadn't captured before. A later session (4 Sep 2026) found and directly fetched the municipality's own Stanford handover article, confirming Aug 2023 groundbreaking and a 2 Apr 2024 Phase 1 handover of the first 23 (of a planned 300) top-structure units — the completion record for Stanford this profile had previously flagged as missing — and cross-referenced the Overstrand IDP Review 2023/2024's Hawston project-progress table, which independently dated Hawston's 489-services/378-top-structures split as one completed phase rather than two competing totals. That same session pass also located: dated Hawston title-deed handovers (30 Aug 2022, 15 Sept 2023) further corroborating the 378-unit reconciliation; a 10 Oct 2024 multi-ward title-deed event (82 deeds — Blompark, Pearly Beach, Stanford) with a Municipal Manager quote independently confirming Blompark's 400-of-539-unit running total; the 27 Feb 2022 Overhills fire disaster (39 families displaced); and a distinct, newly-planned "Overhills Low-Cost Housing Development" that held a public participation meeting in Sept 2025 — evidence of continued Overhills housing activity, though not yet reconciled against the disputed 378/882 figures. Later the same day, the Overstrand IDP Review 2025/26 Draft (31 March 2025, Chapters 2, 4, 7 and 14) was obtained directly as two PDF extracts; reading them closed most of the Stanford question (Phase 1's 300 units confirmed complete by end Sept 2024; Phase 2's 573-of-621 units confirmed under construction, completion planned but not confirmed for end Apr 2025) and independently confirmed the "882" Kleinmond Overhills figure as a real, currently-funded MTEF project — while also surfacing a third, previously-uncaptured Overhills figure (476 units, a separate Housing Strategy table) that the document doesn't reconcile against 882. Net effect: Stanford moved from open to substantially resolved; Overhills moved from a two-way to a three-way unreconciled discrepancy, now with primary-document footing under all three numbers. A further theory was that the Overhills 378 figure might actually be a mistaken carry-over of the Hawston card's own 378 — checking the 2021/22 IDP Review directly disproved that: the two 378s trace to two different tables in the same document, each independently naming a different project (Hawston IRDP in the Housing Strategy table; "Overstrand: Kleinmond: Overhills - 378 Sites UISP" in the MTEF grant table, on the same page as a separately-figured Hawston line), so both citations stand. That same check surfaced a separate, more consequential correction: the 2021/22 IDP's own population table (Ch.2) groups Overhills under Ward 10, not Ward 9, matching this profile's existing Ward 10 entry in the councillor tracker (which already independently lists Overhills-area items) and the current Ward 10 IDP priority table under Cllr Els — the capital tracker's Kleinmond Overhills card is corrected from "(Ward 9)" to "(Ward 10)" accordingly. <b>Last checked:</b> 4 Sep 2026.</p>
-    </div><!-- /housing-desktop-view -->
+    </div>
+  </div>
 
-      <!-- Mobile-only housing card. Heavier progressive disclosure than
-           other sections: synthesis card first, Zwelihle expanded by
-           default, the other 8 projects collapsed to one line each.
-           6 simple projects expand to their full timeline/prose as-is;
-           Hawston and Kleinmond Overhills (genuinely unreconciled
-           figures) lead with a phase-summary, full chronological
-           sourcing nested one tap deeper. Nothing paraphrased. -->
-      <div class="housing-mobile-view">
+<div class="housing-mobile-view">
 
   <div class="gm-eyebrow-row">
     <div>
@@ -4114,9 +4105,8 @@
     <p style="margin:10px 0 0; font-size:12px; line-height:1.6; color:var(--ink-soft);"><b>Ward maps:</b> Overstrand's boundaries were redelimited for the 2021 election, growing from 13 to 14 wards. Documents predating that change (2016/17 SDBIP, 2012/13 and 2019/20 Annual Reports) use the old map — Masakhane sat in old-Ward-1, Stanford in old-Ward-11. Separately, the 2016/17 SDBIP's own "Ward" column records town names, not ward numbers, for any project — the source of an earlier Beverly Hills misattribution, now corrected. Current ward numbers cited without a pre-2021 source are drawn from the municipality's 2021 redelimitation notice, directly confirmed.</p>
     <p style="margin:10px 0 0; font-size:12px; line-height:1.6; color:var(--ink-soft);"><b>Sourcing:</b> Zwelihle, Blompark, Masakhane and Swartdam Road C1 timelines were directly fetched from the municipality's own handover pages. The 2016/17 Top-Layer SDBIP's capital-projects table was directly fetched in full, confirming the existence, funding source and start date of the Stanford, Hawston, Beverly Hills and Kleinmond Overhills line items. The 2021/22 and 2025/26 Draft IDP Reviews were supplied directly and read this session, closing most of the Stanford question and confirming Kleinmond Overhills' 882-unit figure as real and currently funded while surfacing the previously-uncaptured 476-unit figure. Mount Pleasant's project breakdown remains Reported, not yet independently verified. <b>Last checked:</b> 4 Sep 2026.</p>
   </details>
-      </div><!-- /housing-mobile-view -->
-    </div>
-  </section>
+      </div>
+</section>
 
   <!-- WARDS -->
   <section id="wards">
@@ -4135,6 +4125,33 @@
         <button class="wf-btn" data-filter="idp" aria-pressed="false">IDP participation</button>
         <button class="wf-btn" data-filter="safety" aria-pressed="false">Community safety</button>
         <button class="wf-btn" data-filter="housing" aria-pressed="false">Housing</button>
+      </div>
+
+      <!-- Status filter — the second, independent axis required alongside
+           category (Ward Councillor Tracker Rules §04: category = what,
+           status = what's happening). Deliberately a <select>, not more
+           .wf-btn chips, so it reads as a genuinely separate control
+           rather than an extension of the category row. Filters on the
+           status of a ward's logged issues/promises (issuesByWard /
+           promisesByWard), independent of and combined with (AND) the
+           category filter above. Coverage is thin today (see §11) — most
+           wards have no logged outcome yet, so most statuses will dim
+           most of the grid. That's accurate, not a bug: it's showing the
+           real current state of what's been logged, not padding it out. -->
+      <div class="ward-filters status-filters">
+        <label class="wf-status-label" for="wardStatusFilter">Status:</label>
+        <select id="wardStatusFilter" class="wf-select" aria-label="Filter wards by the status of their logged issues or promises">
+          <option value="all">All statuses</option>
+          <option value="raised">Raised</option>
+          <option value="acknowledged">Acknowledged</option>
+          <option value="in_progress">In progress</option>
+          <option value="resolved">Resolved</option>
+          <option value="stalled">Stalled</option>
+          <option value="abandoned">Abandoned</option>
+          <option value="disputed">Disputed</option>
+          <option value="broken_promise">Broken promise</option>
+        </select>
+        <span class="wf-status-note">Independent of the category filter above — combines with it. Based on logged issue/promise outcomes, which exist for a minority of wards so far.</span>
       </div>
 
       <div class="ward-layout">
@@ -4492,323 +4509,19 @@
           </table>
         </div>
         <p style="font-size:12px; color:var(--ink-soft); margin-top:10px;">"Total" capital/capita includes provincial/national housing-subsidy spend physically located in the ward; "municipal-only" removes it — see each ward's card for its own housing-split working. Ward 7 and Ward 14's "total" figures use the itemised project-table sum rather than the IDP's own unreconciled narrative total — see each ward's card for the discrepancy.</p>
-
-<div class="wards-table-mobile">
-    <div class="proj-row">
-      <div class="proj-head" onclick="this.parentElement.classList.toggle('open'); const b=this.nextElementSibling; b.style.maxHeight = this.parentElement.classList.contains('open') ? b.scrollHeight+'px' : null;">
-        <div class="proj-head-left">
-          <span class="proj-name">Ward 1 · Stanford, Thembelihle</span>
-          <span class="proj-meta">Ald Coetzee · DA</span>
-        </div>
-        <span class="proj-meta" style="font-weight:700; color:var(--ink); white-space:nowrap; margin-left:8px;">R17,930/capita</span>
-        <span class="proj-chevron"></span>
-      </div>
-      <div class="proj-body">
-        <div class="proj-body-inner">
-          <div class="capm-field"><div class="capm-label">Population (2026)</div><div class="capm-value">8,428</div></div>
-          <div class="capm-field"><div class="capm-label">Capital/capita, total</div><div class="capm-value">R17,930</div></div>
-          <div class="capm-field"><div class="capm-label">Capital/capita, municipal-only</div><div class="capm-value">R3,060</div></div>
-          <div class="capm-field"><div class="capm-label">EMIS backlog / 1,000</div><div class="capm-value">1,023</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="proj-row">
-      <div class="proj-head" onclick="this.parentElement.classList.toggle('open'); const b=this.nextElementSibling; b.style.maxHeight = this.parentElement.classList.contains('open') ? b.scrollHeight+'px' : null;">
-        <div class="proj-head-left">
-          <span class="proj-name">Ward 2 · Gansbaai NE, Masakhane</span>
-          <span class="proj-meta">Ald Nqinata · ANC</span>
-        </div>
-        <span class="proj-meta" style="font-weight:700; color:var(--ink); white-space:nowrap; margin-left:8px;">R14,447/capita</span>
-        <span class="proj-chevron"></span>
-      </div>
-      <div class="proj-body">
-        <div class="proj-body-inner">
-          <div class="capm-field"><div class="capm-label">Population (2026)</div><div class="capm-value">8,174</div></div>
-          <div class="capm-field"><div class="capm-label">Capital/capita, total</div><div class="capm-value">R14,447</div></div>
-          <div class="capm-field"><div class="capm-label">Capital/capita, municipal-only</div><div class="capm-value">R3,498</div></div>
-          <div class="capm-field"><div class="capm-label">EMIS backlog / 1,000</div><div class="capm-value">2,156</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="proj-row">
-      <div class="proj-head" onclick="this.parentElement.classList.toggle('open'); const b=this.nextElementSibling; b.style.maxHeight = this.parentElement.classList.contains('open') ? b.scrollHeight+'px' : null;">
-        <div class="proj-head-left">
-          <span class="proj-name">Ward 3 · Hermanus</span>
-          <span class="proj-meta">Ald Brice · DA</span>
-        </div>
-        <span class="proj-meta" style="font-weight:700; color:var(--ink); white-space:nowrap; margin-left:8px;">R4,015/capita</span>
-        <span class="proj-chevron"></span>
-      </div>
-      <div class="proj-body">
-        <div class="proj-body-inner">
-          <div class="capm-field"><div class="capm-label">Population (2026)</div><div class="capm-value">7,685</div></div>
-          <div class="capm-field"><div class="capm-label">Capital/capita, total</div><div class="capm-value">R4,015</div></div>
-          <div class="capm-field"><div class="capm-label">Capital/capita, municipal-only</div><div class="capm-value">R4,014</div></div>
-          <div class="capm-field"><div class="capm-label">EMIS backlog / 1,000</div><div class="capm-value">2,082</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="proj-row">
-      <div class="proj-head" onclick="this.parentElement.classList.toggle('open'); const b=this.nextElementSibling; b.style.maxHeight = this.parentElement.classList.contains('open') ? b.scrollHeight+'px' : null;">
-        <div class="proj-head-left">
-          <span class="proj-name">Ward 4 · Mount Pleasant, Westcliff</span>
-          <span class="proj-meta">Cllr Nutt · DA</span>
-        </div>
-        <span class="proj-meta" style="font-weight:700; color:var(--ink); white-space:nowrap; margin-left:8px;">R2,943/capita</span>
-        <span class="proj-chevron"></span>
-      </div>
-      <div class="proj-body">
-        <div class="proj-body-inner">
-          <div class="capm-field"><div class="capm-label">Population (2026)</div><div class="capm-value">12,781</div></div>
-          <div class="capm-field"><div class="capm-label">Capital/capita, total</div><div class="capm-value">R2,943</div></div>
-          <div class="capm-field"><div class="capm-label">Capital/capita, municipal-only</div><div class="capm-value">R1,208</div></div>
-          <div class="capm-field"><div class="capm-label">EMIS backlog / 1,000</div><div class="capm-value">876</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="proj-row">
-      <div class="proj-head" onclick="this.parentElement.classList.toggle('open'); const b=this.nextElementSibling; b.style.maxHeight = this.parentElement.classList.contains('open') ? b.scrollHeight+'px' : null;">
-        <div class="proj-head-left">
-          <span class="proj-name">Ward 5 · Zwelihle South</span>
-          <span class="proj-meta">Cllr Nombula · ANC</span>
-        </div>
-        <span class="proj-meta" style="font-weight:700; color:var(--ink); white-space:nowrap; margin-left:8px;">R765/capita</span>
-        <span class="proj-chevron"></span>
-      </div>
-      <div class="proj-body">
-        <div class="proj-body-inner">
-          <div class="capm-field"><div class="capm-label">Population (2026)</div><div class="capm-value">6,308</div></div>
-          <div class="capm-field"><div class="capm-label">Capital/capita, total</div><div class="capm-value">R765</div></div>
-          <div class="capm-field"><div class="capm-label">Capital/capita, municipal-only</div><div class="capm-value">R765</div></div>
-          <div class="capm-field"><div class="capm-label">EMIS backlog / 1,000</div><div class="capm-value"><span style="color:var(--ink-soft);">— (combined w/ 6, 12: 189)</span></div></div>
-        </div>
-      </div>
-    </div>
-    <div class="proj-row">
-      <div class="proj-head" onclick="this.parentElement.classList.toggle('open'); const b=this.nextElementSibling; b.style.maxHeight = this.parentElement.classList.contains('open') ? b.scrollHeight+'px' : null;">
-        <div class="proj-head-left">
-          <span class="proj-name">Ward 6 · Zwelihle North</span>
-          <span class="proj-meta">Cllr Bandeza · Land Party</span>
-        </div>
-        <span class="proj-meta" style="font-weight:700; color:var(--ink); white-space:nowrap; margin-left:8px;">R2,005/capita</span>
-        <span class="proj-chevron"></span>
-      </div>
-      <div class="proj-body">
-        <div class="proj-body-inner">
-          <div class="capm-field"><div class="capm-label">Population (2026)</div><div class="capm-value">18,052</div></div>
-          <div class="capm-field"><div class="capm-label">Capital/capita, total</div><div class="capm-value">R2,005</div></div>
-          <div class="capm-field"><div class="capm-label">Capital/capita, municipal-only</div><div class="capm-value">R1,998</div></div>
-          <div class="capm-field"><div class="capm-label">EMIS backlog / 1,000</div><div class="capm-value"><span style="color:var(--ink-soft);">— (combined w/ 5, 12: 189)</span></div></div>
-        </div>
-      </div>
-    </div>
-    <div class="proj-row">
-      <div class="proj-head" onclick="this.parentElement.classList.toggle('open'); const b=this.nextElementSibling; b.style.maxHeight = this.parentElement.classList.contains('open') ? b.scrollHeight+'px' : null;">
-        <div class="proj-head-left">
-          <span class="proj-name">Ward 7 · Sandbaai</span>
-          <span class="proj-meta">Cllr Lombard · DA</span>
-        </div>
-        <span class="proj-meta" style="font-weight:700; color:var(--ink); white-space:nowrap; margin-left:8px;">R1,099/capita</span>
-        <span class="proj-chevron"></span>
-      </div>
-      <div class="proj-body">
-        <div class="proj-body-inner">
-          <div class="capm-field"><div class="capm-label">Population (2026)</div><div class="capm-value">10,012</div></div>
-          <div class="capm-field"><div class="capm-label">Capital/capita, total</div><div class="capm-value">R1,099</div></div>
-          <div class="capm-field"><div class="capm-label">Capital/capita, municipal-only</div><div class="capm-value">R1,099</div></div>
-          <div class="capm-field"><div class="capm-label">EMIS backlog / 1,000</div><div class="capm-value">829</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="proj-row">
-      <div class="proj-head" onclick="this.parentElement.classList.toggle('open'); const b=this.nextElementSibling; b.style.maxHeight = this.parentElement.classList.contains('open') ? b.scrollHeight+'px' : null;">
-        <div class="proj-head-left">
-          <span class="proj-name">Ward 8 · Fisherhaven, Hawston</span>
-          <span class="proj-meta">Ald Africa · DA</span>
-        </div>
-        <span class="proj-meta" style="font-weight:700; color:var(--ink); white-space:nowrap; margin-left:8px;">R2,992/capita</span>
-        <span class="proj-chevron"></span>
-      </div>
-      <div class="proj-body">
-        <div class="proj-body-inner">
-          <div class="capm-field"><div class="capm-label">Population (2026)</div><div class="capm-value">18,008</div></div>
-          <div class="capm-field"><div class="capm-label">Capital/capita, total</div><div class="capm-value">R2,992</div></div>
-          <div class="capm-field"><div class="capm-label">Capital/capita, municipal-only</div><div class="capm-value">R2,776</div></div>
-          <div class="capm-field"><div class="capm-label">EMIS backlog / 1,000</div><div class="capm-value">825</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="proj-row">
-      <div class="proj-head" onclick="this.parentElement.classList.toggle('open'); const b=this.nextElementSibling; b.style.maxHeight = this.parentElement.classList.contains('open') ? b.scrollHeight+'px' : null;">
-        <div class="proj-head-left">
-          <span class="proj-name">Ward 9 · Kleinmond</span>
-          <span class="proj-meta">Ald Cohen · DA</span>
-        </div>
-        <span class="proj-meta" style="font-weight:700; color:var(--ink); white-space:nowrap; margin-left:8px;">R3,487/capita</span>
-        <span class="proj-chevron"></span>
-      </div>
-      <div class="proj-body">
-        <div class="proj-body-inner">
-          <div class="capm-field"><div class="capm-label">Population (2026)</div><div class="capm-value">12,419</div></div>
-          <div class="capm-field"><div class="capm-label">Capital/capita, total</div><div class="capm-value">R3,487</div></div>
-          <div class="capm-field"><div class="capm-label">Capital/capita, municipal-only</div><div class="capm-value">R3,408</div></div>
-          <div class="capm-field"><div class="capm-label">EMIS backlog / 1,000</div><div class="capm-value">3,702</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="proj-row">
-      <div class="proj-head" onclick="this.parentElement.classList.toggle('open'); const b=this.nextElementSibling; b.style.maxHeight = this.parentElement.classList.contains('open') ? b.scrollHeight+'px' : null;">
-        <div class="proj-head-left">
-          <span class="proj-name">Ward 10 · Pringle Bay, Betty's Bay</span>
-          <span class="proj-meta">Cllr Els · DA</span>
-        </div>
-        <span class="proj-meta" style="font-weight:700; color:var(--ink); white-space:nowrap; margin-left:8px;">R343/capita</span>
-        <span class="proj-chevron"></span>
-      </div>
-      <div class="proj-body">
-        <div class="proj-body-inner">
-          <div class="capm-field"><div class="capm-label">Population (2026)</div><div class="capm-value">9,894</div></div>
-          <div class="capm-field"><div class="capm-label">Capital/capita, total</div><div class="capm-value">R343</div></div>
-          <div class="capm-field"><div class="capm-label">Capital/capita, municipal-only</div><div class="capm-value">R233</div></div>
-          <div class="capm-field"><div class="capm-label">EMIS backlog / 1,000</div><div class="capm-value">7,210</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="proj-row">
-      <div class="proj-head" onclick="this.parentElement.classList.toggle('open'); const b=this.nextElementSibling; b.style.maxHeight = this.parentElement.classList.contains('open') ? b.scrollHeight+'px' : null;">
-        <div class="proj-head-left">
-          <span class="proj-name">Ward 11 · Pearly Beach, Franskraal</span>
-          <span class="proj-meta">Cllr Fourie · DA</span>
-        </div>
-        <span class="proj-meta" style="font-weight:700; color:var(--ink); white-space:nowrap; margin-left:8px;">R2,624/capita</span>
-        <span class="proj-chevron"></span>
-      </div>
-      <div class="proj-body">
-        <div class="proj-body-inner">
-          <div class="capm-field"><div class="capm-label">Population (2026)</div><div class="capm-value">5,871</div></div>
-          <div class="capm-field"><div class="capm-label">Capital/capita, total</div><div class="capm-value">R2,624</div></div>
-          <div class="capm-field"><div class="capm-label">Capital/capita, municipal-only</div><div class="capm-value">R2,624</div></div>
-          <div class="capm-field"><div class="capm-label">EMIS backlog / 1,000</div><div class="capm-value">4,370</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="proj-row">
-      <div class="proj-head" onclick="this.parentElement.classList.toggle('open'); const b=this.nextElementSibling; b.style.maxHeight = this.parentElement.classList.contains('open') ? b.scrollHeight+'px' : null;">
-        <div class="proj-head-left">
-          <span class="proj-name">Ward 12 · Zwelihle North-West</span>
-          <span class="proj-meta">Cllr Sihlahla · ANC</span>
-        </div>
-        <span class="proj-meta" style="font-weight:700; color:var(--ink); white-space:nowrap; margin-left:8px;">R155/capita</span>
-        <span class="proj-chevron"></span>
-      </div>
-      <div class="proj-body">
-        <div class="proj-body-inner">
-          <div class="capm-field"><div class="capm-label">Population (2026)</div><div class="capm-value">15,491</div></div>
-          <div class="capm-field"><div class="capm-label">Capital/capita, total</div><div class="capm-value">R155</div></div>
-          <div class="capm-field"><div class="capm-label">Capital/capita, municipal-only</div><div class="capm-value">R155</div></div>
-          <div class="capm-field"><div class="capm-label">EMIS backlog / 1,000</div><div class="capm-value"><span style="color:var(--ink-soft);">— (combined w/ 5, 6: 189)</span></div></div>
-        </div>
-      </div>
-    </div>
-    <div class="proj-row">
-      <div class="proj-head" onclick="this.parentElement.classList.toggle('open'); const b=this.nextElementSibling; b.style.maxHeight = this.parentElement.classList.contains('open') ? b.scrollHeight+'px' : null;">
-        <div class="proj-head-left">
-          <span class="proj-name">Ward 13 · Onrus, Vermont</span>
-          <span class="proj-meta">Cllr Resandt · DA</span>
-        </div>
-        <span class="proj-meta" style="font-weight:700; color:var(--ink); white-space:nowrap; margin-left:8px;">R967/capita</span>
-        <span class="proj-chevron"></span>
-      </div>
-      <div class="proj-body">
-        <div class="proj-body-inner">
-          <div class="capm-field"><div class="capm-label">Population (2026)</div><div class="capm-value">9,896</div></div>
-          <div class="capm-field"><div class="capm-label">Capital/capita, total</div><div class="capm-value">R967</div></div>
-          <div class="capm-field"><div class="capm-label">Capital/capita, municipal-only</div><div class="capm-value">R967</div></div>
-          <div class="capm-field"><div class="capm-label">EMIS backlog / 1,000</div><div class="capm-value">831</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="proj-row">
-      <div class="proj-head" onclick="this.parentElement.classList.toggle('open'); const b=this.nextElementSibling; b.style.maxHeight = this.parentElement.classList.contains('open') ? b.scrollHeight+'px' : null;">
-        <div class="proj-head-left">
-          <span class="proj-name">Ward 14 · Blompark, De Kelders</span>
-          <span class="proj-meta">Ald de Coning · DA</span>
-        </div>
-        <span class="proj-meta" style="font-weight:700; color:var(--ink); white-space:nowrap; margin-left:8px;">R4,737/capita</span>
-        <span class="proj-chevron"></span>
-      </div>
-      <div class="proj-body">
-        <div class="proj-body-inner">
-          <div class="capm-field"><div class="capm-label">Population (2026)</div><div class="capm-value">8,957</div></div>
-          <div class="capm-field"><div class="capm-label">Capital/capita, total</div><div class="capm-value">R4,737</div></div>
-          <div class="capm-field"><div class="capm-label">Capital/capita, municipal-only</div><div class="capm-value">R1,110</div></div>
-          <div class="capm-field"><div class="capm-label">EMIS backlog / 1,000</div><div class="capm-value">2,521</div></div>
-        </div>
-      </div>
-    </div>
-  <p style="font-size:11.5px; color:var(--ink-soft); margin-top:10px; line-height:1.55;">"Total" capital/capita includes provincial/national housing-subsidy spend physically located in the ward; "municipal-only" removes it — see each ward's card for its own housing-split working. Ward 7 and Ward 14's "total" figures use the itemised project-table sum rather than the IDP's own unreconciled narrative total — see each ward's card for the discrepancy.</p>
-</div>
       </details>
 
-<div class="known-gaps">
-        <span class="kg-eyebrow">§09 · Transparency log</span>
+      <div class="known-gaps">
         <h4>Known open gaps on this page</h4>
-
-        <div class="gm-list-row">
-          <div class="gm-list-row-head" onclick="this.parentElement.classList.toggle('open'); const b=this.nextElementSibling; b.style.maxHeight = this.parentElement.classList.contains('open') ? b.scrollHeight+'px' : null;">
-            <span class="gm-list-row-title">Poverty / informal-settlement burden as a number</span>
-            <span class="tag open" style="margin:0;">Data ceiling</span>
-            <span class="gm-chevron"></span>
-          </div>
-          <div class="gm-list-row-body"><div class="gm-list-row-body-inner">No public ward-level source exists — checked directly, 15 Sep 2026. StatsSA's own Census 2022 microdata documentation states the lowest geography released publicly for household/dwelling-type data is local-municipality level; a ward-level breakdown exists only as a Small Area Layer product available by direct request to StatsSA, not published. The only public ward-level Census 2022 product found — StatsSA's "Ward-level Small Area Population Estimates, 2022" (released 20 Nov 2025, described as the last product to be produced at this level of geography) — covers age, sex and population-group structure only; it carries no dwelling-type or housing variable, so it can't substitute. The IDP's own socio-economic profile chapter doesn't break this out by ward either. This is now a confirmed data-availability ceiling rather than an untried candidate source — closing it would require a formal request to StatsSA for Small Area Layer data, outside this profile's current scope.<br><br><b>Source:</b> <a href="https://www.statssa.gov.za/?p=18967" target="_blank" rel="noopener">statssa.gov.za, Ward-level Small Area Population Estimates release, 20 Nov 2025</a>; <a href="https://microdata.worldbank.org/catalog/8218" target="_blank" rel="noopener">South Africa Census 2022, 10% Sample microdata documentation</a>.</div></div>
-        </div>
-
-        <div class="gm-list-row">
-          <div class="gm-list-row-head" onclick="this.parentElement.classList.toggle('open'); const b=this.nextElementSibling; b.style.maxHeight = this.parentElement.classList.contains('open') ? b.scrollHeight+'px' : null;">
-            <span class="gm-list-row-title">Councillor Performance (Axis C) — built for all 14 wards</span>
-            <span class="tag confirmed" style="margin:0;">8 wards flag an open item</span>
-            <span class="gm-chevron"></span>
-          </div>
-          <div class="gm-list-row-body"><div class="gm-list-row-body-inner">
-            <p style="margin:0 0 10px;">All 14 wards now carry dated Axis C timelines (Wards 2, 3, 4 and 7 added 14–15 Sep 2026, closing a previous note that wrongly said those four were still outstanding). Several wards carry their own unresolved discrepancy, logged per-ward below rather than resolved by inference:</p>
-            <ul style="margin:0; padding-left:16px;">
-              <li style="margin-bottom:8px;"><b>Ward 1</b> — added 14 Sep 2026, drawing on six 2025/26 meetings. One discrepancy: an official Aug 2025 statement that the 573-unit Stanford housing project had "been delivered" vs. resident testimony at the Nov 2025 public meeting that it was incomplete, contractors departed. Two further gaps: an unsupplied 11 Sep 2025 ordinary meeting and an unsupplied 27 Oct 2025 site-visit meeting, both referenced in Ward 1's own 13 Nov 2025 minutes.</li>
-              <li style="margin-bottom:8px;"><b>Ward 2</b> — two open items: an unexplained gap in who chaired the ward committee across the period reviewed, and an unsupplied March 2026 meeting.</li>
-              <li style="margin-bottom:8px;"><b>Ward 3</b> — the municipality's own "August 2025 Ward 3 Minutes Joint Meeting" link actually serves the Wards 1/11/14 joint-meeting minutes, not Ward 3 content — unsourced pending the municipality fixing the link.</li>
-              <li style="margin-bottom:8px;"><b>Ward 4</b> — no comparable discrepancy surfaced.</li>
-              <li style="margin-bottom:8px;"><b>Ward 7</b> — the ward's own legitimacy dispute (see its card) remains open at provincial level: a Council committee cleared the councillor in June 2026, but the Province's own response, which the process actually turns on, hasn't surfaced in any document reviewed.</li>
-              <li style="margin-bottom:8px;"><b>Ward 10</b> — the 27 March 2026 meeting referenced in the ward's own May 2026 confirmation-of-minutes has no corresponding document; checked twice against the municipality's own Ward 10 minutes index, which shows no March 2026 document at any point.</li>
-              <li style="margin-bottom:8px;"><b>Ward 13</b> — a discrepancy between the May 2026 minutes' "Molteno Street" item title and the March site visit's separate "Chiappini Street" finding.</li>
-              <li style="margin-bottom:0;"><b>Ward 14</b> — added 13 Sep 2026, drawing on four further meetings alongside its existing Mar/May/Jun 2026 record. Two discrepancies: a K53 testing-centre tender quoted at R2.2m in Ward 14's own Feb 2026 minutes vs. R2m in Ward 11's card for the same project; and a R25,000 Silwerjare Care Fund donation recorded in both Sep 2025 and Mar 2026 — possibly the same grant disbursed late, or two separate ones.</li>
-            </ul>
-          </div></div>
-        </div>
-
-        <div class="gm-list-row">
-          <div class="gm-list-row-head" onclick="this.parentElement.classList.toggle('open'); const b=this.nextElementSibling; b.style.maxHeight = this.parentElement.classList.contains('open') ? b.scrollHeight+'px' : null;">
-            <span class="gm-list-row-title">EMIS backlog not separable for Wards 5, 6 &amp; 12</span>
-            <span class="tag open" style="margin:0;">Hard ceiling</span>
-            <span class="gm-chevron"></span>
-          </div>
-          <div class="gm-list-row-body"><div class="gm-list-row-body-inner">Confirmed from all three wards' own source pages independently. This is a hard ceiling on this page's Need Index for that cluster, not something to estimate by splitting the combined total three ways.</div></div>
-        </div>
-
-        <div class="gm-list-row">
-          <div class="gm-list-row-head" onclick="this.parentElement.classList.toggle('open'); const b=this.nextElementSibling; b.style.maxHeight = this.parentElement.classList.contains('open') ? b.scrollHeight+'px' : null;">
-            <span class="gm-list-row-title">Self-audit log</span>
-            <span class="tag confirmed" style="margin:0;">3 corrections, 2 days</span>
-            <span class="gm-chevron"></span>
-          </div>
-          <div class="gm-list-row-body"><div class="gm-list-row-body-inner">
-            <div class="gm-timeline">
-              <div class="gm-tl-row"><div class="gm-tl-year">13 Sep</div><div class="gm-tl-text">Found and fixed a stale Councillor Performance count (said 3 of 14, should have said 4 after Ward 8 was completed), an invented compound tag ("Confirmed + Open, combined") not used anywhere else on this profile, and a mistagged Party card (labelled Confirmed for what is actually an interpretive argument). Framing-language check came back clean — party was already excluded from the primary visual and the Councillor Performance summary.</div></div>
-              <div class="gm-tl-row"><div class="gm-tl-year">15 Sep</div><div class="gm-tl-text">The same stale-count failure recurred at larger scale — this section's Councillor Performance count and the "remaining 4 wards" note both still said Wards 2, 3, 4 and 7 were unbuilt, when a direct check found all four already had dated Axis C content. Both corrected. Lesson: after any Axis C build, this section needs an explicit refresh pass — it doesn't update itself.</div></div>
-              <div class="gm-tl-row"><div class="gm-tl-year">15 Sep (again)</div><div class="gm-tl-text">The same failure mode recurred a third time in the same session — this list's own text claimed the Need Index comparison still needed re-running against the completed Axis C set, when a direct check found the eq-compare visual and full 14-ward table already carried correct, cross-checked figures for all 14 wards. Corrected. Standing lesson: three stale claims caught in two days is a pattern, not a one-off — this page's claims about its own status need a direct check every session, not a carry-forward from the last note written.</div></div>
-            </div>
-          </div></div>
-        </div>
-
-        <p style="font-size:12px; color:var(--ink-soft); margin-top:12px;">Last checked: 15 Sep 2026.</p>
+        <ul>
+          <li>Poverty / informal-settlement burden as a number — checked directly, 15 Sep 2026: no public ward-level source exists. StatsSA's own Census 2022 microdata documentation states the lowest geography released publicly for household/dwelling-type data is local-municipality level; a ward-level breakdown exists only as a Small Area Layer product available by direct request to StatsSA, not published. The only public ward-level Census 2022 product found — StatsSA's "Ward-level Small Area Population Estimates, 2022" (released 20 Nov 2025, described as the last product to be produced at this level of geography) — covers age, sex and population-group structure only; it carries no dwelling-type or housing variable, so it can't substitute. The IDP's own socio-economic profile chapter was already checked (see the main Investment vs. Need card above) and doesn't break this out by ward either. This is now a confirmed data-availability ceiling rather than an untried candidate source — closing it would require a formal request to StatsSA for Small Area Layer data, outside this profile's current scope. Source: <a href="https://www.statssa.gov.za/?p=18967" target="_blank" rel="noopener">statssa.gov.za, Ward-level Small Area Population Estimates release, 20 Nov 2025</a>; <a href="https://microdata.worldbank.org/catalog/8218" target="_blank" rel="noopener">South Africa Census 2022, 10% Sample microdata documentation</a>.</li>
+          <li>Councillor Performance (Axis C) — built for all 14 wards. Correction, 15 Sep 2026: this bullet previously said the axis was built for 10 of 14 wards, with Wards 2, 3, 4 and 7 still outstanding — checked directly against the ward data and found wrong; all four already carry dated Axis C timelines added 14–15 Sep 2026, and this note simply hadn't caught up. Ward 1 added 14 Sep 2026, drawing on its 28 Aug 2025 joint Ward 1/11/14 meeting, 13 Nov 2025 ordinary and public IDP-review meetings, 19 Feb 2026 ordinary meeting, 22 Apr 2026 public IDP/budget meeting, 21 May 2026 ordinary meeting in full, and 18 Jun 2026 Disaster Management site visit; one discrepancy flagged rather than resolved by inference — an official statement in August 2025 that the 573-unit Stanford housing project had "been delivered" versus resident testimony at the November 2025 public meeting that the project was incomplete with contractors departed. Two further gaps surfaced rather than closed: Ward 1's own 13 Nov 2025 minutes reference an unsupplied 11 Sep 2025 ordinary meeting and an unsupplied 27 Oct 2025 site-visit meeting, both logged as open items on Ward 1's card. Ward 14 added 13 Sep 2026, drawing on its Sep 2025 ordinary meeting, Nov 2025 joint Ward 11 &amp; 14 public meeting, Feb 2026 ordinary meeting and Apr 2026 joint Ward 11 &amp; 14 public meeting alongside its existing Mar/May/June 2026 record; two discrepancies flagged rather than resolved by inference — a K53 testing-centre tender quotation of R2.2m in Ward 14's own Feb 2026 minutes vs. R2m in Ward 11's card for the same project, and a R25,000 Silwerjare Care Fund donation recorded in both Sep 2025 and Mar 2026, possibly the same grant disbursed late or two separate ones. Ward 13 added 13 Sep 2026 still carries its own open item — a data-integrity discrepancy between the May 2026 minutes' "Molteno Street" item title and the March site visit's separate Chiappini Street finding, flagged on Ward 13's own card rather than resolved by inference. One gap also remains on Ward 10 — the 27 March 2026 meeting referenced in the ward's own May 2026 confirmation-of-minutes has no corresponding document; checked directly against the municipality's own Ward 10 minutes index twice, which shows no March 2026 document at any point — logged as an unresolved discrepancy between two primary sources, not assumed either way. Of the four newly-confirmed wards: Ward 2 carries two of its own open items — an unexplained gap in who chaired the ward committee across the period reviewed, and an unsupplied March 2026 meeting. Ward 3 carries one — the municipality's own "August 2025 Ward 3 Minutes Joint Meeting" link actually serves the Wards 1/11/14 joint-meeting minutes, not Ward 3 content, so that meeting's Ward 3 record remains unsourced pending the municipality fixing the link. Ward 7's own legitimacy dispute (logged on its card) remains open at the provincial level — a Council committee cleared the councillor in June 2026, but the Province's own response, which the process actually turns on, hasn't surfaced in any document reviewed. Ward 4 surfaced no comparable discrepancy. Update, 15 Sep 2026: this bullet previously said the Need Index comparison still needed re-running against the completed Axis C set. Checked directly rather than assumed — that claim was itself stale. The eq-compare visual and the full 14-ward table above already carry EMIS-backlog and capital-per-capita figures for all 14 wards; every work-order count, population figure and per-capita value was re-derived from each ward's own card this session (work orders ÷ population × 1,000 for EMIS; the municipal-only capital total ÷ population for investment, including Ward 1's housing-split working and the Ward 7/Ward 14 itemised-sum figures) and matched the table exactly, with no discrepancies found. Separately: the Need Index doesn't actually draw on Axis C data — EMIS backlog and capital spend come from the IDP's Chapter 13.4 and Table 5, a different document from the ward-committee minutes Axis C is built from — so Axis C's completion was never going to change a Need Index number regardless. Nothing needed re-running; the claim that it did was the gap.</li>
+          <li>EMIS backlog is not separable for Wards 5, 6 and 12 individually — confirmed from all three wards' own source pages independently. This is a hard ceiling on this page's Need Index for that cluster, not something to estimate by splitting the combined total three ways.</li>
+          <li>Self-audit run 13 Sep 2026: found and fixed a stale Councillor Performance count (said 3 of 14, should have said 4 after Ward 8 was completed), an invented compound tag ("Confirmed + Open, combined") not used anywhere else on this profile, and a mistagged Party card (labelled Confirmed for what is actually an interpretive argument). Framing-language check (Failure Mode 3) came back clean — party was already excluded from the primary visual and the Councillor Performance summary.</li>
+          <li>Self-audit run 15 Sep 2026: the same stale-count failure mode recurred at larger scale — this section's Councillor Performance count and the "remaining 4 wards" note both still said Wards 2, 3, 4 and 7 were unbuilt, when a direct check found all four already had dated Axis C content added 14–15 Sep 2026. Both the summary card above and this list's own bullet have been corrected. Lesson for future sessions: after any Axis C build, the §09 summary card and known-gaps list need an explicit refresh pass — they don't update themselves, and this is the second time a stale count has sat here uncaught. This page's own tag rigor should be re-checked after every wave of ward-level edits, not assumed still clean from the last check.</li>
+          <li>Self-audit run 15 Sep 2026 (third catch, same session): the stale-tracking failure mode above recurred a third time in the same list — this bullet's own text claimed the Need Index comparison still needed re-running against the completed Axis C set, when a direct line-by-line check found the eq-compare visual and full 14-ward table already carried correct, cross-checked figures for all 14 wards. Corrected above. Standing lesson repeated: this page's claims about its own status need a direct check against the actual rendered data every session, not a carry-forward from the last note written — three stale claims caught in two days is a pattern, not a one-off.</li>
+        </ul>
+        <p style="font-size:12px; color:var(--ink-soft); margin-top:8px;">Last checked: 15 Sep 2026.</p>
       </div>
     </div>
   </section>
@@ -4893,7 +4606,22 @@
       <div class="sec-head"><span class="sec-no">13</span><h2 class="sec-title">Sources &amp; methodology</h2></div>
       <p class="sources-note">This page is a working profile, not a finished audit. Every figure above traces to a status label — confirmed, reported, unverified, interpretation, open question, or open investigation (with a separate Disputed badge where a matter is in a formal process) — and cards marked as placeholders are intentionally incomplete rather than filled with invented detail.</p>
       <p class="sources-note" style="margin-top:12px;">A second, separate label — <span class="tag sphere" style="margin-left:0;">Municipal</span> — marks which sphere of government is actually responsible for an item: ward councillor, municipal council, provincial, or national. It answers a different question from the confidence tiers above ("who's accountable" rather than "how solid is this claim") and is deliberately shaped as a flat rectangular chip so it's never mistaken for one. <b>Coverage is partial and stated as such:</b> every project in the roads &amp; parks capital tracker (§04) carries a sphere tag, because that section was built with this field from the start. The rest of the page — services, finance, leadership, housing, and the ward explorer — does not yet carry sphere tags; retrofitting them properly (item by item, not assumed) is tracked as an open gap rather than applied selectively, since a half-tagged page would look more compliant than it actually is.</p>
-      <p class="sources-note" style="margin-top:12px;">The ward explorer (§08) also tracks <b>promises</b> — self-set commitments distinct from issues raised by residents — as a wholly separate list, structure, and status count, so a promise kept and an issue resolved never get folded into one number. The scaffold is built and live, with sourced promises now logged for <b>5 of 14 wards</b> (Wards 1, 2, 6, 10 and 12); the remaining 9 wards still show "no sourced, ward-level promises logged yet." That's a genuine sourcing gap, not a finding that no promises exist: individual, dateable, ward-attributable promises are hard to locate in public material, since most manifesto and campaign statements aren't granular enough to pin to a single ward with confidence. Promises will be added here only once a specific commitment can be traced to a primary source and a ward.</p>
+      <p class="sources-note" style="margin-top:12px;">The ward explorer (§08) also tracks <b>promises</b> — self-set commitments distinct from issues raised by residents — as a wholly separate list, structure, and status count, so a promise kept and an issue resolved never get folded into one number. The scaffold is built and live, with sourced promises now logged for <b>7 of 14 wards</b> (Wards 1, 2, 4, 6, 10, 11 and 12) — corrected 21 Sep 2026 from a previous "5 of 14 (1, 2, 6, 10, 12)" figure that had gone stale and missed Wards 4 and 11, caught by checking PROMISES_FALLBACK directly rather than trusting this note's last-written count. The remaining 7 wards still show "no sourced, ward-level promises logged yet." That's a genuine sourcing gap, not a finding that no promises exist: individual, dateable, ward-attributable promises are hard to locate in public material, since most manifesto and campaign statements aren't granular enough to pin to a single ward with confidence. Promises will be added here only once a specific commitment can be traced to a primary source and a ward.</p>
+
+      <!-- Cross-ward tag & source-type audit — Rule §06's "pull every
+           ward's tag counts into a table" and Failure Mode 1 (news vs.
+           document source-mix confound). Computed live in JS from the
+           `wards[i].services` data (renderTagAudit(), see script below)
+           rather than hand-typed, specifically so it can't go stale the
+           way the promise-count line above just did — it re-derives the
+           numbers from source data on every page load instead of
+           carrying forward a count someone wrote once. Scoped explicitly
+           to each ward's services deep-dive; other tagged content on the
+           page (Investigations, Housing capital tracker, etc.) isn't
+           ward-services-shaped in the data and isn't included here — see
+           the note rendered above the table for that scope limit. -->
+      <div id="tagAuditRoot"></div>
+
       <div class="src-controls">
         <div class="src-search-row">
           <input type="text" class="src-search" id="srcSearch" placeholder="Search sources — e.g. &quot;sewerage&quot;, &quot;budget&quot;, &quot;Gansbaai&quot;" aria-label="Search sources">
@@ -5175,6 +4903,7 @@
 </main>
 
 <div class="wrap" style="padding-top:0;">
+  <div class="widget" id="contactFormWidget" style="max-width:640px; margin:0 auto 16px;"></div>
   <div class="widget" id="siteFeedbackWidget" style="max-width:640px; margin:0 auto 24px;"></div>
 </div>
 <footer>Overstrand Civic Profile — a research-based page, not an official municipal publication.</footer>
@@ -5212,8 +4941,33 @@
   //   open spaces" — each Multiple choice: Satisfied / Neutral /
   //   Dissatisfied — plus Q4 "Ward" (Short answer), which this script
   //   fills in automatically — visitors never see or type it.
+  //
+  // CONTACT FORM — a separate, direct-line channel from the site
+  // feedback survey above: for corrections, a wrong or missing
+  // definition, or anything else someone wants to tell you, rather
+  // than the "did you find what you needed" opinion poll. One-way —
+  // no results are read back or shown on the page, so there's no
+  // sheetCsvUrl to set up, only a formId and entry IDs:
+  //   1. Create a Google Form with exactly these 4 questions, in this
+  //      order:
+  //        Q1 (Short answer, optional) — "Name"
+  //        Q2 (Short answer, optional) — "Email"
+  //        Q3 (Multiple choice or dropdown, optional) — "Topic" —
+  //           options: Correction / error, Missing information,
+  //           Definition needs clarifying, General feedback, Other
+  //        Q4 (Paragraph, required) — "Message"
+  //   2. Under Settings, turn OFF "Collect email addresses" (that's a
+  //      Google-account-verified field, different from the Q2 you
+  //      just added, and would defeat the anonymous option).
+  //   3. Same steps as above for formId and each entry.NNNNNN ID.
+  //   4. Nothing further needed — responses just land in that form's
+  //      own Sheet for you to read directly; there's no public tally.
   // ============================================================
   const SURVEY_CONFIG = {
+    contactForm: {
+      formId: '', // e.g. '1FAIpQLSxXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+      entries: { name: '', email: '', topic: '', message: '' } // entry.NNNNNN IDs
+    },
     siteFeedback: {
       formId: '', // e.g. '1FAIpQLSxXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
       entries: { foundIt: '', missing: '', errorReport: '' }, // entry.NNNNNN IDs
@@ -5268,6 +5022,11 @@
       ? [cfg.sheetCsvUrl]
       : [cfg.wardAnalysisCsvUrl, cfg.partyBreakdownCsvUrl, cfg.openTextCsvUrl];
     return !!(cfg.formId && urls.every(Boolean) && Object.values(cfg.entries).every(Boolean));
+  }
+  // Contact form is one-way (no results read back), so it only needs
+  // formId + entry IDs — no CSV URL to check, unlike surveyConfigured above.
+  function contactFormConfigured(cfg){
+    return !!(cfg.formId && Object.values(cfg.entries).every(Boolean));
   }
 
   // Minimal but correct CSV parser (handles quoted fields containing
@@ -5770,7 +5529,7 @@
           { label: "Stormwater & flooding", tag: "confirmed", sphere: "Municipal council", text: "The May 2026 storms brought power outages and storm damage to Gansbaai, with crews responding to blocked drains and damaged fencing, and some traffic lights knocked out (residents were told to treat these as four-way stops). Residents were urged to log stormwater issues via the emergency line or Citizen App.", source: "https://www.overstrand.gov.za/icc-update-3_-municipal-services-storm-weather-12-may-2026-09-45/" },
           { label: "Roads", tag: "confirmed", sphere: ["Provincial", "Municipal council"], text: "Update, 11 Sep 2026: sourced. The R43 upgrade between Stanford and Gansbaai, <a href=\"https://www.overstrand.gov.za/new-and-improved-r43-road-between-stanford-and-gansbaai-officially-re-opens/\">reopened in late 2025</a>, improved access and emergency-response times for the ward — that project was funded and delivered by the Western Cape Department of Infrastructure (Provincial sphere), the same as Ward 1's equivalent entry. Ward 2's own 2026/27 IDP priority table (previously unlocated; now directly sourced) separately lists two council-sphere local items: \"Streets & Stormwater\" (Masakhane, priority 2) and \"Pedestrian crossing intersection (industrial area) and Upgrade of Main Road 28 (Hermanus-Gansbaai)\" (priority 3) — both marked Overstrand-sphere only in the source table, i.e. municipal rather than provincial responsibility despite \"Main Road\" naming. A separate, wholly Ward 2/Masakhane-specific roads capital item (\"Rehabilitate roads & sidewalks, Masakhane\") is tracked in the roads &amp; parks capital tracker, §04, funded via MIG at R2,794,356 for 2026/27 per the SDBIP — though a draft multi-year capital budget for Ward 02 shows a different figure and funding source for what appears to be the same project (R2,400,000 council-funded in 2025/26, R2,000,000 council-funded in 2026/27), left unreconciled per this profile's standard practice for capital-figure discrepancies across document types rather than assumed to be the same total.", source: "https://www.overstrand.gov.za/wp-content/uploads/2026/08/2026-27-IDP-Review-Ward-2-Priorities.pdf" },
           { label: "Waste management", tag: "confirmed", sphere: "Municipal council", text: "Update, 2 Sep 2026: sourced. The municipality's own refuse schedule confirms Masakhane gets collections three days a week (Tuesday, Wednesday and Friday) rather than the single weekly collection most Overstrand suburbs get — reflecting higher-density informal-settlement need rather than a lesser service. The municipality's own \"Disposing of your Rubbish\" page separately acknowledges illegal dumping as a persistent, municipality-wide problem, not one specific to Masakhane, describing rubbish being \"dumped illegally and regularly in many areas around Overstrand.\" Reportable via the Citizen App or ward committee.", source: "https://www.overstrand.gov.za/refuse-removal-schedule/" },
-          { label: "Housing & informal settlement upgrading", tag: "reported", sphere: ["Municipal council", "National"], text: "Masakhane is a focal point for informal settlement upgrading, coordinated with municipal housing units. Formal housing-subsidy delivery itself typically sits with Provincial Human Settlements rather than the municipality; Ward 2's own IDP priority table separately lists \"Housing\" (Masakhane) as an Overstrand-sphere priority item. Correction, 15 Sep 2026: an earlier version of this entry described a January 2026 SASSA/Thusong outreach as having explicitly prioritised Ward 2 for on-the-spot services. A broader check of Overstrand’s own SASSA/Thusong outreach schedules shows Gansbaai’s Blompark Community Hall gets a recurring slot on the same rotation as Hermanus, Kleinmond, Stanford and Hawston, going back years — not a decision to single out Ward 2. That rotation is a National-sphere, Overstrand-wide service, comparable to the SASSA payment-date widget elsewhere on this profile, not ward-specific delivery, and this profile no longer credits it as such.", source: "https://xplorio.com/gansbaai/en/blog/general/129106/sassa-and-thusong-programme-bring-services-to-gansbaai/" },
+          { label: "Housing & informal settlement upgrading", tag: "reported", sphere: ["Municipal council", "National"], text: "Masakhane is a focal point for informal settlement upgrading, coordinated with SASSA (National), the Thusong outreach programme (National coordination) and municipal housing units — a January 2026 SASSA/Thusong outreach explicitly prioritised Ward 2 for on-the-spot services. Note this is distinct from formal housing-subsidy delivery itself, which in South Africa typically sits with Provincial Human Settlements rather than the municipality or these national outreach programmes; Ward 2's own IDP priority table separately lists \"Housing\" (Masakhane) as an Overstrand-sphere priority item.", source: "https://xplorio.com/gansbaai/en/blog/general/129106/sassa-and-thusong-programme-bring-services-to-gansbaai/" },
           { label: "Community safety & unrest", tag: "reported", sphere: "National", text: "<div class=\"ec-timeline\"><div class=\"tl-row\"><div class=\"tl-year\">Feb 2026</div><div class=\"tl-text\">Roughly 600 protesters marched from Masakhane toward the Gansbaai CBD demanding lower municipal costs, reliable basic services for informal settlements, land for small-scale farmers and changes to school transport.</div></div><div class=\"tl-row\"><div class=\"tl-year\">June 2026</div><div class=\"tl-text\">About 1,500 people from Masakhane took part in anti-immigrant protests; more than 200 foreign nationals sheltered at the Gansbaai Tourism and Conference Centre, and foreign-run shops shut temporarily. Police made arrests, and no serious property damage was reported.</div></div></div>Coverage framed housing and service pressures as part of the backdrop, while a senior police official publicly stressed that no grievance justifies xenophobic violence.", source: "https://novanews.co.za/hermanustimes/multi-town-protest-marches-planned-across-overstrand-this-week/" },
           { label: "Aftermath & security posture", tag: "reported", sphere: "National", text: "By 30 June 2026, Gansbaai had returned to calm and most foreign-run shops had reopened. Security assessments issued afterward flagged Gansbaai and Masakhane, alongside Kleinmond and Bredasdorp, as high-risk areas for further demonstrations — a sign the underlying tensions hadn't fully resolved even once the immediate unrest passed.", source: "https://novanews.co.za/hermanustimes/kleinmond-gansbaai-and-bredasdorp-flagged-as-high-risk-areas-for-march-and-march-demonstrations/" },
           { label: "Fire risk", tag: "confirmed", sphere: ["Municipal council", "National"], text: "Update, 2 Sep 2026: sourced. The Western Cape provincial government's own wildfire briefing (Minister Anton Bredell, 28 Nov 2025) confirms Masakhane as one of the active, difficult-to-contain fire fronts during the November 2025 Gansbaai wildfires, describing it as \"a complex and challenging fire\" with multiple overnight flare-ups requiring dedicated crews (VWS, Working on Fire Kleinmond) beyond the initial response. The same period saw a separate fire at De Kelders. Dense, closely-built informal-settlement housing complicates both the fire risk itself and the emergency response compared with formal-town firefighting.", source: "https://www.gov.za/news/media-statements/mec-anton-bredell-gives-western-cape-wildfire-update-28-nov-2025" },
@@ -6076,7 +5835,7 @@
           { label: "Ward 11 committee & community representation (26 May 2026)", tag: "confirmed", sphere: "Municipal council", text: "The 26 May 2026 Ward 11 Committee minutes list Cllr Steven Fourie as chairperson, with committee representation from:<ul class=\"ec-list\"><li>Franskraal Ratepayers' Association</li><li>Pearly Beach Conservancy</li><li>Baardskeerdersbos Home Owners' Association</li><li>Klipfonteyn Home Owners' Association</li><li>Eluxolweni Community</li><li>Eluxolweni Youth</li><li>Franskraal Neighbourhood Watch / Buurtwag</li></ul>Municipal officials from Community Liaison (Gansbaai/Stanford), Civil Engineering Services and Law Enforcement also attended, alongside an observer from the Franskraal Ratepayers' Association.", source: "https://www.overstrand.gov.za/~documents/ward-documents/ward-11-documents/ward-11-minutes/may-2026-ward-11-minutes-ordinary-meeting/?layout=file" },
           { label: "Franskraal stormwater project — status, not yet delivery", tag: "confirmed", sphere: "Municipal council", text: "At the same 26 May 2026 meeting, the Civil Engineering official gave this status:<div class=\"ec-timeline\"><div class=\"tl-row\"><div class=\"tl-year\">Design</div><div class=\"tl-text\">Changed from one large pipe to two smaller pipes.</div></div><div class=\"tl-row\"><div class=\"tl-year\">Trigger</div><div class=\"tl-text\">The redesign triggered a new Environmental Impact Assessment (EIA).</div></div><div class=\"tl-row\"><div class=\"tl-year\">26 May 2026</div><div class=\"tl-text\">Contractor appointed; EIA process already under way. Official described the project as onerous.</div></div><div class=\"tl-row\"><div class=\"tl-year\">~Feb 2027</div><div class=\"tl-text\">Implementation foreseen — the official's own estimate, not yet reached.</div></div></div>That's real, documented progress — advocacy, a budget-line change (see next item) and active monitoring — but it isn't delivery yet: on the record here, Franskraal residents are roughly nine months from the physical fix being in place, not receiving it now.", source: "https://www.overstrand.gov.za/~documents/ward-documents/ward-11-documents/ward-11-minutes/may-2026-ward-11-minutes-ordinary-meeting/?layout=file" },
           { label: "Ward-specific project budget: R250,000 stormwater reallocation (2026/27)", tag: "confirmed", sphere: "Municipal council", text: "At the Special Council meeting that approved the final 2026/27 IDP Review and Amendment (29 May 2026, supported by 22 councillors), Cllr Fourie requested that R50,000 originally allocated to street calming in Eluxolweni be moved instead to stormwater in Franskraal:<div class=\"ec-compare\"><div class=\"cp-item\"><div class=\"cp-num amber\">R200,000</div><div class=\"cp-label\">Franskraal stormwater, before</div></div><span class=\"cp-arrow\">→</span><div class=\"cp-item\"><div class=\"cp-num green\">R250,000</div><div class=\"cp-label\">Franskraal stormwater, after</div></div></div>This is a concrete instance of a councillor redirecting a ward budget line, not just listing an item on an IDP wishlist — though it's worth being precise that it's a R50,000 reallocation within an existing ward envelope (moved out of Eluxolweni street calming), not new money added to the ward.", source: "https://www.overstrand.gov.za/budget/final-budget-2026-2027-mtref-medium-term-revenue-and-expenditure-framework/?layout=file" },
-          { label: "Illegal dumping — Pearly Beach / Eluxolweni, and municipal cleaning posts", tag: "confirmed", sphere: "Municipal council", text: "The 26 May 2026 Ward 11 committee minutes record a Law Enforcement report on illegal dumping in Pearly Beach and Eluxolweni, covering the transfer station's operating days (closed Wednesdays) and regular monitoring patrols in the area. Separately, the municipality's EPWP Ward-Specific Cleaning Project (1 March – 30 June 2026) budgets dedicated Ward 11 posts: 5 informal-toilet-cleaning posts and 11 street-sweeping/illegal-dumping posts (10 general workers, 1 supervisor) in the Pearly Beach–Eluxolweni division, plus 1 Eluxolweni Soccer field maintenance post. Cross-check, logged per this profile's political-balance methodology: the same EPWP document tags equivalent street-sweeping/illegal-dumping posts (6 general workers + 1 supervisor each) to Zwelihle under Ward 5, Ward 6 and Ward 12 as well as Mount Pleasant (Ward 4) and Hawston (Ward 8) — so the EPWP cleaning-post allocation isn't confined to this ward, which is relevant context for anyone comparing Ward 11's documented law-enforcement response on dumping to other wards'.", source: "https://www.overstrand.gov.za/wp-content/uploads/2026/02/Temporary-Vacancies_Ward-Specific-Cleaning-Project.pdf" },
+          { label: "Illegal dumping — Pearly Beach / Eluxolweni, and municipal cleaning posts", tag: "confirmed", sphere: "Municipal council", text: "The 26 May 2026 Ward 11 committee minutes record a Law Enforcement report on illegal dumping in Pearly Beach and Eluxolweni, covering the transfer station's operating days (closed Wednesdays) and regular monitoring patrols in the area. Separately, the municipality's <button type=\"button\" class=\"term\" aria-expanded=\"false\">EPWP<span class=\"term-tip\" hidden>EPWP = Expanded Public Works Programme, a national government job-creation scheme that funds short-term, task-based posts (like street-sweeping or dumping patrols) through municipalities. The posts are usually municipally-managed day to day, but the funding and programme design are national.</span></button> Ward-Specific Cleaning Project (1 March – 30 June 2026) budgets dedicated Ward 11 posts: 5 informal-toilet-cleaning posts and 11 street-sweeping/illegal-dumping posts (10 general workers, 1 supervisor) in the Pearly Beach–Eluxolweni division, plus 1 Eluxolweni Soccer field maintenance post. Cross-check, logged per this profile's political-balance methodology: the same EPWP document tags equivalent street-sweeping/illegal-dumping posts (6 general workers + 1 supervisor each) to Zwelihle under Ward 5, Ward 6 and Ward 12 as well as Mount Pleasant (Ward 4) and Hawston (Ward 8) — so the EPWP cleaning-post allocation isn't confined to this ward, which is relevant context for anyone comparing Ward 11's documented law-enforcement response on dumping to other wards'.", source: "https://www.overstrand.gov.za/wp-content/uploads/2026/02/Temporary-Vacancies_Ward-Specific-Cleaning-Project.pdf" },
           { label: "Fire services engagement — site visit scheduled; outcomes not yet independently sourced", tag: "open", sphere: "Municipal council", text: "The 26 May 2026 Ward 11 minutes confirm the committee's next meeting was scheduled as a site project visit to the Gansbaai Fire Station on 9 June 2026. Project notes describe that visit as covering fire trucks, protective clothing and staffing, and as identifying a need for a dedicated Fire Services WhatsApp number for the ward — but this profile hasn't yet located or fetched a primary June 2026 Ward 11 site-visit report to confirm those specific outcomes directly (unlike Ward 9's equivalent June 2026 site-visit report, which was directly sourced), so they're logged as an open gap pending that document rather than asserted as confirmed. Ward 11's own IDP priority list separately carries fire equipment, PPE and skid units/storage for rural areas as funded 2026/27 priorities.", source: "https://www.overstrand.gov.za/~documents/ward-documents/ward-11-documents/ward-11-minutes/may-2026-ward-11-minutes-ordinary-meeting/?layout=file" },
           { label: "2026/27 IDP priorities — 39 items logged", tag: "confirmed", sphere: ["Municipal council", "Provincial"], text: "Ward 11's 2026/27 IDP Review priority list, attributed to Cllr Steven Fourie, runs to 39 items spanning stormwater, roads, water, electricity, housing, primary health care, fire services, public transport, community halls, CCTV, sidewalks, boardwalks and youth/sport facilities across Baardskeerdersbos, Pearly Beach, Eluxolweni, Buffeljagsbaai, Wolvengat/Viljoenshof, Franskraal and Klipfonteyn. The large majority carry a single sphere mark against \"Overstrand\" in the source table, consistent with being municipal capex/opex line items (e.g. Franskraal stormwater, gravel-road tarring, CCTV, sewer reticulation, the Eluxolweni Community Hall extension). A smaller number carry a second mark alongside Overstrand — including the Buffeljagsbaai serviced-plots housing item, electrification of Eluxolweni, the Wolvengat Community Hall, public transport, the Eluxolweni Youth Development Centre and Wi-Fi at the Eluxolweni Community Hall — and one item, tarring of the proclaimed Provincial road between Pearly Beach/Baardskeerdersbos and Grootbos, is marked Provincial only, not Overstrand.", source: "https://www.overstrand.gov.za/wp-content/uploads/2026/08/2026-27-IDP-Review-Ward-11-Priorities.pdf" },
           { label: "IDP wish-list process — public input and amendments (10 Nov 2025)", tag: "confirmed", sphere: "Municipal council", text: "At the 10 November 2025 Ward 11 &amp; 14 public IDP-review meeting, Cllr Fourie gave a presentation setting out Ward 11's IDP wish list — the same priority table logged above. Members of the public gave input during the presentation; the minutes record that several items were amended off the list because the underlying needs \"has been dealt with and resolved,\" while one new item was added before the final Ward 11 IDP was attached to the minutes. This is confirmed evidence of a live, councillor-convened, public-input process behind the priority table — distinct from a personal delivery promise. This profile has found no source recording Fourie personally committing to deliver any specific item on the list himself, only his role presenting and updating it with the ward committee and public; \"the councillor presented and updated the ward's wish list\" and \"a specific item was promised or delivered by him\" are kept as two separate claims here, not conflated into one.", source: "https://www.overstrand.gov.za/~documents/ward-documents/ward-11-documents/ward-11-minutes/november-2025-ward-11-minutes-public-meeting/?layout=file" },
@@ -6270,6 +6029,27 @@
     return STATUS_LABELS[resolved] ? resolved : 'raised';
   }
 
+  // Does this ward have at least one logged issue or promise at the given
+  // status? Powers the status filter axis (§04) — independent of, and
+  // combined with (AND), the category filter. issuesByWard/promisesByWard
+  // are populated both from the embedded fallback (seeded at load) and,
+  // once it resolves, the live votefile export — so this needs to be
+  // called fresh at render time, not cached, since those objects can
+  // still be updated asynchronously after the grid first paints.
+  function wardHasStatus(idx, status){
+    if(status === 'all') return true;
+    const wardNum = idx + 1;
+    const issues = issuesByWard[wardNum] || {};
+    for(const flag in issues){
+      if(normalizeStatus(issues[flag].status) === status) return true;
+    }
+    const promises = promisesByWard[wardNum] || [];
+    for(const p of promises){
+      if(normalizeStatus(p.status) === status) return true;
+    }
+    return false;
+  }
+
   // Councillor tracker sync. Live source of truth is
   // votefile-overstrand-import.json (the councillor tracker's export
   // format) — loaded via fetch() below and keyed by ward number. The
@@ -6323,13 +6103,13 @@
   // municipality-wide accountability tracker rather than a ward's promise
   // list — see the profile's methodology notes.
   const ISSUES_FALLBACK = [
-    { ward: 2, flag: "housing", status: "raised",
+    { ward: 2, flag: "housing", status: "raised", party_at_time: "ANC",
       note: "More than 30 vacant plots in Masakhane remain unallocated to qualifying residents as of a June 2026 site visit, with residents themselves questioning why. No implementation decision on either allocating the plots for housing or repurposing one for a proposed business hub is recorded as of this profile's last check." },
-    { ward: 10, flag: "outages", status: "acknowledged",
+    { ward: 10, flag: "outages", status: "acknowledged", party_at_time: "DA",
       note: "The 2026 Customer Satisfaction Survey flagged Ward 10 among the wards with the highest frequency of water and electricity interruptions. Much of the electricity supply is Eskom's, not the municipality's, network — the May 2026 ward committee minutes record Cllr Els escalating repeatedly, including to the national minister, and an August 2026 Betty's Bay outage reportedly triggered a NERSA escalation. Raised and actively escalated, but no source found confirming outages have actually reduced." },
-    { ward: 10, flag: "roads", status: "in_progress",
+    { ward: 10, flag: "roads", status: "in_progress", party_at_time: "DA",
       note: "The R44 (a provincial route) and a Pringle Bay pothole complaint straddling a disputed municipal/provincial boundary are the ward's two documented road problems. The May 2026 minutes record the municipality's own team cleaning R44 verges/gutters monthly and Cllr Els making a submission to the provincial minister — ongoing action, not a resolved complaint, and the pothole jurisdiction dispute remains unsettled as of this profile's last check." },
-    { ward: 10, flag: "idp", status: "acknowledged",
+    { ward: 10, flag: "idp", status: "acknowledged", party_at_time: "DA",
       note: "Ward 10's ward committee has logged an 11-item list into the municipality's formal IDP planning process (Wi-Fi hotspots, boardwalk/cliff-path maintenance, Overhills taxi rank, Rooiels Nature Reserve expansion and others). Logged and being discussed per the committee's own minutes, but this profile hasn't located the underlying IDP priority table to confirm funding status for the list as a whole — see the ward's own IDP-priorities card, tagged Unverified for the same reason." }
   ];
 
@@ -6400,7 +6180,7 @@
   (function seedIssuesAndPromisesFallback(){
     ISSUES_FALLBACK.forEach(iss => {
       if(!issuesByWard[iss.ward]) issuesByWard[iss.ward] = {};
-      issuesByWard[iss.ward][iss.flag] = { status: iss.status, note: iss.note || '' };
+      issuesByWard[iss.ward][iss.flag] = { status: iss.status, note: iss.note || '', party_at_time: iss.party_at_time || '' };
     });
     PROMISES_FALLBACK.forEach(p => {
       if(!promisesByWard[p.ward]) promisesByWard[p.ward] = [];
@@ -6431,10 +6211,18 @@
       // key matching FLAG_LABELS, plus a status anywhere in the full
       // raised→acknowledged→in_progress→resolved|stalled|abandoned|
       // disputed lifecycle (normalizeStatus() also accepts the legacy
-      // open/pending values as aliases). The current export's "issues"
-      // array is empty, so every ward falls back to "Raised" below until
-      // outcomes start getting logged.
-      issuesByWard = {};
+      // open/pending values as aliases), and now also party_at_time —
+      // added 21 Sep 2026 so issues carry the same floor-crossing
+      // protection promises already had (Rule §04: track party_at_time
+      // per item, not just current party). The current export's "issues"
+      // array is empty. issuesByWard was already seeded from
+      // ISSUES_FALLBACK above (real researched outcomes for Wards 2 and
+      // 10) — deliberately NOT reset to {} here, so an empty live array
+      // can't silently erase that fallback data out from under a
+      // successful fetch. Live entries are merged in per ward+flag and
+      // win on conflict; any ward/flag the live export hasn't covered
+      // keeps whatever the fallback already had, falling back further to
+      // "Raised" (in the render step below) only if neither has it.
       (Array.isArray(data.issues) ? data.issues : []).forEach(iss => {
         let wardNum = iss.ward;
         if(typeof wardNum === 'string'){
@@ -6443,7 +6231,7 @@
         }
         if(!wardNum || !iss.flag) return;
         if(!issuesByWard[wardNum]) issuesByWard[wardNum] = {};
-        issuesByWard[wardNum][iss.flag] = { status: normalizeStatus(iss.status), note: iss.note || '' };
+        issuesByWard[wardNum][iss.flag] = { status: normalizeStatus(iss.status), note: iss.note || '', party_at_time: iss.party_at_time || '' };
       });
       // Promises — self-set commitments (manifesto lines, IDP pledges,
       // public undertakings) — read from a wholly separate "promises"
@@ -6454,27 +6242,36 @@
       // per-item rather than assumed from the current councillor, since
       // floor-crossing means whoever made the commitment may not be
       // whoever holds the seat now. The current export's "promises"
-      // array is empty: sourcing individual, dateable, ward-level
-      // promises from public material is genuinely hard to find (most
-      // manifesto material isn't ward-granular), so this stays empty
-      // rather than populated with anything inferred. See §11.
-      promisesByWard = {};
-      (Array.isArray(data.promises) ? data.promises : []).forEach(p => {
-        let wardNum = p.ward;
-        if(typeof wardNum === 'string'){
-          const m = /Ward\s+(\d+)/i.exec(wardNum);
-          wardNum = m ? parseInt(m[1], 10) : null;
-        }
-        if(!wardNum || !p.text) return;
-        if(!promisesByWard[wardNum]) promisesByWard[wardNum] = [];
-        promisesByWard[wardNum].push({
-          text: p.text,
-          status: normalizeStatus(p.status),
-          party_at_time: p.party_at_time || '',
-          date: p.date || '',
-          source: p.source || ''
+      // array is empty. promisesByWard was already seeded from
+      // PROMISES_FALLBACK above (real researched commitments for Wards
+      // 1, 2, 4, 6, 10, 11 and 12) — deliberately NOT reset to {} here,
+      // for the same reason as issuesByWard above. Per ward, live data
+      // (when present) fully supersedes that ward's fallback rows rather
+      // than appending to them, since the two aren't meant to coexist as
+      // duplicates; a ward the live export doesn't mention at all keeps
+      // its fallback rows untouched.
+      (function mergeLivePromises(){
+        const livePromiseWards = new Set();
+        (Array.isArray(data.promises) ? data.promises : []).forEach(p => {
+          let wardNum = p.ward;
+          if(typeof wardNum === 'string'){
+            const m = /Ward\s+(\d+)/i.exec(wardNum);
+            wardNum = m ? parseInt(m[1], 10) : null;
+          }
+          if(!wardNum || !p.text) return;
+          if(!livePromiseWards.has(wardNum)){
+            promisesByWard[wardNum] = [];
+            livePromiseWards.add(wardNum);
+          }
+          promisesByWard[wardNum].push({
+            text: p.text,
+            status: normalizeStatus(p.status),
+            party_at_time: p.party_at_time || '',
+            date: p.date || '',
+            source: p.source || ''
+          });
         });
-      });
+      })();
       console.log('[wards] Loaded', Object.keys(map).length, 'ward councillors from votefile-overstrand-import.json');
     } catch(err){
       councillors = COUNCILLORS_FALLBACK;
@@ -6483,10 +6280,114 @@
     }
     const noteEl = document.getElementById('councillor-sync-note');
     if(noteEl) noteEl.textContent = 'Councillor data: ' + councillorSource + '.';
-    // Re-render the currently selected ward (if any) so it reflects
-    // whichever data source actually won.
+    // Re-render the grid (status-filter dimming depends on
+    // issuesByWard/promisesByWard, which may just have changed) and the
+    // currently selected ward, if any, so both reflect whichever data
+    // source actually won.
+    renderAllGrids();
+    renderTagAudit();
     const selectedCell = document.querySelector('.ward-cell.selected');
     if(selectedCell) selectWard(parseInt(selectedCell.dataset.idx, 10), { push: false, focus: false });
+  }
+
+  // ---------- Cross-ward tag & source-type audit (§06 rollup) ----------
+  // Rule §06 asks for the same fixed tag vocabulary and a source-type
+  // (news vs. document) check run identically across every ward and
+  // rolled into one table, rather than left as scattered per-ward prose.
+  // Computed live from wards[i].services on every render — not hand-typed
+  // — specifically so it can't go stale the way the promise-coverage
+  // count above just did (caught and corrected in this same edit).
+  const TAG_AUDIT_KEYS = ['confirmed','reported','unverified','interpretation','open','investigation','disputed'];
+  const TAG_AUDIT_LABELS = {
+    confirmed: 'Confirmed', reported: 'Reported', unverified: 'Unverified',
+    interpretation: 'Interp.', open: 'Open Q', investigation: 'Investig.', disputed: 'Disputed'
+  };
+  function sourceDomainOf(raw){
+    if(!raw) return null;
+    const m = /https?:\/\/[^\s"'<>]+/.exec(raw);
+    if(!m) return null;
+    try { return new URL(m[0]).hostname.replace(/^www\./, ''); } catch(e){ return null; }
+  }
+  function computeWardTagAudit(){
+    const rows = [];
+    for(let i = 0; i < 14; i++){
+      const w = wards[i];
+      if(!w || !Array.isArray(w.services) || w.services.length === 0) continue;
+      const wardNum = i + 1;
+      const c = councillors[wardNum];
+      const party = c ? c.party : '—';
+      const counts = {};
+      TAG_AUDIT_KEYS.forEach(k => { counts[k] = 0; });
+      let docCount = 0, newsCount = 0;
+      w.services.forEach(item => {
+        const tags = item.tags ? item.tags : (item.tag ? [item.tag] : []);
+        tags.forEach(t => { if(counts.hasOwnProperty(t)) counts[t]++; });
+        const domain = sourceDomainOf(item.source);
+        if(domain && domain.endsWith('gov.za')) docCount++;
+        else if(domain) newsCount++;
+      });
+      rows.push({ wardNum, party, counts, total: w.services.length, docCount, newsCount });
+    }
+    return rows;
+  }
+  function renderTagAudit(){
+    const root = document.getElementById('tagAuditRoot');
+    if(!root) return;
+    const rows = computeWardTagAudit();
+    if(rows.length === 0){ root.innerHTML = ''; return; }
+
+    const byParty = {};
+    rows.forEach(r => {
+      if(!byParty[r.party]) byParty[r.party] = { party: r.party, counts: {}, total: 0, docCount: 0, newsCount: 0, wardCount: 0 };
+      const agg = byParty[r.party];
+      TAG_AUDIT_KEYS.forEach(k => { agg.counts[k] = (agg.counts[k] || 0) + r.counts[k]; });
+      agg.total += r.total; agg.docCount += r.docCount; agg.newsCount += r.newsCount; agg.wardCount += 1;
+    });
+
+    // Page-wide doc-source % across all sourced items, used only to flag
+    // a ward whose split sits well outside the norm — a prompt to check
+    // why (per Failure Mode 1), never itself asserted as a bias finding.
+    const totalDoc = rows.reduce((s,r) => s + r.docCount, 0);
+    const totalNews = rows.reduce((s,r) => s + r.newsCount, 0);
+    const overallDocPct = (totalDoc + totalNews) ? Math.round((totalDoc / (totalDoc + totalNews)) * 100) : null;
+
+    const headCells = TAG_AUDIT_KEYS.map(k => `<th>${TAG_AUDIT_LABELS[k]}</th>`).join('');
+    const wardRows = rows.map(r => {
+      const tagCells = TAG_AUDIT_KEYS.map(k => `<td>${r.counts[k] || ''}</td>`).join('');
+      const docTotal = r.docCount + r.newsCount;
+      const wardDocPct = docTotal ? Math.round((r.docCount / docTotal) * 100) : null;
+      const docPctLabel = wardDocPct === null ? '—' : `${wardDocPct}%`;
+      const flagged = overallDocPct !== null && docTotal >= 4 && Math.abs(wardDocPct - overallDocPct) >= 25;
+      return `<tr>
+        <td>Ward ${r.wardNum}</td>
+        <td>${r.party}</td>
+        ${tagCells}
+        <td>${r.total}</td>
+        <td class="ta-docpct${flagged ? ' ta-flag' : ''}">${docPctLabel}</td>
+      </tr>`;
+    }).join('');
+
+    const partyRows = Object.values(byParty).sort((a,b) => b.total - a.total).map(agg => {
+      const tagCells = TAG_AUDIT_KEYS.map(k => `<td>${agg.counts[k] || ''}</td>`).join('');
+      const docTotal = agg.docCount + agg.newsCount;
+      const docPctLabel = docTotal ? `${Math.round((agg.docCount / docTotal) * 100)}%` : '—';
+      return `<tr class="tag-audit-party-row">
+        <td colspan="2">${agg.party} (${agg.wardCount} ward${agg.wardCount === 1 ? '' : 's'})</td>
+        ${tagCells}
+        <td>${agg.total}</td>
+        <td class="ta-docpct">${docPctLabel}</td>
+      </tr>`;
+    }).join('');
+
+    root.innerHTML = `
+      <div class="tag-audit">
+        <p class="tag-audit-intro"><b>Cross-ward tag &amp; source-type audit.</b> Per §06, the same fixed tag vocabulary and a document-vs-news source-type split, run identically across every ward's services deep-dive and rolled up here rather than left scattered across individual ward notes. Scope: services deep-dive items only (${rows.length} of 14 wards currently have any) — doesn't include Investigations, the Housing capital tracker, or other cross-cutting sections, which aren't ward-services-shaped in the underlying data. "Doc %" is the share of sourced items resolving to a *.gov.za domain rather than news/community coverage. A row is flagged here when it differs from the page-wide average (${overallDocPct !== null ? overallDocPct + '%' : '—'}) by 25 points or more across at least 4 sourced items — a source-mix difference worth checking, not itself a finding of bias; see that ward's own note for why (e.g. Ward 2's wildfire/unrest coverage).</p>
+        <table class="tag-audit-table">
+          <thead><tr><th>Ward</th><th>Party</th>${headCells}<th>Items</th><th>Doc %</th></tr></thead>
+          <tbody>${wardRows}${partyRows}</tbody>
+        </table>
+        <p class="tag-audit-foot">Recomputed from the page's own data on every load, not hand-counted, so it can't drift the way a written-down count can. "Party" reflects each ward's current councillor — it doesn't retroactively split a ward's item counts by who held the seat when each item was logged (that's what <code>party_at_time</code> on individual issue/promise items is for).</p>
+      </div>`;
   }
 
   function partyClass(party){
@@ -6502,6 +6403,7 @@
   const grid = document.getElementById('ward-grid');
   const profile = document.getElementById('ward-profile');
   let activeFilter = 'all';
+  let activeStatusFilter = 'all';
   let currentWardIdx = null;
   let activeWardTab = 'issues';
 
@@ -6549,7 +6451,9 @@
         cell.classList.add('has-data');
         cell.textContent = 'W' + (i + 1);
         cell.dataset.idx = i;
-        const matches = activeFilter === 'all' || data.flags.includes(activeFilter);
+        const matchesCategory = activeFilter === 'all' || data.flags.includes(activeFilter);
+        const matchesStatus = wardHasStatus(i, activeStatusFilter);
+        const matches = matchesCategory && matchesStatus;
         cell.style.opacity = matches ? '1' : '0.25';
         cell.setAttribute('aria-label', data.name + ' — survey data available');
         cell.addEventListener('click', () => selectWard(i));
@@ -6598,15 +6502,16 @@
     const params = new URLSearchParams(window.location.search);
     const wardParam = parseInt(params.get('ward'), 10);
     const idx = (Number.isInteger(wardParam) && wardParam >= 1 && wardParam <= 14) ? wardParam - 1 : null;
-    return { idx, filter: params.get('filter') || 'all' };
+    return { idx, filter: params.get('filter') || 'all', statusFilter: params.get('status') || 'all' };
   }
   function syncURL(idx, filter, { push = true } = {}){
     const params = new URLSearchParams(window.location.search);
     if(idx === null || idx === undefined) params.delete('ward'); else params.set('ward', idx + 1);
     if(!filter || filter === 'all') params.delete('filter'); else params.set('filter', filter);
+    if(!activeStatusFilter || activeStatusFilter === 'all') params.delete('status'); else params.set('status', activeStatusFilter);
     const qs = params.toString();
     const url = window.location.pathname + (qs ? '?' + qs : '') + window.location.hash;
-    const state = { idx: idx ?? null, filter: filter || 'all' };
+    const state = { idx: idx ?? null, filter: filter || 'all', statusFilter: activeStatusFilter || 'all' };
     if(push) history.pushState(state, '', url);
     else history.replaceState(state, '', url);
   }
@@ -6616,6 +6521,10 @@
       b.classList.toggle('active', match);
       b.setAttribute('aria-pressed', String(match));
     });
+  }
+  function setActiveStatusSelect(status){
+    const sel = document.getElementById('wardStatusFilter');
+    if(sel) sel.value = status || 'all';
   }
 
   function selectWard(idx, { push = true, focus = true } = {}){
@@ -6650,15 +6559,19 @@
     // survey, each showing whatever status the councillor tracker has
     // logged for it, across the full raised→acknowledged→in_progress→
     // resolved|stalled|abandoned|disputed lifecycle, defaulting to
-    // "Raised" when nothing's been logged yet.
+    // "Raised" when nothing's been logged yet. Shows party_at_time when
+    // logged (added 21 Sep 2026), same floor-crossing protection as
+    // promises below — whoever was accountable when the issue was
+    // raised, not necessarily today's councillor.
     const wardIssueData = issuesByWard[wardNum] || {};
     const issueRows = d.flags.map(f => {
       const logged = wardIssueData[f];
       const status = normalizeStatus(logged ? logged.status : null);
       const statusLabel = STATUS_LABELS[status];
+      const issueMeta = logged && logged.party_at_time ? `<span class="issue-meta">${logged.party_at_time}</span>` : '';
       return `
         <div class="issue-row">
-          <span class="issue-name">${FLAG_LABELS[f] || f}</span>
+          <span class="issue-name">${FLAG_LABELS[f] || f}${issueMeta}</span>
           <span class="issue-status status-${status}">${statusLabel}</span>
         </div>`;
     }).join('');
@@ -6760,20 +6673,6 @@
     const prevIdx = hasMultiple ? dataWards[(pos - 1 + dataWards.length) % dataWards.length] : null;
     const nextIdx = hasMultiple ? dataWards[(pos + 1) % dataWards.length] : null;
 
-    // Ward-summary gauge — reuses the same gazetted 2026 Local Government
-    // Elections polling day (4 Nov 2026, 07:00 SAST) as the site-wide
-    // election countdown above, just shown as term-elapsed progress
-    // rather than a live ticking clock, since this block re-renders on
-    // every ward switch rather than ticking per second.
-    const termStart = new Date('2021-11-01T00:00:00+02:00');
-    const termEnd = new Date('2026-11-04T07:00:00+02:00');
-    const termNow = new Date();
-    const termProgress = Math.min(Math.max((termNow - termStart) / (termEnd - termStart), 0), 1);
-    const termDaysLeft = Math.max(0, Math.ceil((termEnd - termNow) / 86400000));
-    const termCirc = 251.2;
-    const termOffset = (termCirc - termProgress * termCirc).toFixed(1);
-    const wardArea = d.name.includes('·') ? d.name.split('·')[1].trim() : d.name;
-
     profile.classList.remove('empty');
     profile.innerHTML = `
       <div class="wp-header">
@@ -6797,32 +6696,6 @@
           <div class="ward-grid" id="ward-grid-mobile" role="group" aria-label="Ward selection grid, 14 wards, highlighted wards have survey data" tabindex="-1"></div>
         </div>
         ${councillorBlock}
-
-        <div class="gm-card" style="margin-top:14px;">
-          <div class="gm-card-header">
-            <span class="gm-card-eyebrow">Ward Summary</span>
-            ${d.checked ? `<span class="gm-chip">Reviewed ${d.checked}</span>` : ''}
-          </div>
-          <div class="gm-gauge-flex">
-            <div class="gm-gauge-wrapper">
-              <svg class="gm-gauge-svg" viewBox="0 0 100 100">
-                <circle class="gm-ring-bg" stroke-width="8" fill="transparent" r="40" cx="50" cy="50"/>
-                <circle class="gm-ring-progress" stroke-width="8" fill="transparent" r="40" cx="50" cy="50" stroke="var(--blue)" stroke-dasharray="251.2" stroke-dashoffset="${termOffset}"/>
-              </svg>
-              <div class="gm-gauge-center"><span class="gm-gauge-num" style="font-size:20px;">${termDaysLeft}d</span></div>
-            </div>
-            <div class="gm-gauge-text">
-              <p class="gm-gauge-title">Days to the next local government election</p>
-              <p class="gm-gauge-desc">Current council term: 1 Nov 2021 – 4 Nov 2026 (gazetted polling day) — same date this profile's site-wide countdown uses.</p>
-            </div>
-          </div>
-          <div class="gm-fact-row"><span class="gm-fact-label">Ward area</span><span class="gm-fact-value">${wardArea}</span></div>
-          <div class="gm-fact-row"><span class="gm-fact-label">Survey respondents</span><span class="gm-fact-value">${d.respondents}</span></div>
-          ${d.checked ? `<div class="gm-fact-row"><span class="gm-fact-label">Records last reviewed</span><span class="gm-fact-value">${d.checked}</span></div>` : ''}
-          ${flagTags ? `<div style="margin-top:10px; display:flex; flex-wrap:wrap; gap:6px;">${flagTags}</div>` : ''}
-          <p class="gm-footnote">"Records last reviewed" is when this profile's research was last checked against source documents for this ward — not the date of the ward's most recent committee meeting, which isn't tracked as a single field. See Issues/Promises/Services below for dated, sourced detail.</p>
-        </div>
-
         <div class="wp-tabs" role="tablist" aria-label="Ward detail sections">${tabsNav}</div>
         <div class="wp-stat-row">
           <div class="wp-stat"><div class="wp-num">${d.respondents}</div><div class="wp-label">Survey respondents</div></div>
@@ -6871,6 +6744,16 @@
       revealResult(profile);
     });
   });
+
+  const wardStatusFilterEl = document.getElementById('wardStatusFilter');
+  if(wardStatusFilterEl){
+    wardStatusFilterEl.addEventListener('change', () => {
+      activeStatusFilter = wardStatusFilterEl.value;
+      renderAllGrids();
+      syncURL(currentWardIdx, activeFilter, { push: true });
+      revealResult(profile);
+    });
+  }
 
   // Delegated (not attached per-render) because profile.innerHTML is
   // replaced on every ward click, which would detach a direct listener.
@@ -6935,8 +6818,11 @@
   // grid. popstate keeps Back/Forward working predictably afterwards.
   const initial = parseWardFilterFromURL();
   activeFilter = initial.filter;
+  activeStatusFilter = initial.statusFilter;
   setActiveFilterButton(activeFilter);
+  setActiveStatusSelect(activeStatusFilter);
   renderAllGrids();
+  renderTagAudit();
   resetProfile();
   loadCouncillorsFromVotefile();
   if(initial.idx !== null && wards[initial.idx]){
@@ -6945,7 +6831,9 @@
   window.addEventListener('popstate', () => {
     const state = parseWardFilterFromURL();
     activeFilter = state.filter;
+    activeStatusFilter = state.statusFilter;
     setActiveFilterButton(activeFilter);
+    setActiveStatusSelect(activeStatusFilter);
     renderAllGrids();
     if(state.idx !== null && wards[state.idx]){
       selectWard(state.idx, { push: false });
@@ -7150,6 +7038,100 @@
   // below is SASSA's own confirmed 2026/27 calendar (National Treasury
   // approval 20 Mar 2026); each row shows whichever payment date is next
   // relative to today, per grant type, updating automatically as months pass.
+  (function sassaPaymentDates(){
+    const rows = document.getElementById('sassaRows');
+    if(!rows) return;
+    // [ISO date Older Persons, ISO date Disability, ISO date Children's/Foster/Care Dependency]
+    const schedule = [
+      { oldAge: '2026-09-02', disability: '2026-09-03', child: '2026-09-04' },
+      { oldAge: '2026-10-02', disability: '2026-10-05', child: '2026-10-06' },
+      { oldAge: '2026-11-03', disability: '2026-11-04', child: '2026-11-05' },
+      { oldAge: '2026-12-02', disability: '2026-12-03', child: '2026-12-04' },
+      { oldAge: '2027-01-05', disability: '2027-01-06', child: '2027-01-07' },
+      { oldAge: '2027-02-02', disability: '2027-02-03', child: '2027-02-04' },
+      { oldAge: '2027-03-02', disability: '2027-03-03', child: '2027-03-04' }
+    ];
+    const grantTypes = [
+      { key: 'oldAge', label: 'Old Age Pension', sub: 'Older Persons Grant (incl. War Veterans)' },
+      { key: 'disability', label: 'Disability Grant', sub: 'incl. Care Dependency Grant' },
+      { key: 'child', label: 'Child Grant', sub: 'Child Support, Foster Care & others' }
+    ];
+    const today = new Date(); today.setHours(0,0,0,0);
+    const msPerDay = 86400000;
+
+    function nextDateFor(key){
+      for(const month of schedule){
+        const d = new Date(month[key] + 'T00:00:00');
+        if(d >= today) return d;
+      }
+      return null; // schedule doesn't extend far enough — handled below
+    }
+
+    rows.innerHTML = grantTypes.map(g => {
+      const next = nextDateFor(g.key);
+      if(!next){
+        return `<div class="sassa-row"><div><span class="sr-label">${g.label}</span><span class="sr-sub">${g.sub}</span></div>` +
+               `<div class="sr-date">Check <a href="https://www.sassa.gov.za" target="_blank" rel="noopener">sassa.gov.za</a><span class="sr-days">schedule not yet published this far ahead</span></div></div>`;
+      }
+      const daysAway = Math.round((next - today) / msPerDay);
+      const dateLabel = next.toLocaleDateString('en-ZA', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+      const daysLabel = daysAway === 0 ? 'Today' : daysAway === 1 ? 'Tomorrow' : `In ${daysAway} days`;
+      const isNext = daysAway <= 3;
+      return `<div class="sassa-row${isNext ? ' next' : ''}"><div><span class="sr-label">${g.label}</span><span class="sr-sub">${g.sub}</span></div>` +
+             `<div class="sr-date">${dateLabel}<span class="sr-days">${daysLabel}</span></div></div>`;
+    }).join('');
+  })();
+
+  // 2026 candidates widget - self-contained (own data object, own render
+  // function), deliberately NOT wired into wards[]/councillors/any ward
+  // profile logic. Source is a secondary newspaper compilation, not the
+  // IEC list itself, so this is tagged Reported. Includes Ward 15, which
+  // as reported 23 Sep 2026, citing Cllr Arnie Africa, is a new ward that
+  // only takes effect after this election - it deliberately isn't part
+  // of this site's wards[] (still 14) anywhere else.
+  const CANDIDATES_2026 = {
+    source: 'The Village News (Hermanus Times), citing IEC LGE2026 Certified Candidates List, 16 Sep 2026 (WC032 Overstrand)',
+    parties: ['DA','ANC','EFF','PA','VF+','ACDP','OHM','NCC','ATM','PMC','ACC','CIP','ICA','LAND','PAC','SACP','MK','AMM'],
+    byWard: {
+      1: { 'DA':'Kathryn Shirley Marshall', 'ANC':'Anele Mngeni', 'EFF':'Mnikelo Harmanus', 'PA':'Willem Maclean', 'VF+':'Francois Myburgh', 'ACDP':'Janie Josephine October-Mars', 'OHM':'Peter Robert Hodgskin', 'NCC':'Anchelle Estell Damon', 'ATM':'Busiswa Flavia Mehlo', 'PMC':'Asanthe Chantel Richards', 'ACC':'Maria Arendse', 'CIP':'Anton Petrus Blaauw', 'ICA':'Dennis Ras', 'LAND':'Wandisile Poma', 'PAC':null, 'SACP':'Simphiwe Nonambane', 'MK':null, 'AMM':'Esethu Jovula' },
+      2: { 'DA':'Msa Nomatiti', 'ANC':'Yolisa Zwelibanzi Siyotywa', 'EFF':'Lungelwa Gadlama', 'PA':'Nkosinathi Clive Greg Mbetane', 'VF+':'Francois Myburgh', 'ACDP':'Magrieta Katriena Prins', 'OHM':'Susan Eugenie Conradie', 'NCC':'Anchelle Estell Damon', 'ATM':'Sesethu Mbuzeni', 'PMC':'Desireé Tanya Nel', 'ACC':'Sandisile Kibido', 'CIP':'Charles Perry Bent', 'ICA':'Dennis Ras', 'LAND':'Buyisile Sithathu', 'PAC':null, 'SACP':'Simphiwe Nonambane', 'MK':'Sabelo Jonase', 'AMM':'Esethu Jovula' },
+      3: { 'DA':'Karen Dionne Brice', 'ANC':'Nqabekazi Nyangani', 'EFF':'Vuyokazi Langa', 'PA':'Dorothy Georgina Hendricks', 'VF+':'Cuan Hedley John Elgin', 'ACDP':'Rugene Minessa Dees', 'OHM':'Peter Robert Hodgskin', 'NCC':'Izak Peter Booysen', 'ATM':'Thobile Mathonzini', 'PMC':'Natasha Rose Bruiners', 'ACC':'Tracey-Lynn Henn', 'CIP':'Charles Perry Bent', 'ICA':'Dennis Ras', 'LAND':null, 'PAC':null, 'SACP':'Simphiwe Nonambane', 'MK':null, 'AMM':'Esethu Jovula' },
+      4: { 'DA':'Ronald Nutt', 'ANC':'Phila Yokwe', 'EFF':'Anathi Zenzile', 'PA':'Marcell Patrick Seconna', 'VF+':'Pieter Hercules Du Toit', 'ACDP':'Debra Joe-Ann Van Kerwel', 'OHM':'Peter Robert Hodgskin', 'NCC':'Theo Klem', 'ATM':'Thenjiwe Doris Mkhapheni', 'PMC':'Desireé Tanya Nel', 'ACC':'Maria Arendse', 'CIP':'Renier Ferreira', 'ICA':'Dennis Ras', 'LAND':'Iliean Nonkozo Qalani', 'PAC':'Juannita Afrika', 'SACP':'Simphiwe Nonambane', 'MK':'Linda Sandra Tubu', 'AMM':'Esethu Jovula' },
+      5: { 'DA':'Lindile Ntsabo', 'ANC':'Bongiwe Gloria Nombula', 'EFF':'Siphiwo Beyi', 'PA':'Khayalethu Lucky Hlekani', 'VF+':'Pieter Hercules Du Toit', 'ACDP':'Sanele Maduli', 'OHM':'Susan Eugenie Conradie', 'NCC':'Gerhard Gibson', 'ATM':'Nomathamsanqa Gwazela', 'PMC':'Gaynecia Waylene Alsander', 'ACC':'Lungile Khumalo', 'CIP':'Charles Perry Bent', 'ICA':'Dennis Ras', 'LAND':'Phumla Bulawa', 'PAC':null, 'SACP':'Simphiwe Nonambane', 'MK':'Shepstone Masibulele Jimlongo', 'AMM':'Sibongakonke Bernett Mthetho' },
+      6: { 'DA':'Johanna Lydia Morgan', 'ANC':'Pumla Cecilia Nhele', 'EFF':'Siphosethu Mata', 'PA':'Lindelwa Gcobo', 'VF+':'Pieter Hercules Du Toit', 'ACDP':'Sanele Maduli', 'OHM':'Susan Eugenie Conradie', 'NCC':'Amelda Rachelle Groenewald', 'ATM':'Sibahle Qongqota', 'PMC':'Adri Chrizelda Delcia Alsander', 'ACC':'Nkululeko Nokama', 'CIP':'Renier Ferreira', 'ICA':'Dennis Ras', 'LAND':'Zoliswa Primrose Mkapeni', 'PAC':null, 'SACP':'Ntombizine Michell Sapepa', 'MK':'Sithembile Katsi', 'AMM':'Sibongakonke Bernett Mthetho' },
+      7: { 'DA':'Joseph Christoffel Roberts', 'ANC':'Nomfezeko Mpangele', 'EFF':'Nowindasi Bokolo', 'PA':'Francisco O\'Neill Strauss', 'VF+':'Cuan Hedley John Elgin', 'ACDP':'Elisma Deidrè Grobbelaar', 'OHM':'Jacobus Adriaan Louw Van Zyl', 'NCC':'Anchelle Estell Damon', 'ATM':'Zameka Nancy Bozekana', 'PMC':'Natasha Rose Bruiners', 'ACC':'Tracey-Lynn Henn', 'CIP':'Renier Ferreira', 'ICA':'Dennis Ras', 'LAND':null, 'PAC':null, 'SACP':'Ntombizine Michell Sapepa', 'MK':null, 'AMM':'Sibongakonke Bernett Mthetho' },
+      8: { 'DA':'Elnora Elizabeth Gillion', 'ANC':'Griffon Scott Damon', 'EFF':'Xihlamariso Khoza', 'PA':'Cotley May', 'VF+':'Gail Elizabeth Hendricks-Roberts', 'ACDP':'Rugene Minessa Dees', 'OHM':'Gilroy Alexander Van Der Ross', 'NCC':'Izak Peter Booysen', 'ATM':'Xola Taliwe', 'PMC':'Marlo John Hendriks', 'ACC':'Tracey-Lynn Henn', 'CIP':'Hendrik Jozephus Bosman', 'ICA':'Dennis Ras', 'LAND':'Momelezi Majali', 'PAC':'Devery Plaatjies', 'SACP':'Ntombizine Michell Sapepa', 'MK':null, 'AMM':'Sibongakonke Bernett Mthetho' },
+      9: { 'DA':'Wayne Raymond Jackson', 'ANC':'Samuel Edward Haydricks', 'EFF':'Oscar Ramukakati', 'PA':'Ceejay September', 'VF+':'Tyrone James Allan', 'ACDP':'Diago Eugene Fisher', 'OHM':'Willem Adolf Krige', 'NCC':'Theo Klem', 'ATM':'Monwabisi Mhoyeni Gwedlisa', 'PMC':'Natasha Rose Bruiners', 'ACC':'Sandisile Kibido', 'CIP':'Anton Petrus Blaauw', 'ICA':'Dennis Ras', 'LAND':'Professor Mawushe Kibido', 'PAC':null, 'SACP':'Ntombizine Michell Sapepa', 'MK':null, 'AMM':'Esethu Jovula' },
+      10: { 'DA':'Theresa Els', 'ANC':'Veliswa Lillian Mbem', 'EFF':'Asive Gandashe', 'PA':'Genevieve Teresa Carolus', 'VF+':'Malcolm David Grimbeek', 'ACDP':'Rugene Minessa Dees', 'OHM':'Willem Adolf Krige', 'NCC':'Gerhard Gibson', 'ATM':'Monwabisi Mhoyeni Gwedlisa', 'PMC':'Natasha Rose Bruiners', 'ACC':'Tracey-Lynn Henn', 'CIP':'Hendrik Jozephus Bosman', 'ICA':'Dennis Ras', 'LAND':null, 'PAC':null, 'SACP':'Ntombizine Michell Sapepa', 'MK':null, 'AMM':'Esethu Jovula' },
+      11: { 'DA':'Steven Hendrikus Fourie', 'ANC':'Phumla Qunta', 'EFF':'Nosipho Hoboyi', 'PA':'Hendry Dyers', 'VF+':'Jacobus Adriaan Van Staden', 'ACDP':'Janie Josephine October-Mars', 'OHM':'Susan Eugenie Conradie', 'NCC':'Amelda Rachelle Groenewald', 'ATM':'Siphamandla Xhobiso', 'PMC':'Natasha Rose Bruiners', 'ACC':'Maria Arendse', 'CIP':'Charles Perry Bent', 'ICA':'Dennis Ras', 'LAND':null, 'PAC':null, 'SACP':'Ntombizine Michell Sapepa', 'MK':null, 'AMM':'Sibongakonke Bernett Mthetho' },
+      12: { 'DA':'Fundiswa Tshaba', 'ANC':'Masibongwe Sihlahla', 'EFF':'Sandiso Nkomo', 'PA':'Thembakazi Mokwena', 'VF+':'Jacobus Johannes Uys', 'ACDP':'Sanele Maduli', 'OHM':'Susan Eugenie Conradie', 'NCC':'Izak Peter Booysen', 'ATM':'Shiela Cotoyi', 'PMC':'Mihlala Tapa', 'ACC':'Noluthando Precious Mtyibilisi', 'CIP':'Anton Petrus Blaauw', 'ICA':'Dennis Ras', 'LAND':'Michael Mhana', 'PAC':null, 'SACP':'Ntombizine Michell Sapepa', 'MK':'Sibulelo Stanley Mshweshwe', 'AMM':'Sibongakonke Bernett Mthetho' },
+      13: { 'DA':'Charmaine Theresa Resandt', 'ANC':'Constancy Connie Tafu-Nwonkwo', 'EFF':'Nomzamo Bianca Mcoyana', 'PA':'Claudy Martin Uithaler', 'VF+':'Sean Kedian', 'ACDP':'Elisma Deidrè Grobbelaar', 'OHM':'Anton Kemper Krüger', 'NCC':'Theo Klem', 'ATM':'Ziyanda Tyatyeka', 'PMC':'Natasha Rose Bruiners', 'ACC':'Tracey-Lynn Henn', 'CIP':'Hendrik Jozephus Bosman', 'ICA':'Dennis Ras', 'LAND':null, 'PAC':null, 'SACP':'Ntombizine Michell Sapepa', 'MK':null, 'AMM':'Sibongakonke Bernett Mthetho' },
+      14: { 'DA':'Cornelia Adriana De Coning', 'ANC':'Siphiwo Vincent Kalolo', 'EFF':'Siphele Nkebe', 'PA':'Eliza Amalie Felix', 'VF+':'Jacobus Adriaan Van Staden', 'ACDP':'Solomon Ahrends', 'OHM':'Susan Eugenie Conradie', 'NCC':'Gerhard Gibson', 'ATM':'Sesethu Mbuzeni', 'PMC':'Natasha Rose Bruiners', 'ACC':'Maria Arendse', 'CIP':'Renier Ferreira', 'ICA':'Dennis Ras', 'LAND':'Pamela Lumka Zongwana', 'PAC':null, 'SACP':'Ntombizine Michell Sapepa', 'MK':null, 'AMM':'Sibongakonke Bernett Mthetho' },
+      15: { 'DA':'Frederick André Kelvin Africa', 'ANC':'Anneline Semanthe Williams', 'EFF':'Martin Malwandla Ngobeni', 'PA':'Angelo Ashton Davis', 'VF+':'Tiago Goncalo Ferreira Dos Santos Serra', 'ACDP':'Diago Eugene Fisher', 'OHM':'Edwin Leslie Brooks', 'NCC':'Amelda Rachelle Groenewald', 'ATM':'Tulani Justice Ngcolomba', 'PMC':'Natasha Rose Bruiners', 'ACC':'Tracey-Lynn Henn', 'CIP':'Anton Petrus Blaauw', 'ICA':'Dennis Ras', 'LAND':null, 'PAC':'Michellis Page', 'SACP':'Ntombizine Michell Sapepa', 'MK':null, 'AMM':'Sibongakonke Bernett Mthetho' },
+    }
+  };  (function initCandidatesWidget(){
+    const sel = document.getElementById('candWardSelect');
+    const rows = document.getElementById('candRows');
+    if(!sel || !rows) return;
+    for(let w = 1; w <= 15; w++){
+      const opt = document.createElement('option');
+      opt.value = String(w);
+      opt.textContent = w === 15 ? 'Ward 15 (new ward - not yet in effect)' : ('Ward ' + w);
+      sel.appendChild(opt);
+    }
+    function render(wardNum){
+      const row = CANDIDATES_2026.byWard[wardNum];
+      if(!row){
+        rows.innerHTML = '<p class="widget-sub" style="margin:0;">Select a ward above to see its candidates.</p>';
+        return;
+      }
+      rows.innerHTML = CANDIDATES_2026.parties.map(p => {
+        const name = row[p];
+        return '<div class="cand-row"><span class="cand-party">' + p + '</span><span class="cand-name' + (name ? '' : ' none') + '">' + (name || 'not contesting') + '</span></div>';
+      }).join('');
+    }
+    sel.addEventListener('change', () => render(parseInt(sel.value, 10) || null));
+  })();
 
   // Reader-survey interaction — one delegated listener on <body>
   // handles both surveys (site-feedback in the footer, ward-rating
@@ -7229,6 +7211,8 @@
         loadWardRatingResults(wardNum);
       } else if(surveyType === 'deliverysurvey'){
         submitDeliverySurvey(block);
+      } else if(surveyType === 'contact'){
+        submitContactForm(block);
       } else {
         submitSiteFeedback();
       }
@@ -7240,6 +7224,78 @@
   // vote lock. Shows the vote form, the "not set up" message, or the
   // aggregate results, depending on SURVEY_CONFIG and whether this
   // browser has already voted.
+  // Contact form — a direct-line channel, separate from the anonymous
+  // "did you find what you needed" site-feedback poll below: for
+  // corrections, a wrong or missing definition, or anything else
+  // someone wants to say. Name and email are both optional (same
+  // optional-identity pattern as the delivery survey's respondentName/
+  // respondentEmail) — nothing here requires identifying yourself.
+  // One-way: no aggregate results are read back or shown, unlike the
+  // site-feedback widget below. A hidden honeypot field (cf-hp) is
+  // included purely to catch simple automated form-spam; a human never
+  // sees or fills it, so any submission with it filled in is dropped
+  // silently rather than sent.
+  function contactFormHTML(){
+    return `
+      <div class="survey-block" data-survey="contact">
+        <div class="widget-eyebrow">Contact &amp; feedback</div>
+        <div class="widget-title">Spotted an error, or want to tell me something?</div>
+        <p class="widget-sub">Separate from the service-delivery survey above — this is about the site itself: a wrong figure, a definition worth fixing, something missing, or anything else. Name and email are both optional; leave them blank to stay anonymous, or add an email if you'd like a reply.</p>
+        <input type="text" class="cf-hp" data-field="cf-hp" name="cf-hp" autocomplete="off" tabindex="-1" aria-hidden="true">
+        <input type="text" class="survey-text" data-field="name" placeholder="Name (optional)">
+        <input type="email" class="survey-text" data-field="email" placeholder="Email (optional — only if you'd like a reply)">
+        <select class="survey-text" data-field="topic">
+          <option value="">Topic (optional)</option>
+          <option value="Correction / error">Correction / error</option>
+          <option value="Missing information">Missing information</option>
+          <option value="Definition needs clarifying">Definition needs clarifying</option>
+          <option value="General feedback">General feedback</option>
+          <option value="Other">Other</option>
+        </select>
+        <textarea class="survey-text" data-field="message" placeholder="Your message" rows="4"></textarea>
+        <button type="button" class="btn primary survey-submit" disabled>Send</button>
+        <div class="widget-foot">Goes straight to me — not published or shown anywhere on the site.</div>
+      </div>`;
+  }
+  function submitContactForm(block){
+    const cfg = SURVEY_CONFIG.contactForm;
+    const hp = block.querySelector('[data-field="cf-hp"]');
+    if(hp && hp.value.trim()){
+      // Honeypot tripped — almost certainly a bot. Show the same thank-you
+      // without actually sending anything.
+      block.outerHTML = `<div class="widget-eyebrow">Contact &amp; feedback — thanks</div><p class="ec-body" style="font-size:12.5px;">Got it — thanks for the message.</p>`;
+      return;
+    }
+    const message = block.querySelector('[data-field="message"]').value.trim();
+    if(!message) return;
+    const fd = new FormData();
+    fd.append(`entry.${cfg.entries.name}`, block.querySelector('[data-field="name"]').value.trim());
+    fd.append(`entry.${cfg.entries.email}`, block.querySelector('[data-field="email"]').value.trim());
+    fd.append(`entry.${cfg.entries.topic}`, block.querySelector('[data-field="topic"]').value);
+    fd.append(`entry.${cfg.entries.message}`, message);
+    fetch(`https://docs.google.com/forms/d/e/${cfg.formId}/formResponse`, { method: 'POST', mode: 'no-cors', body: fd }).catch(() => {});
+    block.outerHTML = `<div class="widget-eyebrow">Contact &amp; feedback — thanks</div><p class="ec-body" style="font-size:12.5px;">Got it — thanks for taking the time.</p>`;
+  }
+  (function initContactForm(){
+    const el = document.getElementById('contactFormWidget');
+    if(!el) return;
+    const cfg = SURVEY_CONFIG.contactForm;
+    if(!contactFormConfigured(cfg)){
+      el.innerHTML = `<div class="widget-eyebrow">Contact &amp; feedback</div><p class="survey-pending">Not set up yet — see SURVEY_CONFIG near the top of the page's script for the five-minute setup steps.</p>`;
+      return;
+    }
+    el.innerHTML = contactFormHTML();
+  })();
+  // Enables the contact form's Send button once a message is typed
+  // (its only required field — name/email/topic all stay optional).
+  document.body.addEventListener('input', (e) => {
+    const field = e.target.closest('.survey-block[data-survey="contact"] [data-field="message"]');
+    if(!field) return;
+    const block = field.closest('.survey-block');
+    const submitBtn = block.querySelector('.survey-submit');
+    if(submitBtn) submitBtn.disabled = !field.value.trim();
+  });
+
   const SF_VOTE_KEY = 'vf_sf_voted';
   function siteFeedbackFormHTML(){
     return `
@@ -7635,6 +7691,7 @@
   renderWard(startWard);
 })();
 </script>
+
 
 
 </body>
