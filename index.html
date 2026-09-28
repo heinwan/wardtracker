@@ -1996,14 +1996,14 @@
 
         <div class="widget-title" style="margin:16px 0 8px; padding-top:14px; border-top:1px solid var(--hairline);">In-person outreach — by venue <span class="tag sphere">Municipal, per venue</span></div>
         <div class="so-rows">
-          <div class="so-row"><div class="so-venue">Stanford Community Hall<span class="so-ward">Ward 1</span></div><div class="so-detail">27 Aug · all grants</div></div>
-          <div class="so-row"><div class="so-venue">Moffat Hall, Mt Pleasant<span class="so-ward">Ward 4</span></div><div class="so-detail">4 Aug · OA/DG only, 2nd visit cancelled</div></div>
-          <div class="so-row"><div class="so-venue">Hawston Thusong Centre<span class="so-ward">Ward 8</span></div><div class="so-detail">19 Aug · all grants</div></div>
-          <div class="so-row"><div class="so-venue">Proteadorp Hall, Kleinmond<span class="so-ward">Ward 9</span></div><div class="so-detail">28 Aug · all grants</div></div>
-          <div class="so-row"><div class="so-venue">Zwelihle Community Hall<span class="so-ward">Wards 5, 6, 12</span></div><div class="so-detail">11 Aug · OA/DG, then CSG/FCG</div></div>
-          <div class="so-row"><div class="so-venue">Blompark Hall, Gansbaai<span class="so-ward">Ward 14</span></div><div class="so-detail">6 & 20 Aug · OA/DG, then CSG/FCG</div></div>
+          <div class="so-row"><div class="so-venue">Stanford Community Hall<span class="so-ward">Ward 1</span></div><div class="so-detail">30 Sept · all grants</div></div>
+          <div class="so-row"><div class="so-venue">Moffat Hall, Mt Pleasant<span class="so-ward">Ward 4</span></div><div class="so-detail">1 &amp; 15 Sept · 1st: OA/DG, 2nd: CSG</div></div>
+          <div class="so-row"><div class="so-venue">Hawston Thusong Centre<span class="so-ward">Ward 8</span></div><div class="so-detail">22 Sept · all grants</div></div>
+          <div class="so-row"><div class="so-venue">Kleinmond Community Hall<span class="so-ward">Ward 9</span></div><div class="so-detail">22 Sept · all grants</div></div>
+          <div class="so-row"><div class="so-venue">Zwelihle Community Hall<span class="so-ward">Wards 5, 6, 12</span></div><div class="so-detail">8 &amp; 29 Sept · 1st: OA/DG, 2nd: CSG/FCG</div></div>
+          <div class="so-row"><div class="so-venue">Blompark Community Hall, Gansbaai<span class="so-ward">Ward 14</span></div><div class="so-detail">3 &amp; 17 Sept · 1st: OA/DG, 2nd: CSG/FCG</div></div>
         </div>
-        <div class="widget-foot">OA/DG = Older Persons &amp; Disability grants (1st visit); CSG/FCG = Child Support &amp; Foster Care grants (2nd visit, where held). This is the last published schedule found — August 2026 — not a live "next visit" calculation; no September 2026 outreach bulletin has been located yet, so check <a href="https://www.overstrand.gov.za/news/overstrand-news/" target="_blank" rel="noopener">Overstrand's own news page</a> for the current month before relying on a date here. <b>Wards 2, 3, 7, 10, 11 and 13 have no SASSA outreach venue in any bulletin this profile reviewed, Feb 2023 – Aug 2026</b> — residents there appear to need to travel to one of the six venues above, or use SASSA's WhatsApp/call-centre channel (0800 60 10 11) instead. Venue→ward mapping is this profile's own, using the confirmed 2021 ward-redelimitation boundaries cited elsewhere on this page — SASSA and the municipality publish these bulletins by venue/town, not by ward number. Dates are explicitly stated by the municipality as subject to change. Source: Overstrand Municipality, "SASSA Dates for August 2026" (<a href="https://xplorio.com/hermanus/overstrand-municipality/en/blog/131548/sassa-dates-for-august-2026/" target="_blank" rel="noopener">mirrored on Xplorio</a>), 4 Aug 2026, and the same monthly bulletin series reviewed back to Feb 2023 for the venue pattern.</div>
+        <div class="widget-foot">OA/DG = Older Persons &amp; Disability grants (1st visit); CSG/FCG = Child Support &amp; Foster Care grants (2nd visit, where held). Updated to the September 2026 bulletin — the first outreach-by-venue schedule located since August. <b>Wards 2, 3, 7, 10, 11 and 13 still have no SASSA outreach venue in this or any bulletin this profile has reviewed, Feb 2023 – Sept 2026</b> — residents there appear to need to travel to one of the six venues above, or use SASSA's WhatsApp/call-centre channel (0800 60 10 11) instead. Venue→ward mapping is this profile's own, using the confirmed 2021 ward-redelimitation boundaries cited elsewhere on this page — SASSA and the municipality publish these bulletins by venue/town, not by ward number. Note: the September bulletin names the Kleinmond venue "Kleinmond Community Hall," where every other bulletin in this series back to 2022 — including the municipality's own site — names it "Proteadorp Community Hall." Most likely the same venue under a shorthand name rather than a new site, but logged as a naming discrepancy rather than silently reconciled. Dates are explicitly stated by the municipality as subject to change. Source: Overstrand Municipality, "SASSA Dates for September 2026," issued by Edward Jantjies (Acting Municipal Manager), posted to the Overstrand Municipality Facebook page, Sept 2026. This month's bulletin was supplied directly and has not been found independently mirrored on Xplorio the way prior months in this series were, so it hasn't been cross-checked against a second copy — its format and issuer match the confirmed monthly pattern reviewed back to Feb 2023, including the concurrently-issued September 2026 Home Affairs bulletin from the same office.</div>
       </div>
 
       <div class="widget" id="unemploymentWidget">
@@ -7126,6 +7126,12 @@
     const sel = document.getElementById('candWardSelect');
     const rows = document.getElementById('candRows');
     if(!sel || !rows) return;
+    const placeholder = document.createElement('option');
+    placeholder.value = '';
+    placeholder.textContent = 'Select your ward…';
+    placeholder.selected = true;
+    placeholder.disabled = true;
+    sel.appendChild(placeholder);
     for(let w = 1; w <= 15; w++){
       const opt = document.createElement('option');
       opt.value = String(w);
