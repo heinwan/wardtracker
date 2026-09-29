@@ -761,6 +761,36 @@
   }
   .ds-redact-note{font-size:11px; color:var(--ink-soft); font-style:italic; margin-top:8px;}
 
+  /* Discussion board (§04c) — filters + comment list share the same
+     select/pill vocabulary as the survey blocks above; comment cards
+     are deliberately plain rectangles (not stamp tags) since a comment
+     isn't a sourced claim carrying a confidence tier — see the
+     disc-selfreported chip below for how that distinction is shown. */
+  .disc-filters{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px;}
+  .disc-filters select{
+    font-family:var(--sans); font-size:12.5px; padding:8px 10px; border:1px solid var(--hairline);
+    border-radius:4px; background:var(--paper); color:var(--ink);
+  }
+  .disc-list{display:flex; flex-direction:column; gap:10px; margin:0 0 22px;}
+  .disc-comment{background:var(--paper); border:1px solid var(--hairline); border-radius:4px; padding:12px 14px;}
+  .disc-comment-meta{display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin-bottom:6px;}
+  .disc-chip{
+    font-family:var(--mono); font-size:10.5px; letter-spacing:0.03em; text-transform:uppercase;
+    padding:3px 9px; border-radius:3px; font-weight:700; border:1px solid var(--ink-soft);
+    color:var(--ink-soft); background:var(--paper-raised); white-space:nowrap;
+  }
+  .disc-chip.type-problem{color:var(--rust); border-color:var(--rust);}
+  .disc-chip.type-positive{color:var(--green); border-color:var(--green);}
+  .disc-chip.type-question{color:var(--blue); border-color:var(--blue);}
+  .disc-selfreported{margin-left:auto;}
+  .disc-comment-date{font-family:var(--mono); font-size:10.5px; color:var(--ink-soft);}
+  .disc-comment-text{font-size:13.5px; line-height:1.55; color:var(--ink); margin:0;}
+  .disc-empty{font-size:13px; color:var(--ink-soft); font-style:italic; padding:6px 0 16px;}
+  .disc-guidance{
+    font-size:11.5px; color:var(--ink-soft); line-height:1.5; margin:4px 0 14px;
+    padding:10px 12px; background:var(--paper); border:1px solid var(--hairline); border-radius:4px;
+  }
+
   /* Weather 3-day strip */
   .weather-row{display:flex; gap:8px;}
   .wx-day{
@@ -1884,6 +1914,7 @@
     <a href="#equity">Equity check</a>
     <a href="#questions">Questions</a>
     <a href="#sources">Sources</a>
+    <a href="#discussion-board">Discussion board</a>
     <a href="#contactFormWidget">Contact &amp; feedback</a>
     <a href="#sassaWidget">SASSA dates</a>
     <a href="#electionWidget">Elections</a>
@@ -3130,6 +3161,17 @@
     </div>
   </section>
 
+  <!-- DISCUSSION BOARD (§04c) — resident comments, filterable by ward
+       and category. Pre-moderated: nothing here comes straight from
+       the submission form. See DISCUSSION BOARD setup steps near
+       SURVEY_CONFIG for the moderation workflow. -->
+  <section id="discussion-board">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-no">04c</span><h2 class="sec-title">Discussion board</h2></div>
+      <p class="sec-sub">A place for residents to say what's happening in their own ward, in their own words — problems, questions, or something that went well. Every comment is read before it's published: no personal attacks, hate speech, or unsourced accusations against a named individual, whatever ward or party it concerns.</p>
+      <div id="discussionBoardRoot"></div>
+    </div>
+  </section>
 
   <!-- FINANCE -->
   <section id="finance"><div class="finance-desktop-view">
@@ -4968,6 +5010,50 @@
   //   3. Same steps as above for formId and each entry.NNNNNN ID.
   //   4. Nothing further needed — responses just land in that form's
   //      own Sheet for you to read directly; there's no public tally.
+  //
+  // DISCUSSION BOARD — resident comments, filterable by ward and
+  // category. Two-Sheet moderation pattern (same idea as the delivery
+  // survey's ward/party/open-text split above): every submission lands
+  // in the form's own private Sheet first. Nothing appears on the page
+  // until you copy a reviewed row into a SECOND, separate tab and
+  // publish THAT tab to web as approvedCsvUrl below — never publish
+  // the raw response sheet directly, since that skips moderation
+  // entirely.
+  //   1. Create a Google Form with these 5 questions, in this order:
+  //        Q1 (Dropdown, required) — "Ward" — 14 options, one per
+  //           ward, using this page's own ward names so a submission's
+  //           ward matches what residents see here (e.g. "Ward 1 ·
+  //           Stanford, Thembelihle" — copy all 14 names from the
+  //           `wards` object a little further down this script).
+  //        Q2 (Dropdown, required) — "What is this about?" — options:
+  //           Water, Electricity, Roads, Stormwater drainage, Sewerage,
+  //           Refuse collection, Street lighting, Housing, Public
+  //           safety, Parks and open spaces, Public transport, Other
+  //        Q3 (Multiple choice, required) — "Type" — options: Problem,
+  //           Positive experience, Question
+  //        Q4 (Paragraph, required) — "Your comment" — since this
+  //           script can't inject helper text into the Google Form
+  //           itself, add this as the question's own description:
+  //           "No personal attacks, hate speech, or unsourced
+  //           accusations of wrongdoing against a named individual —
+  //           these will be removed before anything is published."
+  //        Q5 (Short answer, optional) — "Name (optional — never
+  //           published; only so you can follow up if needed)"
+  //   2. Same steps as the surveys above for formId and each
+  //      entry.NNNNNN ID.
+  //   3. In the linked Sheet, add a second tab (e.g. "Public -
+  //      Approved Comments") with columns, in this order: Timestamp,
+  //      Ward, Category, Type, Comment, Sphere. Sphere is optional —
+  //      fill in "Ward councillor" / "Municipal council" / "Provincial"
+  //      / "National" if you know which applies (§03), leave blank
+  //      otherwise. For each submission you're comfortable publishing,
+  //      copy it into this tab by hand — stripping any personal
+  //      attack, hate speech, or unsourced accusation against a named
+  //      individual first, per this project's editorial rules (§2,
+  //      §5). Never copy the Name column across to this tab.
+  //   4. Publish that second tab to web as CSV (File → Share →
+  //      Publish to web → select the tab → CSV) and paste the URL as
+  //      approvedCsvUrl below.
   // ============================================================
   const SURVEY_CONFIG = {
     contactForm: {
@@ -4983,6 +5069,11 @@
       formId: '',
       entries: { waste: '', roads: '', parks: '', ward: '' },
       sheetCsvUrl: ''
+    },
+    discussionBoard: {
+      formId: '',
+      entries: { ward: '', category: '', type: '', comment: '', name: '' },
+      approvedCsvUrl: '' // published-to-web CSV URL of the "Public - Approved Comments" tab
     },
     // DELIVERY SURVEY — matches the live "Ward Service Delivery" Google
     // Form (flat, no Sections). Entry IDs below came from your pre-filled
@@ -5033,6 +5124,16 @@
   // formId + entry IDs — no CSV URL to check, unlike surveyConfigured above.
   function contactFormConfigured(cfg){
     return !!(cfg.formId && Object.values(cfg.entries).every(Boolean));
+  }
+  // Discussion board — one-way write (form → private Sheet, like the
+  // contact form) PLUS a read-back of the separate, manually-curated
+  // "Public - Approved Comments" tab (like the delivery survey's
+  // open-text tab). `name` is deliberately left optional here even
+  // though every other entry is required — the submission still works
+  // if a visitor leaves it blank.
+  function boardConfigured(cfg){
+    const requiredEntries = ['ward', 'category', 'type', 'comment'];
+    return !!(cfg.formId && cfg.approvedCsvUrl && requiredEntries.every(k => cfg.entries[k]));
   }
 
   // Minimal but correct CSV parser (handles quoted fields containing
@@ -5983,6 +6084,157 @@
     if(m && parseInt(m[1], 10) !== parseInt(idx, 10) + 1){
       console.warn(`[wards] Index/name mismatch: array index ${idx} (councillor lookup key ${parseInt(idx,10)+1}) holds "${w.name}", which claims to be Ward ${m[1]}.`);
     }
+  });
+
+  // ------------------------------------------------------------
+  // Discussion board (§04c). Submissions write to the board's own
+  // Google Form (one-way, like the contact form); the visible list
+  // reads back a separate, manually-curated "Public - Approved
+  // Comments" CSV (like the delivery survey's open-text tab) — see the
+  // DISCUSSION BOARD setup comment above SURVEY_CONFIG. Newest first,
+  // no upvotes/ranking, so one ward or one side of an issue can't
+  // dominate the list by volume of clicks.
+  // ------------------------------------------------------------
+  const DISCUSSION_CATEGORIES = ['Water', 'Electricity', 'Roads', 'Stormwater drainage', 'Sewerage', 'Refuse collection', 'Street lighting', 'Housing', 'Public safety', 'Parks and open spaces', 'Public transport', 'Other'];
+  const DISCUSSION_TYPES = ['Problem', 'Positive experience', 'Question'];
+  const DISC_TYPE_CLASS = { 'Problem': 'type-problem', 'Positive experience': 'type-positive', 'Question': 'type-question' };
+  let discComments = [];
+
+  function discWardOptionsHTML(selected){
+    return `<option value="">All wards</option>` +
+      Object.keys(wards).map(idx => {
+        const num = parseInt(idx, 10) + 1;
+        return `<option value="${num}"${String(num) === selected ? ' selected' : ''}>${wards[idx].name}</option>`;
+      }).join('');
+  }
+  function discCategoryOptionsHTML(selected, includeAll){
+    return (includeAll ? `<option value="">All categories</option>` : `<option value="">Select a category…</option>`) +
+      DISCUSSION_CATEGORIES.map(c => `<option value="${c}"${c === selected ? ' selected' : ''}>${c}</option>`).join('');
+  }
+
+  function discussionBoardFormHTML(){
+    return `
+      <div class="survey-block" data-survey="discussionboard">
+        <div class="widget-eyebrow">Add your own</div>
+        <input type="text" class="cf-hp" data-field="disc-hp" name="disc-hp" autocomplete="off" tabindex="-1" aria-hidden="true">
+        <select class="survey-text" data-field="ward" required>${discWardOptionsHTML('')}</select>
+        <select class="survey-text" data-field="category" required>${discCategoryOptionsHTML('', false)}</select>
+        <select class="survey-text" data-field="type" required>
+          <option value="">This is a…</option>
+          ${DISCUSSION_TYPES.map(t => `<option value="${t}">${t}</option>`).join('')}
+        </select>
+        <textarea class="survey-text" data-field="comment" rows="3" placeholder="Your comment" required></textarea>
+        <input type="text" class="survey-text" data-field="name" placeholder="Name (optional — never published)">
+        <div class="disc-guidance">Read before you post: comments are moderated before they appear. No personal attacks, hate speech, or accusations of wrongdoing against a named individual unless backed by a public source — those get removed rather than published, whichever ward or party they're about.</div>
+        <button type="button" class="btn primary survey-submit" disabled>Post comment</button>
+        <div class="widget-foot">Ward, category and type are shown publicly; your name (if given) is not.</div>
+      </div>`;
+  }
+
+  function discCommentCardHTML(row){
+    const typeClass = DISC_TYPE_CLASS[row.Type] || '';
+    const sphere = row.Sphere ? `<span class="tag sphere">${row.Sphere}</span>` : '';
+    return `
+      <div class="disc-comment">
+        <div class="disc-comment-meta">
+          ${row.Ward ? `<span class="disc-chip">${row.Ward}</span>` : ''}
+          ${row.Category ? `<span class="disc-chip">${row.Category}</span>` : ''}
+          ${row.Type ? `<span class="disc-chip ${typeClass}">${row.Type}</span>` : ''}
+          ${sphere}
+          <span class="tag unverified disc-selfreported">Self-reported</span>
+        </div>
+        <p class="disc-comment-text">${redactNames(row.Comment || '').replace(/</g, '&lt;')}</p>
+        ${row.Timestamp ? `<div class="disc-comment-date">${row.Timestamp}</div>` : ''}
+      </div>`;
+  }
+
+  function renderDiscBoardUI(root){
+    const wardSel = root.querySelector('#disc-ward-filter');
+    const catSel = root.querySelector('#disc-cat-filter');
+    const wardFilter = wardSel ? wardSel.value : '';
+    const catFilter = catSel ? catSel.value : '';
+    const wardName = wardFilter ? wards[parseInt(wardFilter, 10) - 1]?.name : '';
+    const filtered = discComments.filter(c =>
+      (!wardFilter || c.Ward === wardName) && (!catFilter || c.Category === catFilter)
+    );
+    const listHTML = filtered.length
+      ? `<div class="disc-list">${filtered.slice().reverse().slice(0, 50).map(discCommentCardHTML).join('')}</div>`
+      : `<p class="disc-empty">No published comments match this filter yet.</p>`;
+    const listEl = root.querySelector('#disc-list-area');
+    if(listEl) listEl.innerHTML = listHTML;
+  }
+
+  async function loadDiscussionComments(root){
+    const cfg = SURVEY_CONFIG.discussionBoard;
+    const listEl = root.querySelector('#disc-list-area');
+    try {
+      const res = await fetch(cfg.approvedCsvUrl, { cache: 'no-store' });
+      const text = await res.text();
+      discComments = csvRowsToObjects(parseCSV(text));
+      renderDiscBoardUI(root);
+    } catch(e){
+      if(listEl) listEl.innerHTML = `<p class="disc-empty">Comments aren't available right now — try again shortly.</p>`;
+    }
+  }
+
+  function submitDiscussionComment(block){
+    const cfg = SURVEY_CONFIG.discussionBoard;
+    if(block.querySelector('[data-field="disc-hp"]').value) return; // honeypot tripped — drop silently
+    const ward = block.querySelector('[data-field="ward"]').value;
+    const wardName = ward ? wards[parseInt(ward, 10) - 1]?.name : '';
+    const category = block.querySelector('[data-field="category"]').value;
+    const type = block.querySelector('[data-field="type"]').value;
+    const comment = block.querySelector('[data-field="comment"]').value.trim();
+    const name = block.querySelector('[data-field="name"]').value.trim();
+    if(!wardName || !category || !type || !comment) return;
+    const fd = new FormData();
+    fd.append(`entry.${cfg.entries.ward}`, wardName);
+    fd.append(`entry.${cfg.entries.category}`, category);
+    fd.append(`entry.${cfg.entries.type}`, type);
+    fd.append(`entry.${cfg.entries.comment}`, comment);
+    if(name && cfg.entries.name) fd.append(`entry.${cfg.entries.name}`, name);
+    fetch(`https://docs.google.com/forms/d/e/${cfg.formId}/formResponse`, { method: 'POST', mode: 'no-cors', body: fd }).catch(() => {});
+    block.outerHTML = `<div class="widget-eyebrow">Thanks — submitted for review</div><p class="ec-body">Your comment will appear here once it's been checked against this site's posting guidelines. That's usually quick, but isn't instant.</p>`;
+  }
+
+  (function initDiscussionBoard(){
+    const root = document.getElementById('discussionBoardRoot');
+    if(!root) return;
+    const cfg = SURVEY_CONFIG.discussionBoard;
+    if(!boardConfigured(cfg)){
+      root.innerHTML = `<p class="survey-pending">Not set up yet — see SURVEY_CONFIG near the top of the page's script (search "DISCUSSION BOARD setup") for the setup steps.</p>`;
+      return;
+    }
+    root.innerHTML = `
+      <div class="disc-filters">
+        <select id="disc-ward-filter">${discWardOptionsHTML('')}</select>
+        <select id="disc-cat-filter">${discCategoryOptionsHTML('', true)}</select>
+      </div>
+      <div id="disc-list-area"><p class="disc-empty">Loading comments…</p></div>
+      ${discussionBoardFormHTML()}`;
+    root.querySelector('#disc-ward-filter').addEventListener('change', () => renderDiscBoardUI(root));
+    root.querySelector('#disc-cat-filter').addEventListener('change', () => renderDiscBoardUI(root));
+    loadDiscussionComments(root);
+  })();
+
+  // Enables the discussion board's Post button once ward, category,
+  // type and comment are all filled — the only one of this page's
+  // survey blocks driven entirely by <select>/<textarea> fields rather
+  // than .survey-opt buttons, since a 14-ward dropdown is more usable
+  // than 14 pill buttons.
+  document.body.addEventListener('input', (e) => {
+    const block = e.target.closest('.survey-block[data-survey="discussionboard"]');
+    if(!block) return;
+    const filled = f => block.querySelector(`[data-field="${f}"]`).value.trim() !== '';
+    const submitBtn = block.querySelector('.survey-submit');
+    if(submitBtn) submitBtn.disabled = !(filled('ward') && filled('category') && filled('type') && filled('comment'));
+  });
+  document.body.addEventListener('change', (e) => {
+    const block = e.target.closest('.survey-block[data-survey="discussionboard"]');
+    if(!block) return;
+    const filled = f => block.querySelector(`[data-field="${f}"]`).value.trim() !== '';
+    const submitBtn = block.querySelector('.survey-submit');
+    if(submitBtn) submitBtn.disabled = !(filled('ward') && filled('category') && filled('type') && filled('comment'));
   });
 
   const FLAG_LABELS = {
@@ -7234,6 +7486,8 @@
         submitDeliverySurvey(block);
       } else if(surveyType === 'contact'){
         submitContactForm(block);
+      } else if(surveyType === 'discussionboard'){
+        submitDiscussionComment(block);
       } else {
         submitSiteFeedback();
       }
