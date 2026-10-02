@@ -2178,7 +2178,6 @@ details.svc-row > .service-text{padding:11px 13px 13px; border-top:1px solid var
     <a href="#paradox">The paradox</a>
     <a href="#services">Services</a>
     <a href="#leadership">Leadership</a>
-    <a href="#wards">Ward explorer</a>
     <a href="#equity">Equity check</a>
     <a href="#questions">Questions</a>
     <a href="#sources">Sources</a>
@@ -2186,6 +2185,7 @@ details.svc-row > .service-text{padding:11px 13px 13px; border-top:1px solid var
     <a href="#sassaWidget">SASSA dates</a>
     <a href="#electionWidget">Elections</a>
     <a href="#candidatesWidget">Candidates</a>
+    <a href="overstrand-tools.html">Document tools →</a>
   </div>
 </div>
 
@@ -2323,6 +2323,50 @@ details.svc-row > .service-text{padding:11px 13px 13px; border-top:1px solid var
       </div>
     </div>
   </div>
+
+  <!-- VIDEO OVERVIEW: click-to-play lite-embed. Loads only a thumbnail +
+       play button on page load (no YouTube script/iframe/cookies until the
+       visitor clicks), then swaps in a youtube-nocookie.com iframe. Keeps
+       this page's "sourced, no surprises" tone — nothing autoplays and
+       nothing phones home until the visitor asks it to. -->
+  <section id="video-overview" aria-label="Video overview of this page">
+    <div class="wrap">
+      <div class="sec-head"><h2 class="sec-title" style="font-size:1.05rem;">Watch: this page, explained</h2></div>
+      <p class="sec-sub" style="margin-bottom:14px;">A 6-minute walkthrough of what's on this page and why it exists — same sourcing, same non-partisan rules, just spoken instead of read.</p>
+      <div class="yt-lite" id="ytLite" data-id="fm4ozd6pXyM" role="button" tabindex="0"
+           aria-label="Play video: this page, explained"
+           style="position:relative; max-width:900px; aspect-ratio:16/9; border-radius:10px; overflow:hidden; cursor:pointer; background:#000; border:1px solid var(--hairline);">
+        <img src="https://i.ytimg.com/vi/fm4ozd6pXyM/hqdefault.jpg" alt="" loading="lazy"
+             style="width:100%; height:100%; object-fit:cover; display:block; opacity:0.85;">
+        <span aria-hidden="true" style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center;">
+          <span style="width:68px; height:48px; background:rgba(0,0,0,0.75); border-radius:12px; display:flex; align-items:center; justify-content:center;">
+            <span style="width:0; height:0; border-top:11px solid transparent; border-bottom:11px solid transparent; border-left:18px solid #fff; margin-left:4px;"></span>
+          </span>
+        </span>
+      </div>
+      <script>
+        (function(){
+          var box = document.getElementById('ytLite');
+          if(!box) return;
+          function play(){
+            var id = box.getAttribute('data-id');
+            var iframe = document.createElement('iframe');
+            iframe.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
+            iframe.title = 'this page, explained';
+            iframe.loading = 'lazy';
+            iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+            iframe.allowFullscreen = true;
+            iframe.style.cssText = 'position:absolute; inset:0; width:100%; height:100%; border:0;';
+            box.innerHTML = '';
+            box.appendChild(iframe);
+          }
+          box.addEventListener('click', play);
+          box.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); play(); } });
+        })();
+      </script>
+      <p style="margin-top:10px; font-size:0.9rem;"><a href="https://www.youtube.com/@WardTrackerZA?sub_confirmation=1" target="_blank" rel="noopener">Subscribe on YouTube</a> for the rest of this series as each section goes up.</p>
+    </div>
+  </section>
 
   <!-- FINDINGS -->
   <section id="findings">
