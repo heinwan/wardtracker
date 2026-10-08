@@ -2256,6 +2256,7 @@ details.svc-row > .service-text{padding:11px 13px 13px; border-top:1px solid var
       <div class="q-router-head">Or, if you'd rather start from a question</div>
       <div class="q-router-list">
         <a href="#wards">What's happening in my ward? <span class="arrow">→</span></a>
+        <a href="#ward-areas">Which ward is my area in? <span class="arrow">→</span></a>
         <a href="#finance">Where does the municipality spend money? <span class="arrow">→</span></a>
         <a href="#services">How reliable are water, power and waste collection? <span class="arrow">→</span></a>
         <a href="#housing">What's the status of housing projects near me? <span class="arrow">→</span></a>
@@ -2282,15 +2283,6 @@ details.svc-row > .service-text{padding:11px 13px 13px; border-top:1px solid var
           <div class="cd-unit"><span class="cd-num" id="cdSecs">–</span><span class="cd-label">sec</span></div>
         </div>
         <div class="widget-foot">Date gazetted 7 Aug 2026 by the Minister of Cooperative Governance and Traditional Affairs, under the Local Government: Municipal Structures Act. Every ward councillor across all 14 Overstrand wards is up for election the same day — not a Ward 5-specific date. Source: <a href="https://www.elections.org.za" target="_blank" rel="noopener">elections.org.za</a></div>
-      </div>
-
-      <div class="widget" id="candidatesWidget">
-        <div class="widget-eyebrow">2026 Local Government Election — certified candidates <span class="tag reported">Reported</span></div>
-        <div class="widget-title" style="margin-bottom:4px;">Who's on your ballot</div>
-        <p class="widget-sub">One candidate per party, per ward, certified for 4 Nov 2026. Sourced from a newspaper compilation of the IEC's certified list, not fetched from the IEC directly by this profile — tagged Reported rather than Confirmed for that reason.</p>
-        <select class="wf-select" id="candWardSelect" style="width:100%; margin-bottom:10px;" aria-label="Select your ward to see its candidates"></select>
-        <div class="cand-rows" id="candRows"><p class="widget-sub" style="margin:0;">Select a ward above to see its candidates.</p></div>
-        <div class="widget-foot">Source: The Village News (Hermanus Times Facebook page), citing IEC LGE2026 Certified Candidates List, 16 Sep 2026 (WC032 Overstrand). A blank/"not contesting" means that party isn't standing in that ward on the certified list. <b>Ward 15 is a new ward that only takes effect after this election</b>, not yet part of current Overstrand governance — it's shown here since it's on the certified candidates list, but deliberately isn't counted anywhere else on this profile, which still treats Overstrand as 14 wards until Ward 15 actually exists as one.</div>
       </div>
 
       <div class="widget" id="unemploymentWidget">
@@ -4595,11 +4587,209 @@ details.svc-row > .service-text{padding:11px 13px 13px; border-top:1px solid var
       </div>
 </section>
 
+  <!-- WARD AREAS + CANDIDATES (§08a) — find your ward, see the areas it covers and who is standing in it.
+       Added 8 Oct 2026 after a resident asked which areas each ward covers; the 2026 candidates widget
+       (formerly in the top civic widgets) lives here now so both answer one question. Data = Overstrand Municipality wards page (current boundaries and
+       the new boundaries applicable 4 Nov 2026, incl. new Ward 15). Self-contained: its own style and script blocks,
+       everything scoped under #ward-areas. To update: edit the A and WARDS arrays and CHECKED below. -->
+  <section id="ward-areas" aria-labelledby="wa-title">
+    <style>
+  /* ---------- WARD AREAS (§08b) — all selectors scoped under #ward-areas ---------- */
+  #ward-areas .wa-search{display:block; font-family:var(--mono); font-size:12px; font-weight:600; color:var(--ink-soft); margin:0 0 6px;}
+  #ward-areas #wa-q{width:100%; max-width:480px; font:inherit; font-size:15px; padding:10px 14px; border:1px solid var(--hairline-strong); border-radius:var(--radius); background:var(--paper-raised); color:var(--ink);}
+  #ward-areas #wa-q:focus-visible{outline:2px solid var(--blue); outline-offset:2px;}
+  #ward-areas #wa-out{margin-top:14px;}
+  #ward-areas .wa-sub{font-family:var(--serif); font-weight:600; font-size:18px; margin:34px 0 4px;}
+  #ward-areas .wa-r,#ward-areas .wa-w{background:var(--paper-raised); border:1px solid var(--hairline); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow-card);}
+  #ward-areas .wa-r{margin:0 0 12px;}
+  #ward-areas .wa-r h3,#ward-areas .wa-w h3{font-family:var(--serif); font-weight:600; font-size:17px; margin:0 0 10px;}
+  #ward-areas .wa-cmp{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  #ward-areas .wa-w .wa-cmp{grid-template-columns:1fr; gap:8px;}
+  #ward-areas .wa-cmp p{margin:0; font-size:14px; line-height:1.5;}
+  #ward-areas .wa-h{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:0.04em; color:var(--ink-soft); margin-bottom:6px;}
+  #ward-areas .wa-b{display:inline-block; font-family:var(--mono); font-size:12px; font-weight:600; background:var(--green-tint); color:var(--ink); border:1px solid var(--green); border-radius:999px; padding:1px 10px; margin:0 6px 4px 0;}
+  #ward-areas .wa-l,#ward-areas .wa-n,#ward-areas .wa-mute{font-size:13px; color:var(--ink-soft);}
+  #ward-areas .wa-note{font-size:13px; line-height:1.5; color:var(--ink-soft); margin:10px 0 0;}
+  #ward-areas .wa-foot{display:flex; flex-wrap:wrap; align-items:center; gap:6px 12px; margin-top:12px;}
+  #ward-areas .wa-checked{font-family:var(--mono); font-size:11px; color:var(--ink-soft);}
+  #ward-areas .wa-chip{font-family:var(--mono); font-size:11px; font-weight:600; color:var(--amber); border:1px dashed var(--amber); border-radius:3px; padding:2px 8px;}
+  #ward-areas .wa-st{font-family:var(--mono); font-size:11px; font-weight:600; border:1px solid currentColor; border-radius:3px; padding:1px 7px; margin-left:8px; vertical-align:middle;}
+  #ward-areas .wa-st-changed{color:var(--amber);} #ward-areas .wa-st-same{color:var(--grey);} #ward-areas .wa-st-new{color:var(--blue);}
+  #ward-areas .wa-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; margin-top:14px;}
+  #ward-areas .wa-src{font-size:13px; color:var(--ink-soft); max-width:72ch; margin:22px 0 0; line-height:1.55;}
+  @media (max-width:560px){ #ward-areas .wa-cmp{grid-template-columns:1fr;} }
+  /* Areas block shown inside the ward profile card (desktop) and ward dropdown card (mobile) */
+  .wt-areas{margin:14px 0 4px; padding:12px 14px; background:var(--paper); border:1px solid var(--hairline); border-radius:var(--radius);}
+  .wt-areas-h{font-family:var(--mono); font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-soft); margin-bottom:8px;}
+  .wt-areas-cmp{display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:12px;}
+  .wt-areas-cmp p{margin:0; font-size:13.5px; line-height:1.5; color:var(--ink);}
+  .wt-areas-k{font-family:var(--mono); font-size:10.5px; color:var(--ink-soft); margin-bottom:3px;}
+  .wt-areas-n{font-size:12.5px; line-height:1.5; color:var(--ink-soft); margin:8px 0 0;}
+  .wt-areas-foot{display:flex; flex-wrap:wrap; align-items:center; gap:6px 10px; margin-top:10px; font-size:12px;}
+  .wt-areas-foot a{color:var(--blue);}
+  .wt-areas-foot .wa-checked{font-family:var(--mono); font-size:11px; color:var(--ink-soft);}
+  #ward-areas .wa-widget{max-width:760px;}
+  #ward-areas .wa-widget .wa-search{margin-top:14px;}
+  #ward-areas #candWardSelect{width:100%; margin-bottom:6px;}
+  #ward-areas .wa-pick{font-family:var(--mono); font-size:12px; font-weight:600; background:var(--green-tint); color:var(--ink); border:1px solid var(--green); border-radius:999px; padding:4px 13px; margin:0 6px 4px 0; cursor:pointer;}
+  #ward-areas .wa-pick:hover{background:var(--green); color:var(--paper-raised);}
+  #ward-areas .wa-pick:focus-visible{outline:2px solid var(--blue); outline-offset:2px;}
+  #ward-areas .wa-cand-head{font-family:var(--serif); font-weight:600; font-size:17px; margin:20px 0 4px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 10px;}
+  #ward-areas .wa-all{margin-top:26px;}
+  #ward-areas .wa-all>summary{cursor:pointer; font-family:var(--mono); font-size:13px; font-weight:600; padding:6px 0;}
+  #ward-areas .wa-all>summary:focus-visible{outline:2px solid var(--blue); outline-offset:4px;}
+  </style>
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-no">08a</span><h2 class="sec-title" id="wa-title">Your ward, its areas and who is on your ballot</h2></div>
+      <p class="sec-sub">Overstrand's ward boundaries change on 4 November 2026 and a 15th ward is added. Search your suburb or pick your ward to see the areas it covers and the candidates standing in it. The ward explorer below and the survey data use the current 14 wards (the 2021–26 term).</p>
+      <div class="widget wa-widget" id="candidatesWidget">
+        <div class="widget-eyebrow">2026 Local Government Election</div>
+        <div class="widget-title">Find your ward and see who is on your ballot</div>
+        <label class="wa-search" for="wa-q">Search your suburb or area</label>
+        <input id="wa-q" type="search" autocomplete="off" placeholder="For example: Fisherhaven, Westcliff, Gansbaai">
+        <div id="wa-out" aria-live="polite"></div>
+        <label class="wa-search" for="candWardSelect">Or pick your ward</label>
+        <select class="wf-select" id="candWardSelect" aria-label="Select your ward to see the areas it covers and its candidates"></select>
+        <div id="wa-selected" aria-live="polite"></div>
+        <div class="wa-cand-head">Who's on your ballot <span class="tag reported">Reported</span></div>
+        <p class="widget-sub">One candidate per party, per ward, certified for 4 Nov 2026. Sourced from a newspaper compilation of the IEC's certified list, not fetched from the IEC directly by this profile — tagged Reported rather than Confirmed for that reason.</p>
+        <div class="cand-rows" id="candRows"><p class="widget-sub" style="margin:0;">Select a ward above to see its candidates.</p></div>
+        <div class="widget-foot">Source: The Village News (Hermanus Times Facebook page), citing IEC LGE2026 Certified Candidates List, 16 Sep 2026 (WC032 Overstrand). A blank/"not contesting" means that party isn't standing in that ward on the certified list. <b>Ward 15 is a new ward that only takes effect after this election</b>, not yet part of current Overstrand governance — it's shown here since it's on the certified candidates list, but deliberately isn't counted anywhere else on this profile, which still treats Overstrand as 14 wards until Ward 15 actually exists as one.</div>
+      </div>
+      <details class="wa-all">
+        <summary>See all 15 wards, before and after <span class="tag confirmed">Confirmed</span></summary>
+        <div class="wa-grid" id="wa-wards"></div>
+      </details>
+      <p class="wa-src">Source: <a href="https://www.overstrand.gov.za/about-us/wards/" target="_blank" rel="noopener" style="color:var(--blue);">Overstrand Municipality wards page</a>, which lists the new boundaries as applicable from 4 November 2026. Names and spellings follow the municipality's lists. Where an area is split between wards or isn't named in a list, check the official ward map. This section shows where wards are, not how councillors are performing.</p>
+    </div>
+    <script>
+(function(){
+var SRC="https://www.overstrand.gov.za/about-us/wards/",CHECKED="8 Oct 2026";
+function W(n,l){return{w:n,l:l||""}}
+// [name, aliases, areas until 3 Nov 2026, areas from 4 Nov 2026, note]; null = not named in that list
+var A=[
+["Stanford",[],[W(1)],[W(1)]],
+["Thembelihle",[],[W(1)],[W(1)]],
+["De Kelders",[],[W(14)],[W(1,"De Kelders North, Guthrie St"),W(14,"De Kelders South, Guthrie St")],"De Kelders is split at Guthrie Street from 4 Nov."],
+["Gansbaai",[],[W(2,"North-East"),W(14,"South-West")],[W(2,"East, Main Rd"),W(14,"West, Main Rd")],"Gansbaai is split between two wards. Check the official map for your street."],
+["Masakhane",[],[W(2)],[W(2)]],
+["Blompark",[],[W(14)],[W(14)]],
+["Perlemoenbaai",[],[W(14)],null,"Not named in the new list. Check the official map."],
+["Birkenhead",[],null,[W(14)]],
+["Van Dyksbaai",["van dyks bay"],[W(14)],[W(11,"East"),W(14,"West")],"Van Dyksbaai is listed as Van Dyksbaai/Kleinbaai, split into East and West."],
+["Kleinbaai",[],[W(14)],[W(11,"East"),W(14,"West")],"Kleinbaai is listed as Van Dyksbaai/Kleinbaai, split into East and West."],
+["Beverley Hills (Ward 14 list)",["beverly hills"],[W(14)],null,"Two places share this name in the municipality's lists. This one appears under Ward 14 today and is not named in the new Ward 14 list."],
+["Beverly Hills (Ward 9 list)",["beverley hills"],[W(9)],[W(9)],"Two places share this name in the municipality's lists. This one is under Ward 9."],
+["Pearly Beach",[],[W(11)],[W(11)]],
+["Baardskeerdersbos",[],[W(11)],[W(11)]],
+["Eluxolweni",[],[W(11)],[W(11)]],
+["Buffeljagsbaai",["buffeljachtsbaai"],[W(11)],[W(11)]],
+["Franskraal",[],[W(11)],[W(11)]],
+["Wolvengat (Viljoenshof)",["viljoenshof"],[W(11)],null,"Not named in the new list. Check the official map."],
+["Klipfonteyn",[],[W(11)],null,"Not named in the new list. Check the official map."],
+["Hermanus",[],[W(3)],[W(3)],"Parts of greater Hermanus sit in other wards, such as Westcliff, Mount Pleasant, Sandbaai, Onrus and Zwelihle. Search your suburb."],
+["Voëlklip",["voelklip"],[W(3)],[W(3)]],
+["Fernkloof",[],null,[W(3)]],
+["Eastcliff",[],null,[W(3)]],
+["Northcliff",[],null,[W(3)]],
+["Westcliff",[],[W(3,"east of De Goede St"),W(4,"west of De Goede St")],[W(3,"east of De Goede St"),W(4,"west of De Goede St")],"Westcliff is split by De Goede Street."],
+["Mount Pleasant",[],[W(4)],[W(4)]],
+["Chanteclair",[],null,[W(4)]],
+["Berghof",[],null,[W(4)]],
+["Kidbrook",[],null,[W(4)]],
+["Hemel-en-Aarde Valley",["hemel en aarde valley"],[W(4)],[W(4)]],
+["Hemel & Aarde Estate and Village",["hemel en aarde estate","hemel en aarde village"],null,[W(7)]],
+["Beach Club",[],[W(4)],null,"Not named in the new list. Check the official map."],
+["Sandbaai",[],[W(7)],[W(7)]],
+["Fisherhaven",[],[W(8)],[W(15)],"Moves to the new Ward 15."],
+["Hawston",[],[W(8)],[W(8)]],
+["Honingklip",[],[W(8)],null,"Not named in the new list. A similarly named area, Heuningkloof, is listed under Ward 15. Check the official map."],
+["Heuningkloof",[],null,[W(15)]],
+["Kleinmond",[],[W(9)],[W(9,"Kleinmond South, 9th St & Main Rd"),W(15,"Kleinmond North East, Ninth St & Main Rd")],"Kleinmond is split between two wards from 4 Nov."],
+["Mountain View",[],[W(9)],[W(9)]],
+["Palmiet",[],[W(9)],[W(9)]],
+["Extension 6",["ext 6"],[W(9)],[W(9)]],
+["Pringle Bay",[],[W(10)],[W(10)]],
+["Rooi-Els",[],[W(10)],[W(10)]],
+["Mooi-Uitsig",[],[W(10)],[W(10)]],
+["Betty's Bay",[],[W(10)],[W(10)]],
+["Overhills",[],[W(10)],[W(10)]],
+["Proteadorp / Poppedorp",["proteadorp","poppedorp"],[W(10)],[W(10)],"The municipality's lists spell this Proteadorp (before) and Poppedorp (after)."],
+["Onrus",[],[W(13)],[W(13)]],
+["Vermont",[],[W(13)],[W(13)]],
+["Zwelihle",[],[W(5,"South"),W(6,"North"),W(12,"North-West")],[W(5,"East"),W(6,"South"),W(12,"North")],"Zwelihle is split across three wards and the section names change, so the same name can mean a different ward. Check the official map for your street."]
+].map(function(r){return{n:r[0],o:r[2],nw:r[3],note:r[4]||"",h:norm(r[0]+" "+r[1].join(" "))}});
+
+// [ward, areas until 3 Nov 2026, areas from 4 Nov 2026, status, note]
+var WARDS=[
+[1,"Stanford, Thembelihle","Stanford, Thembelihle, De Kelders North (Guthrie St)","changed"],
+[2,"Gansbaai North-East, Masakhane","Gansbaai East (Main Rd), Masakhane","changed"],
+[3,"Hermanus, Voëlklip, part of Westcliff (east of De Goede St)","Hermanus, Fernkloof, Voëlklip, Eastcliff, Northcliff, Westcliff East (east of De Goede St)","changed"],
+[4,"Mount Pleasant, Hemel-en-Aarde Valley, part of Westcliff (west of De Goede St), Beach Club","Mount Pleasant, Chanteclair, Berghof, Kidbrook, Hemel en Aarde Valley, Westcliff West (west of De Goede St)","changed"],
+[5,"Zwelihle South","Zwelihle East","changed"],
+[6,"Zwelihle North","Zwelihle South","changed"],
+[7,"Sandbaai","Sandbaai, Hemel & Aarde Estate and Village","changed"],
+[8,"Fisherhaven, Hawston, Honingklip","Hawston","changed"],
+[9,"Kleinmond, Mountain View, Palmiet, Beverly Hills, Extension 6","Kleinmond South (9th St & Main Rd), Mountain View, Palmiet, Beverly Hills, Extension 6","changed"],
+[10,"Pringle Bay, Rooi-Els, Mooi-Uitsig, Betty's Bay, Overhills, Proteadorp","Pringle Bay, Rooi-Els, Mooi-Uitsig, Betty's Bay, Overhills, Poppedorp","same","The municipality's lists spell one area Proteadorp (before) and Poppedorp (after). Confirm on the official map."],
+[11,"Baardskeerdersbos, Pearly Beach, Eluxolweni, Buffeljachtsbaai, Wolvengat (Viljoenshof), Franskraal, Klipfonteyn","Van Dyksbaai/Kleinbaai (East), Baardskeerdersbos, Eluxolweni, Pearly Beach, Buffeljagsbaai, Franskraal","changed"],
+[12,"Zwelihle North-West","Zwelihle North","changed"],
+[13,"Onrus, Vermont","Onrus, Vermont","same"],
+[14,"Blompark, De Kelders, Perlemoenbaai/Gansbaai South-West, Van Dyksbaai, Kleinbaai, Beverley Hills","Blompark, De Kelders, Birkenhead, Gansbaai West (Main Rd), Van Dyksbaai/Kleinbaai (West), De Kelders South (Guthrie St)","changed"],
+[15,"","Fisherhaven, Heuningkloof, Kleinmond North East (Ninth St & Main Rd)","new","New ward from 4 Nov 2026, so it has no record in this tracker yet."]
+];
+
+var TAG='<span class="tag confirmed">Confirmed</span><span class="wa-checked">Official municipal list, checked '+CHECKED+'</span>';
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function norm(s){return s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/['’`]/g,"").replace(/[^a-z0-9]+/g," ").trim()}
+function badges(list,pick){
+  if(!list)return'<span class="wa-n">Not named in this list</span>';
+  return list.map(function(x){return'<div>'+(pick?'<button type="button" class="wa-pick" data-w="'+x.w+'">Ward '+x.w+'</button>':'<span class="wa-b">Ward '+x.w+'</span>')+(x.l?'<span class="wa-l">'+esc(x.l)+'</span>':'')+'</div>'}).join("");
+}
+function resultCard(a){
+  var check=!a.o||!a.nw||a.o.length>1||a.nw.length>1;
+  return'<article class="wa-r"><h3>'+esc(a.n)+'</h3><div class="wa-cmp"><div><div class="wa-h">Until 3 Nov 2026</div>'+badges(a.o)+'</div><div><div class="wa-h">From 4 Nov 2026</div>'+badges(a.nw,true)+'</div></div>'+
+    (a.note?'<p class="wa-note">'+esc(a.note)+'</p>':'')+'<div class="wa-foot">'+TAG+(check?'<span class="wa-chip">Check the official map</span>':'')+'</div></article>';
+}
+function wardCard(w,noId){
+  var st={changed:"Areas changed",same:"Same areas",new:"New ward"}[w[3]];
+  return'<article class="wa-w"'+(noId?'':' id="wa-ward-'+w[0]+'"')+'><h3>Ward '+w[0]+'<span class="wa-st wa-st-'+w[3]+'">'+st+'</span></h3><div class="wa-cmp"><div><div class="wa-h">Until 3 Nov 2026</div><p>'+(w[1]?esc(w[1]):'This ward does not exist yet.')+'</p></div><div><div class="wa-h">From 4 Nov 2026</div><p>'+esc(w[2])+'</p></div></div>'+
+    (w[4]?'<p class="wa-note">'+esc(w[4])+'</p>':'')+'<div class="wa-foot">'+TAG+'</div></article>';
+}
+var q=document.getElementById("wa-q"),out=document.getElementById("wa-out");
+function run(){
+  var s=norm(q.value);
+  var m=s.match(/^(ward )?(\d{1,2})$/);
+  if(!m&&s.length<2){out.innerHTML="";return}
+  if(m){if(WARDS[+m[2]-1]){out.innerHTML="";pickWard(+m[2])}else out.innerHTML='<p class="wa-mute">Overstrand has wards 1 to 15.</p>';return}
+  var hits=A.filter(function(a){return a.h.indexOf(s)>-1});
+  out.innerHTML=hits.length?'<p class="wa-note" style="margin:0 0 10px">Tap your ward under "From 4 Nov 2026" to see its areas and candidates.</p>'+hits.map(resultCard).join(""):
+    '<p class="wa-note">No area called "'+esc(q.value.trim())+'" in the municipality\'s ward lists. It may be listed under another name. Try a nearby suburb, or use the <a href="'+SRC+'" rel="noopener">official ward map</a>.</p>';
+}
+var sel=document.getElementById("candWardSelect"),box=document.getElementById("wa-selected");
+function pickWard(n){sel.value=String(n);sel.dispatchEvent(new Event("change",{bubbles:true}));box.scrollIntoView({behavior:"smooth",block:"nearest"})}
+out.addEventListener("click",function(e){var b=e.target.closest(".wa-pick");if(b)pickWard(+b.dataset.w)});
+sel.addEventListener("change",function(){var n=parseInt(sel.value,10);box.innerHTML=n&&window.WT_wardAreasHTML?window.WT_wardAreasHTML(n,true):""});
+q.addEventListener("input",run);
+document.getElementById("wa-wards").innerHTML=WARDS.map(function(w){return wardCard(w)}).join("");
+// Used by the ward profile card (desktop) and the ward dropdown card (mobile): the areas one ward covers.
+window.WT_wardAreasHTML=function(n,ballot){
+  var w=WARDS[n-1];if(!w)return"";
+  var oldH='<div><div class="wt-areas-k">Until 3 Nov 2026</div><p>'+(w[1]?esc(w[1]):"This ward does not exist yet.")+'</p></div>',newH='<div><div class="wt-areas-k">'+(ballot?"On the ballot, from 4 Nov 2026":"From 4 Nov 2026")+'</div><p>'+esc(w[2])+'</p></div>';
+  return'<div class="wt-areas"><div class="wt-areas-h">Areas Ward '+n+' covers</div><div class="wt-areas-cmp">'+(ballot?newH+oldH:oldH+newH)+'</div>'+
+    (w[4]?'<p class="wt-areas-n">'+esc(w[4])+'</p>':"")+
+    '<div class="wt-areas-foot">'+TAG+'<a href="https://www.overstrand.gov.za/ward-'+n+'/" target="_blank" rel="noopener">Official ward map and details &#8599;</a></div></div>';
+};
+})();
+    </script>
+  </section>
+
   <!-- WARDS -->
   <section id="wards">
     <div class="wrap">
       <div class="sec-head"><span class="sec-no">08</span><h2 class="sec-title">Ward-level explorer</h2></div>
       <p class="sec-sub">Filter wards by the issue you care about. Survey data and the responsible ward councillor — with photo on desktop, name-only on mobile — are loaded for all 14 Overstrand wards — the grid below is a schematic layout, not a geocoded map.</p>
+      <p style="font-size:14px; color:var(--ink-soft); margin-top:-24px; margin-bottom:18px;">Not sure which ward you're in? <a href="#ward-areas" style="color:var(--blue);">Find your ward by suburb</a>. Boundaries change on 4 November 2026.</p>
       <p style="font-size:14px; color:var(--ink-soft); margin-top:-8px; margin-bottom:16px;"><span class="tag confirmed" style="margin-right:6px;">Confirmed</span>Municipality-wide checklist, applies equally to every ward below, not just the ones with visible negative content: Overstrand Municipality received its <b>13th consecutive clean audit</b> from the Auditor-General for FY2024/25 (<a href="https://www.overstrand.gov.za/overstrand-shines-again-with-13-year-clean-audit/" target="_blank" rel="noopener" style="color:var(--blue);">announced Dec 2025</a>) — no material findings on financial management, performance reporting, or legislative compliance at the municipal level. This is logged here specifically so the absence of AG-findings content on any individual ward's card reads as "checked, nothing found" rather than "not checked." Ratepayers'-association communiqués, opposition-party statements, SIU/Hawks matters and provincial-ombud complaints per ward are still open items — see the outstanding-to-source list in this profile's changelog rather than assume a clean result there too.</p>
 
       <div class="ward-filters">
@@ -4731,6 +4921,7 @@ details.svc-row > .service-text{padding:11px 13px 13px; border-top:1px solid var
         <div id="mwa-area">—</div>
         <div id="mwa-url">overstrand.gov.za/ward-1/</div>
       </div>
+      <div id="mwa-areas"></div>
     </div>
 
     <!-- 02. Committee record -->
@@ -5159,6 +5350,7 @@ details.svc-row > .service-text{padding:11px 13px 13px; border-top:1px solid var
           <li data-cat="mun"><a href="https://www.overstrand.gov.za/overstrand-owns-11th-consecutive-clean-audit/">11th consecutive clean audit (2022/23)</a> — Overstrand Municipality, Jan 2024</li>
           <li data-cat="mun">12th consecutive clean audit (2024 financial year) — Hermanus Business Chamber / DA Western Cape, Mar 2025</li>
           <li data-cat="mun"><a href="https://www.overstrand.gov.za/overstrand-shines-again-with-13-year-clean-audit/">13th consecutive clean audit (FY2024/25)</a> — Overstrand Municipality, Dec 2025</li>
+          <li data-cat="mun"><a href="https://www.overstrand.gov.za/about-us/wards/">Wards page: areas covered by each ward, current boundaries and new boundaries applicable 4 Nov 2026 (incl. Ward 15)</a> — Overstrand Municipality (read 8 Oct 2026)</li>
           <li data-cat="mun"><a href="https://www.agsa.co.za/what-we-do">What we do — "What does an audit not do?" and "What is a clean audit?"</a> — Auditor-General of South Africa, official website (read 28 Sep 2026). States that an audit does not provide assurance that service delivery has been achieved, only that the annual performance report is useful and reliable, and that a clean audit does not automatically mean service delivery is perfect. Confirmed (official institutional statement)</li>
           <li data-cat="mun">"Does a clean audit opinion translate to service delivery?" — Auditor-General South Africa, verified Facebook page, 16 Sep 2026. Explains that an audit reports on processes and records and does not necessarily show whether the service was high quality or met community needs. Confirmed (official institutional statement; screenshot on file, no direct post link logged)</li>
           <li data-cat="mun"><a href="https://www.overstrand.gov.za/load-shedding-at-higher-stages-impacts-on-infrastructure-and-day-to-day-operations-of-service-delivery/">Load shedding impact notice</a> — Overstrand Municipality, Dec 2022</li>
@@ -7234,6 +7426,7 @@ details.svc-row > .service-text{padding:11px 13px 13px; border-top:1px solid var
           ${d.parks ? `<div class="wp-stat"><div class="wp-num">${d.parks}</div><div class="wp-label">Best parks score</div></div>` : ''}
         </div>
         </div>
+        ${window.WT_wardAreasHTML ? window.WT_wardAreasHTML(wardNum) : ''}
         ${d.note ? `<p style="font-size:14px; color:var(--ink-soft); margin-top:10px;">${d.note}</p>` : ''}
         ${tabsPanels}
       </div>
@@ -7681,7 +7874,7 @@ details.svc-row > .service-text{padding:11px 13px 13px; border-top:1px solid var
     for(let w = 1; w <= 15; w++){
       const opt = document.createElement('option');
       opt.value = String(w);
-      opt.textContent = w === 15 ? 'Ward 15 (new ward - not yet in effect)' : ('Ward ' + w);
+      opt.textContent = w === 15 ? 'Ward 15 (new ward, on the 4 Nov ballot)' : ('Ward ' + w);
       sel.appendChild(opt);
     }
     function render(wardNum){
@@ -8247,6 +8440,8 @@ details.svc-row > .service-text{padding:11px 13px 13px; border-top:1px solid var
     els.party.className = 'mwa-pill ' + (partyPillClass[c.party] || 'mwa-pill-rose');
     els.area.textContent = d ? (d.name.includes('·') ? d.name.split('·')[1].trim() : d.name) : '—';
     els.url.textContent = `overstrand.gov.za/ward-${num}/`;
+    const areasBox = document.getElementById('mwa-areas');
+    if(areasBox) areasBox.innerHTML = window.WT_wardAreasHTML ? window.WT_wardAreasHTML(num) : '';
     els.lastMeeting.textContent = d && d.checked ? `data last checked ${d.checked}` : '—';
     els.metricVal.textContent = d ? d.respondents : '–';
     els.notable.textContent = d && d.flags && d.flags.length
